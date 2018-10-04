@@ -8,12 +8,12 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Guarantees: immutable; is valid as declared in {@link #isValidRate}
  */
 public class LoanRate {
-    public final String rate;
 
     public static final String LOANRATE_VALIDATION_REGEX = "^[1-9][0-9]*$";
-
     public static final String MESSAGE_LOANRATE_CONSTRAINTS =
             "Rates should only contain numbers, and it should be greater than 0";
+
+    public final String rate;
 
     /**
      * Constructs a {@code LoanRate}.
