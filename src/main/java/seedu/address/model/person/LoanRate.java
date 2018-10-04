@@ -9,9 +9,9 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class LoanRate {
 
-    public static final String LOANRATE_VALIDATION_REGEX = "^[1-9][0-9]*$";
+    public static final String LOANRATE_VALIDATION_REGEX = "([1-9]\\d*(\\.\\d*[1-9])?)|(0\\.\\d*[1-9])";
     public static final String MESSAGE_LOANRATE_CONSTRAINTS =
-            "Rates should only contain numbers, and it should be greater than 0";
+            "Rate should only contain numbers. It should be greater than 0 and it can have at most 2 decimal places";
 
     public final String rate;
 
