@@ -27,7 +27,7 @@ public class LoanRate {
     }
 
     /**
-     * Returns true if a given string is a valid phone number.
+     * Returns true if a given string is a valid rate.
      */
     public static boolean isValidRate(String test) {
         return test.matches(LOANRATE_VALIDATION_REGEX);
@@ -41,8 +41,8 @@ public class LoanRate {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof Phone // instanceof handles nulls
-                && rate.equals(((Phone) other).value)); // state check
+                || (other instanceof LoanRate // instanceof handles nulls
+                && rate.equals(((LoanRate) other).rate)); // state check
     }
 
     @Override
