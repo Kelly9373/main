@@ -20,8 +20,8 @@ public class LoanRate {
      * @param rate A valid rate.
      */
     LoanRate(double rate) {
-        if(Math.round(rate) - rate == 0) {
-            checkArgument(isValidRate(String.valueOf((int)rate)), MESSAGE_LOANRATE_CONSTRAINTS);
+        if (Math.round(rate) - rate == 0) {
+            checkArgument(isValidRate(String.valueOf((int) rate)), MESSAGE_LOANRATE_CONSTRAINTS);
         } else {
             checkArgument(isValidRate(String.valueOf(rate)), MESSAGE_LOANRATE_CONSTRAINTS);
         }
@@ -37,7 +37,7 @@ public class LoanRate {
 
     @Override
     public String toString() {
-        if(Math.round(rate) - rate == 0) {
+        if (Math.round(rate) - rate == 0) {
             return String.valueOf((int) rate);
         } else {
             return String.valueOf(rate);
