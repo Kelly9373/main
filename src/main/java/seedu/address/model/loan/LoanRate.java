@@ -1,5 +1,6 @@
-package seedu.address.model.person;
+package seedu.address.model.loan;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
@@ -8,9 +9,9 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class LoanRate {
 
-    public static final String LOANRATE_VALIDATION_REGEX = "([1-9]\\d*(\\.\\d*[1-9])?)|(0\\.\\d*[1-9])";
+    public static final String LOANRATE_VALIDATION_REGEX = "^(([1-9]\\d*|0)|(([0]\\.\\d{1,2}|[1-9][0-9]*\\.\\d{1,2})))$";
     public static final String MESSAGE_LOANRATE_CONSTRAINTS =
-            "Rate should be greater than 0 and have at most 2 decimal places. The last decimal place cannot be 0.";
+            "Rate should be not less than 0 and have at most 2 decimal places.";
 
     public final double rate;
 
@@ -19,13 +20,10 @@ public class LoanRate {
      *
      * @param rate A valid rate.
      */
-    LoanRate(double rate) {
-        if (Math.round(rate) - rate == 0) {
-            checkArgument(isValidRate(String.valueOf((int) rate)), MESSAGE_LOANRATE_CONSTRAINTS);
-        } else {
-            checkArgument(isValidRate(String.valueOf(rate)), MESSAGE_LOANRATE_CONSTRAINTS);
-        }
-        this.rate = rate;
+    LoanRate(String rate) {
+        requireNonNull(rate);
+        checkArgument(isValidRate(rate), MESSAGE_LOANRATE_CONSTRAINTS);
+        this.rate = Double.parseDouble(rate);
     }
 
     /**
@@ -37,11 +35,7 @@ public class LoanRate {
 
     @Override
     public String toString() {
-        if (Math.round(rate) - rate == 0) {
-            return String.valueOf((int) rate);
-        } else {
-            return String.valueOf(rate);
-        }
+        return String.valueOf(rate);
     }
 
     @Override
