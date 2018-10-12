@@ -1,6 +1,5 @@
 package seedu.address.model.person;
 
-import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
@@ -11,18 +10,21 @@ public class LoanRate {
 
     public static final String LOANRATE_VALIDATION_REGEX = "([1-9]\\d*(\\.\\d*[1-9])?)|(0\\.\\d*[1-9])";
     public static final String MESSAGE_LOANRATE_CONSTRAINTS =
-            "Rate should only contain numbers. It should be greater than 0 and it can have at most 2 decimal places";
+            "Rate should be greater than 0 and have at most 2 decimal places. The last decimal place cannot be 0.";
 
-    public final String rate;
+    public final double rate;
 
     /**
      * Constructs a {@code LoanRate}.
      *
      * @param rate A valid rate.
      */
-    LoanRate(String rate) {
-        requireNonNull(rate);
-        checkArgument(isValidRate(rate), MESSAGE_LOANRATE_CONSTRAINTS);
+    LoanRate(double rate) {
+        if(Math.round(rate) - rate == 0) {
+            checkArgument(isValidRate(String.valueOf((int)rate)), MESSAGE_LOANRATE_CONSTRAINTS);
+        } else {
+            checkArgument(isValidRate(String.valueOf(rate)), MESSAGE_LOANRATE_CONSTRAINTS);
+        }
         this.rate = rate;
     }
 
@@ -35,18 +37,22 @@ public class LoanRate {
 
     @Override
     public String toString() {
-        return rate;
+        if(Math.round(rate) - rate == 0) {
+            return String.valueOf((int) rate);
+        } else {
+            return String.valueOf(rate);
+        }
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof LoanRate // instanceof handles nulls
-                && rate.equals(((LoanRate) other).rate)); // state check
+                && rate == ((LoanRate) other).rate); // state check
     }
 
     @Override
     public int hashCode() {
-        return rate.hashCode();
+        return Double.hashCode(rate);
     }
 }

@@ -10,13 +10,8 @@ import seedu.address.testutil.Assert;
 public class LoanRateTest {
 
     @Test
-    public void constructor_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> new LoanRate(null));
-    }
-
-    @Test
-    public void constructor_invalidRate_throwsIllegalArgumentException() {
-        String invalidRate = "-1";
+    public void constructorInvalidRateThrowsIllegalArgumentException() {
+        double invalidRate = -1;
         Assert.assertThrows(IllegalArgumentException.class, () -> new LoanRate(invalidRate));
     }
 
@@ -40,6 +35,5 @@ public class LoanRateTest {
         assertTrue(LoanRate.isValidRate("1234567890"));
         assertTrue(LoanRate.isValidRate("82472637826762258923"));
         assertTrue(LoanRate.isValidRate("0.222222"));
-
     }
 }
