@@ -11,8 +11,9 @@ ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
 :warning-caption: :warning:
+:experimental:
 endif::[]
-:repoURL: https://github.com/se-edu/addressbook-level4/tree/master
+:repoURL: https://github.com/CS2103-AY1819S1-F10-2/main/tree/master
 
 By: `Team F10-2`      Since: `Sep 2018`      Licence: `MIT`
 
@@ -37,15 +38,21 @@ Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plu
 
 . Fork this repo, and clone the fork to your computer
 . Open IntelliJ (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first)
-. Set up the correct JDK version for Gradle
-.. Click `Configure` > `Project Defaults` > `Project Structure`
-.. Click `New...` and find the directory of the JDK
+. Make sure the correct JDK version is set up for Gradle
+.. Click `Configure` > `Project Defaults` > `Project Structure`. A window titled 'Project Structure for New Projects' will pop up
+.. Under the "Project SDK" heading, select the correct JDK version (JDK 9 or later).
+... If the correct version does not appear in the drop-down list, click `New...` > `JDK`, then select the directory folder of the JDK, then click `OK`. +
+For Windows, the default installation directory would be `C:\Program Files\Java\jdk-[version-number]`
+.. Click `OK` to accept the settings and close the window.
 . Click `Import Project`
-. Locate the `build.gradle` file and select it. Click `OK`
-. Click `Open as Project`
-. Click `OK` to accept the default settings
+. Locate the `build.gradle` file in this project's root directory on your computer and select it. Click `OK`. A window titled 'Import Project from Gradle' will pop up
+. Click `OK` to accept the default settings. Gradle will now start building your project. Wait a short while for it to complete (it will say `main: sync finished` in IntelliJ's Build tab  when it is done)
 . Open a console and run the command `gradlew processResources` (Mac/Linux: `./gradlew processResources`). It should finish with the `BUILD SUCCESSFUL` message. +
 This will generate all resources required by the application and tests.
+. Open link:{repoURL}/src/main/java/seedu/address/storage/XmlAdaptedLoan.java[`XmlAdaptedLoan.java`] and link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow.java`] and check for any code errors
+.. Due to an ongoing https://youtrack.jetbrains.com/issue/IDEA-189060[issue] with some of the newer versions of IntelliJ, code errors may be detected even if the project can be built and run successfully
+.. To resolve this, place your cursor over any of the code section highlighted in red. Press kbd:[ALT + ENTER], and select `Add '--add-modules=...' to module compiler options` for each error
+. Repeat this for the test folder as well (e.g. check link:{repoURL}/src/test/java/seedu/address/commons/util/XmlUtilTest.java[`XmlUtilTest.java`] and link:{repoURL}/src/test/java/seedu/address/ui/HelpWindowTest.java[`HelpWindowTest.java`] for code errors, and if so, resolve it the same way)
 
 === Verifying the setup
 
@@ -144,7 +151,7 @@ image::LogicClassDiagram.png[width="800"]
 The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the command `delete 1`.
 
 .Component interactions for `delete 1` command (part 1)
-image::SDforDeletePerson.png[width="800"]
+image::SDforDeleteLoan.png[width="800"]
 
 [NOTE]
 Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address Book data are changed, instead of asking the `Storage` to save the updates to the hard disk.
@@ -152,7 +159,7 @@ Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address 
 The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
 
 .Component interactions for `delete 1` command (part 2)
-image::SDforDeletePersonEventHandling.png[width="800"]
+image::SDforDeleteLoanEventHandling.png[width="800"]
 
 [NOTE]
 Note how the event is propagated through the `EventsCenter` to the `Storage` and `UI` without `Model` having to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct coupling between components.
@@ -167,7 +174,7 @@ image::UiClassDiagram.png[width="800"]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `LoanListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
@@ -189,13 +196,13 @@ link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
 
 .  `Logic` uses the `AddressBookParser` class to parse the user command.
 .  This results in a `Command` object which is executed by the `LogicManager`.
-.  The command execution can affect the `Model` (e.g. adding a person) and/or raise events.
+.  The command execution can affect the `Model` (e.g. adding a loan) and/or raise events.
 .  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
 
 Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
 
 .Interactions Inside the Logic Component for the `delete 1` Command
-image::DeletePersonSdForLogic.png[width="800"]
+image::DeleteLoanSdForLogic.png[width="800"]
 
 [[Design-Model]]
 === Model component
@@ -209,11 +216,11 @@ The `Model`,
 
 * stores a `UserPref` object that represents the user's preferences.
 * stores the Address Book data.
-* exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* exposes an unmodifiable `ObservableList<Loan>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
 [NOTE]
-As a more OOP model, we can store a `Tag` list in `Address Book`, which `Person` can reference. This would allow `Address Book` to only require one `Tag` object per unique `Tag`, instead of each `Person` needing their own `Tag` object. An example of how such a model may look like is given below. +
+As a more OOP model, we can store a `Tag` list in `Address Book`, which `Loan` can reference. This would allow `Address Book` to only require one `Tag` object per unique `Tag`, instead of each `Loan` needing their own `Tag` object. An example of how such a model may look like is given below. +
  +
 image:ModelClassBetterOopDiagram.png[width="800"]
 
@@ -259,18 +266,18 @@ Step 1. The user launches the application for the first time. The `VersionedAddr
 
 image::UndoRedoStartingStateListDiagram.png[width="800"]
 
-Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
+Step 2. The user executes `delete 5` command to delete the 5th loan in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
 
 image::UndoRedoNewCommand1StateListDiagram.png[width="800"]
 
-Step 3. The user executes `add n/David ...` to add a new person. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
+Step 3. The user executes `add n/David ...` to add a new loan. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
 
 image::UndoRedoNewCommand2StateListDiagram.png[width="800"]
 
 [NOTE]
 If a command fails its execution, it will not call `Model#commitAddressBook()`, so the address book state will not be saved into the `addressBookStateList`.
 
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
+Step 4. The user now decides that adding the loan was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
 
 image::UndoRedoExecuteUndoStateListDiagram.png[width="800"]
 
@@ -306,7 +313,7 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ** Pros: Easy to implement.
 ** Cons: May have performance issues in terms of memory usage.
 * **Alternative 2:** Individual command knows how to undo/redo by itself.
-** Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
+** Pros: Will use less memory (e.g. for `delete`, just save the loan being deleted).
 ** Cons: We must ensure that the implementation of each individual command are correct.
 
 ===== Aspect: Data structure to support the undo/redo commands
@@ -555,7 +562,7 @@ Each individual exercise in this section is component-based (i.e. you would not 
 [TIP]
 Do take a look at <<Design-Logic>> before attempting to modify the `Logic` component.
 
-. Add a shorthand equivalent alias for each of the individual commands. For example, besides typing `clear`, the user can also type `c` to remove all persons in the list.
+. Add a shorthand equivalent alias for each of the individual commands. For example, besides typing `clear`, the user can also type `c` to remove all loans in the list.
 +
 ****
 * Hints
@@ -582,9 +589,9 @@ Do take a look at <<Design-Model>> before attempting to modify the `Model` compo
 * Hints
 ** The link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model`] and the link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] API need to be updated.
 ** Think about how you can use SLAP to design the method. Where should we place the main logic of deleting tags?
-**  Find out which of the existing API methods in  link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] and link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`] classes can be used to implement the tag removal logic. link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] allows you to update a person, and link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`] allows you to update the tags.
+**  Find out which of the existing API methods in  link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] and link:{repoURL}/src/main/java/seedu/address/model/loan/Loan.java[`Loan`] classes can be used to implement the tag removal logic. link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] allows you to update a loan, and link:{repoURL}/src/main/java/seedu/address/model/loan/Loan.java[`Loan`] allows you to update the tags.
 * Solution
-** Implement a `removeTag(Tag)` method in link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`]. Loop through each person, and remove the `tag` from each person.
+** Implement a `removeTag(Tag)` method in link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`]. Loop through each loan, and remove the `tag` from each loan.
 ** Add a new API method `deleteTag(Tag)` in link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`]. Your link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`] should call `AddressBook#removeTag(Tag)`.
 ** Add new tests for each of the new public methods that you have added.
 ** See this https://github.com/se-edu/addressbook-level4/pull/790[PR] for the full solution.
@@ -593,12 +600,12 @@ Do take a look at <<Design-Model>> before attempting to modify the `Model` compo
 [discrete]
 ==== `Ui` component
 
-*Scenario:* You are in charge of `ui`. During a beta testing session, your team is observing how the users use your address book application. You realize that one of the users occasionally tries to delete non-existent tags from a contact, because the tags all look the same visually, and the user got confused. Another user made a typing mistake in his command, but did not realize he had done so because the error message wasn't prominent enough. A third user keeps scrolling down the list, because he keeps forgetting the index of the last person in the list. Your job is to implement improvements to the UI to solve all these problems.
+*Scenario:* You are in charge of `ui`. During a beta testing session, your team is observing how the users use your address book application. You realize that one of the users occasionally tries to delete non-existent tags from a contact, because the tags all look the same visually, and the user got confused. Another user made a typing mistake in his command, but did not realize he had done so because the error message wasn't prominent enough. A third user keeps scrolling down the list, because he keeps forgetting the index of the last loan in the list. Your job is to implement improvements to the UI to solve all these problems.
 
 [TIP]
 Do take a look at <<Design-Ui>> before attempting to modify the `UI` component.
 
-. Use different colors for different tags inside person cards. For example, `friends` tags can be all in brown, and `colleagues` tags can be all in yellow.
+. Use different colors for different tags inside loan cards. For example, `friends` tags can be all in brown, and `colleagues` tags can be all in yellow.
 +
 **Before**
 +
@@ -610,11 +617,11 @@ image::getting-started-ui-tag-after.png[width="300"]
 +
 ****
 * Hints
-** The tag labels are created inside link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[the `PersonCard` constructor] (`new Label(tag.tagName)`). https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/Label.html[JavaFX's `Label` class] allows you to modify the style of each Label, such as changing its color.
+** The tag labels are created inside link:{repoURL}/src/main/java/seedu/address/ui/LoanCard.java[the `LoanCard` constructor] (`new Label(tag.tagName)`). https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/Label.html[JavaFX's `Label` class] allows you to modify the style of each Label, such as changing its color.
 ** Use the .css attribute `-fx-background-color` to add a color.
 ** You may wish to modify link:{repoURL}/src/main/resources/view/DarkTheme.css[`DarkTheme.css`] to include some pre-defined colors using css, especially if you have experience with web-based css.
 * Solution
-** You can modify the existing test methods for `PersonCard` 's to include testing the tag's color as well.
+** You can modify the existing test methods for `LoanCard` 's to include testing the tag's color as well.
 ** See this https://github.com/se-edu/addressbook-level4/pull/798[PR] for the full solution.
 *** The PR uses the hash code of the tag names to generate a color. This is deliberately designed to ensure consistent colors each time the application runs. You may wish to expand on this design to include additional features, such as allowing users to set their own tag colors, and directly saving the colors to storage, so that tags retain their colors even if the hash code algorithm changes.
 ****
@@ -658,10 +665,10 @@ image::getting-started-ui-status-after.png[width="500"]
 ** link:{repoURL}/src/main/resources/view/StatusBarFooter.fxml[`StatusBarFooter.fxml`] will need a new `StatusBar`. Be sure to set the `GridPane.columnIndex` properly for each `StatusBar` to avoid misalignment!
 ** link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] needs to initialize the status bar on application start, and to update it accordingly whenever the address book is updated.
 * Solution
-** Modify the constructor of link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] to take in the number of persons when the application just started.
-** Use link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter#handleAddressBookChangedEvent(AddressBookChangedEvent)`] to update the number of persons whenever there are new changes to the addressbook.
+** Modify the constructor of link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] to take in the number of loans when the application just started.
+** Use link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter#handleAddressBookChangedEvent(AddressBookChangedEvent)`] to update the number of loans whenever there are new changes to the addressbook.
 ** For tests, modify link:{repoURL}/src/test/java/guitests/guihandles/StatusBarFooterHandle.java[`StatusBarFooterHandle`] by adding a state-saving functionality for the total number of people status, just like what we did for save location and sync status.
-** For system tests, modify link:{repoURL}/src/test/java/systemtests/AddressBookSystemTest.java[`AddressBookSystemTest`] to also verify the new total number of persons status bar.
+** For system tests, modify link:{repoURL}/src/test/java/systemtests/AddressBookSystemTest.java[`AddressBookSystemTest`] to also verify the new total number of loans status bar.
 ** See this https://github.com/se-edu/addressbook-level4/pull/803[PR] for the full solution.
 ****
 
@@ -691,15 +698,15 @@ By creating this command, you will get a chance to learn how to implement a feat
 *Scenario:* You are a software maintainer for `addressbook`, as the former developer team has moved on to new projects. The current users of your application have a list of new feature requests that they hope the software will eventually have. The most popular request is to allow adding additional comments/notes about a particular contact, by providing a flexible `remark` field for each contact, rather than relying on tags alone. After designing the specification for the `remark` command, you are convinced that this feature is worth implementing. Your job is to implement the `remark` command.
 
 ==== Description
-Edits the remark for a person specified in the `INDEX`. +
+Edits the remark for a loan specified in the `INDEX`. +
 Format: `remark INDEX r/[REMARK]`
 
 Examples:
 
 * `remark 1 r/Likes to drink coffee.` +
-Edits the remark for the first person to `Likes to drink coffee.`
+Edits the remark for the first loan to `Likes to drink coffee.`
 * `remark 1 r/` +
-Removes the remark for the first person.
+Removes the remark for the first loan.
 
 ==== Step-by-step Instructions
 
@@ -732,41 +739,41 @@ Let's teach the application to parse arguments that our `remark` command will ac
 for `RemarkCommandParser`.
 . Modify link:{repoURL}/src/test/java/seedu/address/logic/parser/AddressBookParserTest.java[`AddressBookParserTest`] to test that the correct command is generated according to the user input.
 
-===== [Step 3] Ui: Add a placeholder for remark in `PersonCard`
-Let's add a placeholder on all our link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] s to display a remark for each person later.
+===== [Step 3] Ui: Add a placeholder for remark in `LoanCard`
+Let's add a placeholder on all our link:{repoURL}/src/main/java/seedu/address/ui/LoanCard.java[`LoanCard`] s to display a remark for each loan later.
 
 **Main:**
 
-. Add a `Label` with any random text inside link:{repoURL}/src/main/resources/view/PersonListCard.fxml[`PersonListCard.fxml`].
-. Add FXML annotation in link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] to tie the variable to the actual label.
+. Add a `Label` with any random text inside link:{repoURL}/src/main/resources/view/LoanListCard.fxml[`LoanListCard.fxml`].
+. Add FXML annotation in link:{repoURL}/src/main/java/seedu/address/ui/LoanCard.java[`LoanCard`] to tie the variable to the actual label.
 
 **Tests:**
 
-. Modify link:{repoURL}/src/test/java/guitests/guihandles/PersonCardHandle.java[`PersonCardHandle`] so that future tests can read the contents of the remark label.
+. Modify link:{repoURL}/src/test/java/guitests/guihandles/LoanCardHandle.java[`LoanCardHandle`] so that future tests can read the contents of the remark label.
 
 ===== [Step 4] Model: Add `Remark` class
-We have to properly encapsulate the remark in our link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`] class. Instead of just using a `String`, let's follow the conventional class structure that the codebase already uses by adding a `Remark` class.
+We have to properly encapsulate the remark in our link:{repoURL}/src/main/java/seedu/address/model/loan/Loan.java[`Loan`] class. Instead of just using a `String`, let's follow the conventional class structure that the codebase already uses by adding a `Remark` class.
 
 **Main:**
 
-. Add `Remark` to model component (you can copy from link:{repoURL}/src/main/java/seedu/address/model/person/Address.java[`Address`], remove the regex and change the names accordingly).
+. Add `Remark` to model component (you can copy from link:{repoURL}/src/main/java/seedu/address/model/loan/Address.java[`Address`], remove the regex and change the names accordingly).
 . Modify `RemarkCommand` to now take in a `Remark` instead of a `String`.
 
 **Tests:**
 
 . Add test for `Remark`, to test the `Remark#equals()` method.
 
-===== [Step 5] Model: Modify `Person` to support a `Remark` field
-Now we have the `Remark` class, we need to actually use it inside link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`].
+===== [Step 5] Model: Modify `Loan` to support a `Remark` field
+Now we have the `Remark` class, we need to actually use it inside link:{repoURL}/src/main/java/seedu/address/model/loan/Loan.java[`Loan`].
 
 **Main:**
 
-. Add `getRemark()` in link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`].
-. You may assume that the user will not be able to use the `add` and `edit` commands to modify the remarks field (i.e. the person will be created without a remark).
+. Add `getRemark()` in link:{repoURL}/src/main/java/seedu/address/model/loan/Loan.java[`Loan`].
+. You may assume that the user will not be able to use the `add` and `edit` commands to modify the remarks field (i.e. the loan will be created without a remark).
 . Modify link:{repoURL}/src/main/java/seedu/address/model/util/SampleDataUtil.java/[`SampleDataUtil`] to add remarks for the sample data (delete your `addressBook.xml` so that the application will load the sample data when you launch it.)
 
-===== [Step 6] Storage: Add `Remark` field to `XmlAdaptedPerson` class
-We now have `Remark` s for `Person` s, but they will be gone when we exit the application. Let's modify link:{repoURL}/src/main/java/seedu/address/storage/XmlAdaptedPerson.java[`XmlAdaptedPerson`] to include a `Remark` field so that it will be saved.
+===== [Step 6] Storage: Add `Remark` field to `XmlAdaptedLoan` class
+We now have `Remark` s for `Loan` s, but they will be gone when we exit the application. Let's modify link:{repoURL}/src/main/java/seedu/address/storage/XmlAdaptedLoan.java[`XmlAdaptedLoan`] to include a `Remark` field so that it will be saved.
 
 **Main:**
 
@@ -774,33 +781,33 @@ We now have `Remark` s for `Person` s, but they will be gone when we exit the ap
 
 **Tests:**
 
-. Fix `invalidAndValidPersonAddressBook.xml`, `typicalPersonsAddressBook.xml`, `validAddressBook.xml` etc., such that the XML tests will not fail due to a missing `<remark>` element.
+. Fix `invalidAndValidLoanAddressBook.xml`, `typicalLoansAddressBook.xml`, `validAddressBook.xml` etc., such that the XML tests will not fail due to a missing `<remark>` element.
 
-===== [Step 6b] Test: Add withRemark() for `PersonBuilder`
-Since `Person` can now have a `Remark`, we should add a helper method to link:{repoURL}/src/test/java/seedu/address/testutil/PersonBuilder.java[`PersonBuilder`], so that users are able to create remarks when building a link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`].
+===== [Step 6b] Test: Add withRemark() for `LoanBuilder`
+Since `Loan` can now have a `Remark`, we should add a helper method to link:{repoURL}/src/test/java/seedu/address/testutil/LoanBuilder.java[`LoanBuilder`], so that users are able to create remarks when building a link:{repoURL}/src/main/java/seedu/address/model/loan/Loan.java[`Loan`].
 
 **Tests:**
 
-. Add a new method `withRemark()` for link:{repoURL}/src/test/java/seedu/address/testutil/PersonBuilder.java[`PersonBuilder`]. This method will create a new `Remark` for the person that it is currently building.
-. Try and use the method on any sample `Person` in link:{repoURL}/src/test/java/seedu/address/testutil/TypicalPersons.java[`TypicalPersons`].
+. Add a new method `withRemark()` for link:{repoURL}/src/test/java/seedu/address/testutil/LoanBuilder.java[`LoanBuilder`]. This method will create a new `Remark` for the loan that it is currently building.
+. Try and use the method on any sample `Loan` in link:{repoURL}/src/test/java/seedu/address/testutil/TypicalLoans.java[`TypicalLoans`].
 
-===== [Step 7] Ui: Connect `Remark` field to `PersonCard`
-Our remark label in link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] is still a placeholder. Let's bring it to life by binding it with the actual `remark` field.
+===== [Step 7] Ui: Connect `Remark` field to `LoanCard`
+Our remark label in link:{repoURL}/src/main/java/seedu/address/ui/LoanCard.java[`LoanCard`] is still a placeholder. Let's bring it to life by binding it with the actual `remark` field.
 
 **Main:**
 
-. Modify link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`]'s constructor to bind the `Remark` field to the `Person` 's remark.
+. Modify link:{repoURL}/src/main/java/seedu/address/ui/LoanCard.java[`LoanCard`]'s constructor to bind the `Remark` field to the `Loan` 's remark.
 
 **Tests:**
 
-. Modify link:{repoURL}/src/test/java/seedu/address/ui/testutil/GuiTestAssert.java[`GuiTestAssert#assertCardDisplaysPerson(...)`] so that it will compare the now-functioning remark label.
+. Modify link:{repoURL}/src/test/java/seedu/address/ui/testutil/GuiTestAssert.java[`GuiTestAssert#assertCardDisplaysLoan(...)`] so that it will compare the now-functioning remark label.
 
 ===== [Step 8] Logic: Implement `RemarkCommand#execute()` logic
 We now have everything set up... but we still can't modify the remarks. Let's finish it up by adding in actual logic for our `remark` command.
 
 **Main:**
 
-. Replace the logic in `RemarkCommand#execute()` (that currently just throws an `Exception`), with the actual logic to modify the remarks of a person.
+. Replace the logic in `RemarkCommand#execute()` (that currently just throws an `Exception`), with the actual logic to modify the remarks of a loan.
 
 **Tests:**
 
@@ -815,13 +822,13 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 
 *Target user profile*:
 
-* has a need to manage a significant number of contacts
+* rents bicycles as a business in Singapore
 * prefer desktop apps over other types
 * can type fast
 * prefers typing over mouse input
 * is reasonably comfortable using CLI apps
 
-*Value proposition*: manage contacts faster than a typical mouse/GUI driven app
+*Value proposition*: manage bicycle loans faster than a typical mouse/GUI driven app
 
 [appendix]
 == User Stories
@@ -831,35 +838,221 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 [width="59%",cols="22%,<23%,<25%,<30%",options="header",]
 |=======================================================================
 |Priority |As a ... |I want to ... |So that I can...
-|`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
+|`* * *`
+|bicycle rental shop owner who wants to manage my bicycles
+|register my bicycles into the app
+|keep track of my bicycles within the app
 
-|`* * *` |user |add a new person |
+|`* * *`
+|bicycle rental shop owner who wants to manage my bicycles
+|edit details for my bicycles within the app
+|update the system with the latest bicycle statuses (e.g. got damaged, repaired, changed name or ID)
 
-|`* * *` |user |delete a person |remove entries that I no longer need
+|`* * *`
+|bicycle rental shop owner who wants to manage my bicycles
+|remove bicycles from the app
+|reflect the decommissioning of bicycles in the app
 
-|`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
+|`* *`
+|bicycle rental shop owner who wants to manage my bicycles
+|track the features of my bicycles (e.g. wheel size, gears, has a bell)
+|search for particular bicycles or types of bicycles better, especially when serving customers
 
-|`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
+|`*`
+|bicycle rental shop owner who wants to manage my bicycles
+|mark a bicycle with a repair end date
+|I can be reminded by the app on when to collect my bike from the repairman
 
-|`*` |user with many persons in the address book |sort persons by name |locate a person easily
+|`* * *`
+|bicycle rental shop owner who wants to manage my loans
+|initiate new loans into the app
+|keep track of my loans within the app
+
+|`* *`
+|bicycle rental shop owner who wants to manage my loans
+|edit a loan's details
+|correct a typo or adapt to a customer's change of mind
+
+|`* * *`
+|bicycle rental shop owner who wants to manage my loans
+|register the completion of a loan (i.e. return of the bike) in the system
+|update the system (make the bike available again, receive payment etc.)
+
+|`* * *`
+|bicycle rental shop owner who wants to manage my loans
+|cancel a loan
+|update the system in case the loan is invalidated (e.g. the customer changes their mind)
+
+|`* *`
+|bicycle rental shop owner who wants to manage my loans
+|be automatically notified and given details if the same customer tries to rent two bikes simultaneously
+|not loan out another bicycle to a customer who has not returned their previous bike
+
+|`* *`
+|bicycle rental shop owner who wants to manage my loans
+|be automatically notified and given details if two customers try to loan the same bike simultaneously
+|not loan out an already loaned bike
+
+|`* * *`
+|bicycle rental shop owner who wants to manage my bicycles and loans
+|view a list of all bicycles or loans
+|get a big picture of my current state
+
+|`* * *`
+|bicycle rental shop owner who wants to manage my bicycles and loans
+|choose to view the full details of a particular bicycle or loan
+|get details about a particular bicycle or loan as needed or desired
+
+|`* *`
+|bicycle rental shop owner who wants to manage my bicycle paraphernalia
+|tag loans that loan additional items (e.g. helmets, attachable headlights)
+|keep track of which transactions concern them
+
+|`* *`
+|bicycle rental shop owner who wants to manage my loans
+|tag loans that loan additional items (e.g. helmets, attachable headlights)
+|keep track of which transactions concern my paraphernalia
+
+|`* * *`
+|bicycle rental shop owner who wants to accommodate customer demands
+|register rentals in advance and reserve bicycles
+|be reminded of reservations, and not accidentally loan the bicycle out thus becoming unable to meet the reservation
+
+|`* *`
+|bicycle rental shop owner who wants to manage my loans
+|see at a glance what loans are overdue
+|automatically remind people who are still in possession of my bicycles to return them
+
+|`*`
+|bicycle rental shop owner who wants to manage my loans
+|get an automatic reminder when a loan is overdue
+|contact the customer to tell them that their time is up
+
+|`* * *`
+|bicycle rental shop owner that has to deal with an overdue loan
+|view the contact details of bicycle loaners
+|contact them to check on their (and my bicycle's) status
+
+|`* * *`
+|bicycle rental shop owner
+|view past loans of my bicycles
+|analyze my own history or present records for whatever purpose (accounting, investigation, legal etc.)
+
+|`* *`
+|bicycle rental shop owner
+|view loan activity over a specific period of time (e.g. Jun to Aug 2018)
+|analyze my own history for a focussed period of time
+
+|`*`
+|bicycle rental shop owner who wants to optimize my business
+|see which bicycles are the least popular to be rented
+|investigate them for issues or possibly decommission them
+
+|`* * *`
+|bicycle rental shop owner who is proficient with a CLI
+|use a CLI for all operations within the app
+|give commands faster and with less error
+
+|`* * *`
+|bicycle rental shop owner who wants to meet customer demands promptly
+|readily view a list of available bicycles
+|make recommendations to customers to serve them faster
+
+|`* *`
+|bicycle rental shop owner who wants to manage my bicycles and loans
+|have my list of bicycles or loans sorted (by name, date etc.)
+|search for a particular entry much more easily
+
+|`* *`
+|bicycle rental shop owner who wants to manage my bicycles and loans
+|filter my list of bicycles or loans with a keyword
+|search for a particular entry much more easily
+
+|`* *`
+|bicycle rental shop owner who wants to manage my bicycles and loans
+|view only a subset of my bikes or loans with entries in a particular range (e.g. date, loan rate)
+|search for a particular entry much more easily
+
+|`* *`
+|bicycle rental shop owner who wants to make returning a bike easy
+|automatically calculate the correct amount of money based on the time they loaned the bike for
+|I don't have to calculate the cost manually, and thus be faster with less mistakes
+
+|`* *`
+|bicycle rental shop owner who wants to manage my bicycles
+|add tags to bicycles
+|categorize and later search for them more easily
+
+|`* *`
+|bicycle rental shop owner who wants to manage my bicycles and loans
+|undo and redo recent changes in the app
+|quickly recover in the event of a command mistake
+
+|`*`
+|bicycle rental shop owner who wants to expand my service capabilities
+|access the same data on different machines simultaneously
+|manage multiple service counters efficiently and accurately
+
+|`*`
+|bicycle rental shop owner who wants to expand my service capabilities
+|hook the app up with the national database
+|automatically retrieve some customer details (e.g. name, gender) when I type in their NRIC
+
+|`*`
+|bicycle rental shop owner who wants to expand my service capabilities
+|integrate the app with an NRIC barcode scanner
+|automate entering a customer’s details
+
+|`* *`
+|bicycle rental shop owner who respects my customer's privacy
+|partially or fully hide some of the customers’ <<private-contact-detail,personal data>> (e.g. NRIC, phone)
+|minimize the chance of leaking those details out to third parties
+
+|`*`
+|bicycle rental shop owner who is concerned about the data's security
+|encrypt the app’s data
+|ensure no one can access or modify it with third-party software
+
+|`*`
+|bicycle rental shop owner who is concerned about the data's security
+|set a username and password for accessing the app
+|lock unknown parties out from the app
+
+|`* *`
+|bicycle rental shop owner who is concerned about the data's security
+|prompt the user (myself) for a confirmation or a password before I delete entries
+|prevent accidental or hasty deletions of data
+
+|`*`
+|bicycle rental shop owner who is concerned about the data's security
+|back-up the app's data
+|recover quickly in the case of data corruption or just general data unavailability
+
+|`* * *`
+|new or inexperienced user
+|readily access the Help page for the app
+|have a quick and comprehensive reference on how to get started and do things
+
+|`* * *`
+|new or inexperienced user
+|see command usage instructions whenever I mistype
+|correct myself on the spot
 |=======================================================================
-
-_{More to be added}_
 
 [appendix]
 == Use Cases
 
-(For all use cases below, the *System* is the `AddressBook` and the *Actor* is the `user`, unless specified otherwise)
+(For all use cases below, the *System* is the `LoanBook` and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
-=== Use case: Delete person
+=== Use case: Delete loan
 
 *MSS*
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  User requests to list loans
+2.  LoanBook shows a list of loans
+3.  User requests to delete a specific loan in the list
+4.  LoanBook deletes the loan
 +
 Use case ends.
 
@@ -873,17 +1066,102 @@ Use case ends.
 * 3a. The given index is invalid.
 +
 [none]
-** 3a1. AddressBook shows an error message.
+** 3a1. LoanBook shows an error message.
 +
 Use case resumes at step 2.
 
-_{More to be added}_
+[discrete]
+=== Use case: Add loan into loan book
+
+*MSS*
+
+1.  User requests to add a loan with the specific parameters into the LoanBook
+2.  LoanBook adds the loan and displays a prompt to the user indicating success.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. The user input is not of the correct format
++
+[none]
+** 1a1. LoanBook shows an error message giving the user an example command, as well as correct format of the command.
++
+* 1b. Any one of the inputs fails their respective validation checks
++
+[none]
+** 1b1. LoanBook shows an error message telling the user how to rectify their command
++
+Use case ends.
+
+[discrete]
+=== Use case: Mark a loan as returned in the LoanBook
+
+*MSS*
+
+1.  User requests to search for a loan with a specific name or tag
+2.  LoanBook shows a list of loans that fulfills the condition
+3.  User requests to returns a specific loan from the list
+4.  LoanBook marks the loan as returned, and based on the prevailing rates and rental times in the loan book, prompts the user to charge the customer a certain amount of money.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+* 3a. The given LoanID is invalid.
++
+[none]
+** 3a1. LoanBook shows an error message.
++
+* 3b. The loan at the given LoanID has been returned.
++
+[none]
+** 3b1. LoanBook shows an error message, stating the time which the loan has been returned.
++
+Use case resumes at step 2.
+
+[discrete]
+=== Use case: Reset the entire loanbook
+
+*MSS*
+
+1.  User requests to reset the loanbook
+2.  LoanBook prompts the user for their password
+3.  User enters the correct password
+4.  LoanBook clears its entire history of loans
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 3a. The user inputs an incorrect password
++
+[none]
+** 3a1. LoanBook shows an error message giving the user an example command, as well as correct format of the command.
++
+Use case ends.
+
+[discrete]
+=== Use case: Give a summary of all transactions
+
+*MSS*
+
+1.  User requests for a summary of all transactions
+2.  LoanBook gives a summary of all the transactions that that had happened.
++
+Use case ends.
 
 [appendix]
 == Non Functional Requirements
-
 .  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `9` or higher installed.
-.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+.  Should be able to hold up to 1000 loans without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 
 _{More to be added}_
@@ -938,15 +1216,15 @@ These instructions only provide a starting point for testers to work on; testers
 
 _{ more test cases ... }_
 
-=== Deleting a person
+=== Deleting a loan
 
-. Deleting a person while all persons are listed
+. Deleting a loan while all loans are listed
 
-.. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+.. Prerequisites: List all loans using the `list` command. Multiple loans in the list.
 .. Test case: `delete 1` +
    Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
 .. Test case: `delete 0` +
-   Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+   Expected: No loan is deleted. Error details shown in the status message. Status bar remains the same.
 .. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
    Expected: Similar to previous.
 
