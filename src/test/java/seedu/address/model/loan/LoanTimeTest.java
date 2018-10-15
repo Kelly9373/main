@@ -2,7 +2,12 @@ package seedu.address.model.loan;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.junit.Test;
 
@@ -13,37 +18,63 @@ public class LoanTimeTest {
     /**
      * Tests for LoanTime object creation based on current system date.
      */
+    @Test
     public void constructorInputStringFormatValue() {
         LoanTime loanTime1 = new LoanTime("2001-02-03 19:06");
         assertEquals("2001-02-03, 19:06", loanTime1.toString());
 
         LoanTime loanTime2 = new LoanTime("2021-12-24 02:06");
         assertEquals("2021-12-24, 02:06", loanTime2.toString());
+
+        LoanTime loanTime3 = new LoanTime("2103-01-01 21:03");
+        assertEquals("2103-01-01, 21:03", loanTime3.toString());
     }
 
-    // Note that this method will not return equals as it is time dependent
-    // Tried and Tested though. It works.
     /**
      * Tests for LoanTime object creation based on current system date.
      */
+    @Test
     public void constructorInputCheckCurrentDate() {
-        LoanTime loanTime = new LoanTime("00:25");
+        // The LoanTime constructor that only takes in the Time (and not the Date)
+        // will use the current system's date. To test it, we'll manually get the
+        // current date and test it accordingly.
+        //
+        // However, it's possible (though very unlikely) that the date will change
+        // between the next two statements. Therefore, we'll also have the current
+        // date after the LoanTime construction. The constructed LoanTime must be
+        // equal to one of them.
+        String currentDateBeforeLoanTimeCreation = LocalDate.now().format(DateTimeFormatter.ofPattern("uuuu-MM-dd"));
+        LoanTime loanTime1 = new LoanTime("00:25");
+        LoanTime loanTime2 = new LoanTime("21:03");
+        String currentDateAfterLoanTimeCreation = LocalDate.now().format(DateTimeFormatter.ofPattern("uuuu-MM-dd"));
 
-        // Replace with your current date to test
-        assertEquals("2018-10-07, 00:25", loanTime.toString());
+        String loanTime1ToString = loanTime1.toString();
+        String loanTime2ToString = loanTime2.toString();
+
+        assertTrue(loanTime1ToString.equals(currentDateBeforeLoanTimeCreation + ", 00:25")
+                || loanTime1ToString.equals(currentDateAfterLoanTimeCreation + ", 00:25"));
+
+        assertTrue(loanTime2ToString.equals(currentDateBeforeLoanTimeCreation + ", 21:03")
+                || loanTime2ToString.equals(currentDateAfterLoanTimeCreation + ", 21:03"));
     }
 
-    // Note that this method will not return equals as it is time dependent
-    // Tried and Tested though. It works.
-    // TODO: To figure out how to comment out tests
     /**
      * Tests for LoanTime object creation given current system time.
      */
+    @Test
     public void constructorInputCheckCurrentTime() {
+        LocalDateTime currentDateTimeBeforeLoanTimeCreation = LocalDateTime.now().withSecond(0).withNano(0);
         LoanTime loanTime = new LoanTime();
+        LocalDateTime currentDateTimeAfterLoanTimeCreation = LocalDateTime.now().withSecond(0).withNano(0);
 
-        // Replace with your current time and date to test
-        assertEquals("2018-10-07, 16:38", loanTime.toString());
+        LocalDateTime loanTimeAsLocalDateTime = LocalDateTime.parse(loanTime.toString(),
+                DateTimeFormatter.ofPattern("uuuu-MM-dd',' HH:mm"));
+
+        // The expected results are that "dateTimeBeforeCreation <= loanTime <= dateTimeAfterCreation".
+        // Since the LocalDateTime class does not have a "isBeforeOrEquals" method, we will use the inverse,
+        // which is !isAfter.
+        assertFalse(currentDateTimeBeforeLoanTimeCreation.isAfter(loanTimeAsLocalDateTime));
+        assertFalse(currentDateTimeAfterLoanTimeCreation.isBefore(loanTimeAsLocalDateTime));
     }
 
     @Test
@@ -96,6 +127,25 @@ public class LoanTimeTest {
     }
 
     @Test
+    public void isValidLoanTimeTests() {
+        assertFalse(LoanTime.isValidLoanTime("")); // Empty string
+        assertFalse(LoanTime.isValidLoanTime("      ")); // Spaces only
+
+        assertFalse(LoanTime.isValidLoanTime("100-12-25 14:09")); // Invalid Year
+        assertFalse(LoanTime.isValidLoanTime("2010-Jan-01 14:09")); // Invalid Month
+        assertFalse(LoanTime.isValidLoanTime("2010-12-25 14.09")); // Incorrect separator format
+
+        assertFalse(LoanTime.isValidLoanTime("14.09")); // Incorrect separator format
+        assertFalse(LoanTime.isValidLoanTime("1:09")); // Incorrect hour format
+        assertFalse(LoanTime.isValidLoanTime("11:09 PM")); // Incorrect time format
+        assertFalse(LoanTime.isValidLoanTime("2103")); // No separator
+
+        // Examples of valid short and long formatted strings.
+        assertTrue(LoanTime.isValidLoanTime("04:55")); // Short format
+        assertTrue(LoanTime.isValidLoanTime("2010-12-25 04:09")); // Long format
+    }
+
+    @Test
     public void loanTimeDifferences() {
         LoanTime loanTime1 = new LoanTime("2001-01-01 12:00");
         LoanTime loanTime2 = new LoanTime("2001-01-01 14:00");
@@ -108,6 +158,18 @@ public class LoanTimeTest {
 
         LoanTime loanTime3 = new LoanTime("2001-01-02 12:05");
         assertEquals(1445, loanTime1.loanTimeDifferenceMinutes(loanTime3)); // Across Day
+    }
+
+    @Test
+    public void loanEqualityTest() {
+        LoanTime loanTime1 = new LoanTime("2103-01-01 12:00");
+        LoanTime loanTime2 = new LoanTime("2103-01-01 12:00");
+        LoanTime loanTime3 = new LoanTime("2103-01-02 12:00");
+        LoanTime loanTime4 = new LoanTime("2103-01-01 12:30");
+
+        assertEquals(loanTime1, loanTime2);
+        assertNotEquals(loanTime1, loanTime3); // Different date
+        assertNotEquals(loanTime1, loanTime4); // Different time
     }
 
     @Test
