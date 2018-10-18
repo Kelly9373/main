@@ -370,9 +370,7 @@ The Hide private information is facilitated by Interface `Censor`. It is impleme
 
 When showing a new loan, it will do the following operations:
 
-* `LoanListPanel#setGraphic()` -- call the `LoanCard` class which will create a LoanCard containing information of the new loan.
-
-* `LoanCard#LoanCard()` -- the constructor will assign values to each of the labels shown in the LoanCard. However, the value of Nric, phone number and email will be censored and hided, which means getCensor() will be called at this time, before they are assigned to their corresponding labels.
+* `LoanCard#LoanCard()` -- the constructor will assign values to each of the labels shown in the LoanCard.
 
 * `Nric#getCensored()` -- censor the Nric value and hide the first five digital numbers. Then it returns the censored String.
 
@@ -380,12 +378,39 @@ When showing a new loan, it will do the following operations:
 
 * `Email#getCensored()` -- censor the email address and hide every characters except the last two characters in the local-part and the domain.
 
+Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
+
+**Step1.** The user adds a new loan to the LoanBook. A new `LoanCard` object will be created. +
+The `LoanCard` object will contain information of the loan: `LoanID`, `BikeID`, `Name`, `Nric`, `Phone`, `Email`, `LoanRate` and `LoanTime`.
+
+**Step2.** Assign the value of the each components to their corresponding labels. +
+For example: `name.setText(loan.getName().value);` will directly assign the name String of this loan to the `name` label. +
+
+However, the values of `Nric`, `Phone` and `Email` need censoring before assigning their values. +
+For example: `phone.setText(loan.getPhone().getCensored().value);` will censor the value of the phone String of this loan and then assign the value to the `phone` label.
+
+**Step3.** This step actually happens at the same time with **Step2**. +
+`Nric`, `Phone` and `Email` will call their corresponding `getCensored()` in their own class and return the censored String.
+
+The following sequence diagram shows how this operation works:
+
 image::HideInfoSequenceDiagrams.png[]
 
+==== Design Considerations
+
+**Aspect: How to execute getCensored()**
+
+* **Alternative 1 (current choice)**: each class implements from `Censor` interface.
+** Pros: Easy to implement.
+** Cons:
+
+* **Alternative 2**: `Loan` class implements from `Censor` interface.
+** Pros: Maybe easy to understand.
+** Cons: The method might be bulky.
 
 ==== Where to see the hided information
 
-As the cendored data are only hidden from the window, not changed in the database. The `BrowserPanel` on the bottom right of the window will still show all the information without censoring after users click the `LoanCard` for more detailed information about the loan.
+As the censored data are only hidden from the window, not changed in the database. The `BrowserPanel` on the bottom right of the window will still show all the information without censoring after users click the `LoanCard` for more detailed information about the loan.
 
 == Documentation
 
