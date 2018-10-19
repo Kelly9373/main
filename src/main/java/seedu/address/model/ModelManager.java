@@ -16,7 +16,7 @@ import seedu.address.model.bike.Bike;
 import seedu.address.model.loan.Loan;
 
 /**
- * Represents the in-memory model of the address book data.
+ * Represents the in-memory model of the loan book data.
  */
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
@@ -26,13 +26,13 @@ public class ModelManager extends ComponentManager implements Model {
     private final FilteredList<Loan> filteredLoans;
 
     /**
-     * Initializes a ModelManager with the given addressBook and userPrefs.
+     * Initializes a ModelManager with the given loanBook and userPrefs.
      */
     public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs) {
         super();
         requireAllNonNull(addressBook, userPrefs);
 
-        logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
+        logger.fine("Initializing with loan book: " + addressBook + " and user prefs " + userPrefs);
 
         versionedAddressBook = new VersionedAddressBook(addressBook);
         filteredBikes = new FilteredList<>(versionedAddressBook.getBikeList());
@@ -91,7 +91,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     /**
      * Returns an unmodifiable view of the list of {@code Bike} backed by the internal list of
-     * {@code versionedAddressBook}
+     * {@code versionedLoanBook}
      */
     @Override
     public ObservableList<Bike> getFilteredBikeList() {
@@ -137,7 +137,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     /**
      * Returns an unmodifiable view of the list of {@code Loan} backed by the internal list of
-     * {@code versionedAddressBook}
+     * {@code versionedLoanBook}
      */
     @Override
     public ObservableList<Loan> getFilteredLoanList() {

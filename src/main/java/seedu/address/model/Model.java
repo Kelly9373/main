@@ -18,30 +18,30 @@ public interface Model {
     /** Clears existing backing model and replaces with the provided new data. */
     void resetData(ReadOnlyAddressBook newData);
 
-    /** Returns the AddressBook */
+    /** Returns the LoanBook */
     ReadOnlyAddressBook getAddressBook();
 
     /**
-     * Returns true if a bike with the same identity as {@code bike} exists in the address book.
+     * Returns true if a bike with the same identity as {@code bike} exists in the loan book.
      */
     boolean hasBike(Bike bike);
 
     /**
      * Adds the given bike.
-     * {@code bike} must not already exist in the address book.
+     * {@code bike} must not already exist in the loan book.
      */
     void addBike(Bike bike);
 
     /**
      * Deletes the given bike.
-     * The bike must exist in the address book.
+     * The bike must exist in the loan book.
      */
     void deleteBike(Bike target);
 
     /**
      * Replaces the given bike {@code target} with {@code editedBike}.
-     * {@code target} must exist in the address book.
-     * The bike identity of {@code editedBike} must not be the same as another existing bike in the address book.
+     * {@code target} must exist in the loan book.
+     * The bike identity of {@code editedBike} must not be the same as another existing bike in the loan book.
      */
     void updateBike(Bike target, Bike editedBike);
 
@@ -55,26 +55,26 @@ public interface Model {
     void updateFilteredBikeList(Predicate<Bike> predicate);
 
     /**
-     * Returns true if a loan with the same identity as {@code loan} exists in the address book.
+     * Returns true if a loan with the same identity as {@code loan} exists in the loan book.
      */
     boolean hasLoan(Loan loan);
 
     /**
      * Adds the given loan.
-     * {@code loan} must not already exist in the address book.
+     * {@code loan} must not already exist in the loan book.
      */
     void addLoan(Loan loan);
 
     /**
      * Deletes the given loan.
-     * The loan must exist in the address book.
+     * The loan must exist in the loan book.
      */
     void deleteLoan(Loan target);
 
     /**
      * Replaces the given loan {@code target} with {@code editedLoan}.
-     * {@code target} must exist in the address book.
-     * The loan identity of {@code editedLoan} must not be the same as another existing loan in the address book.
+     * {@code target} must exist in the loan book.
+     * The loan identity of {@code editedLoan} must not be the same as another existing loan in the loan book.
      */
     void updateLoan(Loan target, Loan editedLoan);
 
@@ -88,27 +88,27 @@ public interface Model {
     void updateFilteredLoanList(Predicate<Loan> predicate);
 
     /**
-     * Returns true if the model has previous address book states to restore.
+     * Returns true if the model has previous loan book states to restore.
      */
     boolean canUndoAddressBook();
 
     /**
-     * Returns true if the model has undone address book states to restore.
+     * Returns true if the model has undone loan book states to restore.
      */
     boolean canRedoAddressBook();
 
     /**
-     * Restores the model's address book to its previous state.
+     * Restores the model's loan book to its previous state.
      */
     void undoAddressBook();
 
     /**
-     * Restores the model's address book to its previously undone state.
+     * Restores the model's loan book to its previously undone state.
      */
     void redoAddressBook();
 
     /**
-     * Saves the current address book state for undo/redo.
+     * Saves the current loan book state for undo/redo.
      */
     void commitAddressBook();
 }
