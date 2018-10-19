@@ -4,11 +4,11 @@ import seedu.address.commons.events.BaseEvent;
 import seedu.address.model.ReadOnlyLoanBook;
 
 /** Indicates the LoanBook in the model has changed*/
-public class AddressBookChangedEvent extends BaseEvent {
+public class LoanBookChangedEvent extends BaseEvent {
 
     public final ReadOnlyLoanBook data;
 
-    public AddressBookChangedEvent(ReadOnlyLoanBook data) {
+    public LoanBookChangedEvent(ReadOnlyLoanBook data) {
         this.data = data;
     }
 

@@ -11,7 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.LoanBookChangedEvent;
 import seedu.address.model.bike.Bike;
 import seedu.address.model.loan.Loan;
 
@@ -56,7 +56,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     /** Raises an event to indicate the model has changed */
     private void indicateLoanBookChanged() {
-        raise(new AddressBookChangedEvent(versionedLoanBook));
+        raise(new LoanBookChangedEvent(versionedLoanBook));
     }
 
     //=========== Bike List Mutators =============================================================
