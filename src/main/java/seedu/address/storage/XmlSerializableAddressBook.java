@@ -13,7 +13,7 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.loan.Loan;
 
 /**
- * An Immutable AddressBook that is serializable to XML format
+ * An Immutable LoanBook that is serializable to XML format
  */
 @XmlRootElement(name = "addressbook")
 public class XmlSerializableAddressBook {
@@ -24,7 +24,7 @@ public class XmlSerializableAddressBook {
     private List<XmlAdaptedLoan> loans;
 
     /**
-     * Creates an empty XmlSerializableAddressBook.
+     * Creates an empty XmlSerializableLoanBook.
      * This empty constructor is required for marshalling.
      */
     public XmlSerializableAddressBook() {
@@ -40,7 +40,7 @@ public class XmlSerializableAddressBook {
     }
 
     /**
-     * Converts this addressbook into the model's {@code AddressBook} object.
+     * Converts this loanbook into the model's {@code LoanBook} object.
      *
      * @throws IllegalValueException if there were any data constraints violated or duplicates in the
      * {@code XmlAdaptedLoan}.
