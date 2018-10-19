@@ -29,7 +29,7 @@ public class XmlSerializableAddressBookTest {
         XmlSerializableAddressBook dataFromFile = XmlUtil.getDataFromFile(TYPICAL_LOANS_FILE,
                 XmlSerializableAddressBook.class);
         LoanBook loanBookFromFile = dataFromFile.toModelType();
-        LoanBook typicalLoansLoanBook = TypicalLoans.getTypicalAddressBook();
+        LoanBook typicalLoansLoanBook = TypicalLoans.getTypicalLoanBook();
         assertEquals(loanBookFromFile, typicalLoansLoanBook);
     }
 

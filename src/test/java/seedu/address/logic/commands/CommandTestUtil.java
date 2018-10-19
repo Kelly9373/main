@@ -99,7 +99,7 @@ public class CommandTestUtil {
             String expectedMessage) {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
-        LoanBook expectedLoanBook = new LoanBook(actualModel.getAddressBook());
+        LoanBook expectedLoanBook = new LoanBook(actualModel.getLoanBook());
         List<Loan> expectedFilteredList = new ArrayList<>(actualModel.getFilteredLoanList());
 
         CommandHistory expectedCommandHistory = new CommandHistory(actualCommandHistory);
@@ -109,7 +109,7 @@ public class CommandTestUtil {
             throw new AssertionError("The expected CommandException was not thrown.");
         } catch (CommandException e) {
             assertEquals(expectedMessage, e.getMessage());
-            assertEquals(expectedLoanBook, actualModel.getAddressBook());
+            assertEquals(expectedLoanBook, actualModel.getLoanBook());
             assertEquals(expectedFilteredList, actualModel.getFilteredLoanList());
             assertEquals(expectedCommandHistory, actualCommandHistory);
         }
@@ -135,7 +135,7 @@ public class CommandTestUtil {
     public static void deleteFirstLoan(Model model) {
         Loan firstLoan = model.getFilteredLoanList().get(0);
         model.deleteLoan(firstLoan);
-        model.commitAddressBook();
+        model.commitLoanBook();
     }
 
 }

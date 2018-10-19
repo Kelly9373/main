@@ -14,205 +14,205 @@ import java.util.List;
 
 import org.junit.Test;
 
-import seedu.address.testutil.AddressBookBuilder;
+import seedu.address.testutil.LoanBookBuilder;
 
 public class VersionedLoanBookTest {
 
-    private final ReadOnlyLoanBook addressBookWithAmy = new AddressBookBuilder().withLoan(AMY).build();
-    private final ReadOnlyLoanBook addressBookWithBob = new AddressBookBuilder().withLoan(BOB).build();
-    private final ReadOnlyLoanBook addressBookWithCarl = new AddressBookBuilder().withLoan(CARL).build();
-    private final ReadOnlyLoanBook emptyAddressBook = new AddressBookBuilder().build();
+    private final ReadOnlyLoanBook loanBookWithAmy = new LoanBookBuilder().withLoan(AMY).build();
+    private final ReadOnlyLoanBook loanBookWithBob = new LoanBookBuilder().withLoan(BOB).build();
+    private final ReadOnlyLoanBook loanBookWithCarl = new LoanBookBuilder().withLoan(CARL).build();
+    private final ReadOnlyLoanBook emptyLoanBook = new LoanBookBuilder().build();
 
     @Test
-    public void commit_singleAddressBook_noStatesRemovedCurrentStateSaved() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(emptyAddressBook);
+    public void commit_singleLoanBook_noStatesRemovedCurrentStateSaved() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(emptyLoanBook);
 
         versionedLoanBook.commit();
-        assertAddressBookListStatus(versionedLoanBook,
-                Collections.singletonList(emptyAddressBook),
-                emptyAddressBook,
+        assertLoanBookListStatus(versionedLoanBook,
+                Collections.singletonList(emptyLoanBook),
+                emptyLoanBook,
                 Collections.emptyList());
     }
 
     @Test
-    public void commit_multipleAddressBookPointerAtEndOfStateList_noStatesRemovedCurrentStateSaved() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(
-                emptyAddressBook, addressBookWithAmy, addressBookWithBob);
+    public void commit_multipleLoanBookPointerAtEndOfStateList_noStatesRemovedCurrentStateSaved() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(
+                emptyLoanBook, loanBookWithAmy, loanBookWithBob);
 
         versionedLoanBook.commit();
-        assertAddressBookListStatus(versionedLoanBook,
-                Arrays.asList(emptyAddressBook, addressBookWithAmy, addressBookWithBob),
-                addressBookWithBob,
+        assertLoanBookListStatus(versionedLoanBook,
+                Arrays.asList(emptyLoanBook, loanBookWithAmy, loanBookWithBob),
+                loanBookWithBob,
                 Collections.emptyList());
     }
 
     @Test
-    public void commit_multipleAddressBookPointerNotAtEndOfStateList_statesAfterPointerRemovedCurrentStateSaved() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(
-                emptyAddressBook, addressBookWithAmy, addressBookWithBob);
+    public void commit_multipleLoanBookPointerNotAtEndOfStateList_statesAfterPointerRemovedCurrentStateSaved() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(
+                emptyLoanBook, loanBookWithAmy, loanBookWithBob);
         shiftCurrentStatePointerLeftwards(versionedLoanBook, 2);
 
         versionedLoanBook.commit();
-        assertAddressBookListStatus(versionedLoanBook,
-                Collections.singletonList(emptyAddressBook),
-                emptyAddressBook,
+        assertLoanBookListStatus(versionedLoanBook,
+                Collections.singletonList(emptyLoanBook),
+                emptyLoanBook,
                 Collections.emptyList());
     }
 
     @Test
-    public void canUndo_multipleAddressBookPointerAtEndOfStateList_returnsTrue() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(
-                emptyAddressBook, addressBookWithAmy, addressBookWithBob);
+    public void canUndo_multipleLoanBookPointerAtEndOfStateList_returnsTrue() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(
+                emptyLoanBook, loanBookWithAmy, loanBookWithBob);
 
         assertTrue(versionedLoanBook.canUndo());
     }
 
     @Test
-    public void canUndo_multipleAddressBookPointerAtStartOfStateList_returnsTrue() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(
-                emptyAddressBook, addressBookWithAmy, addressBookWithBob);
+    public void canUndo_multipleLoanBookPointerAtStartOfStateList_returnsTrue() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(
+                emptyLoanBook, loanBookWithAmy, loanBookWithBob);
         shiftCurrentStatePointerLeftwards(versionedLoanBook, 1);
 
         assertTrue(versionedLoanBook.canUndo());
     }
 
     @Test
-    public void canUndo_singleAddressBook_returnsFalse() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(emptyAddressBook);
+    public void canUndo_singleLoanBook_returnsFalse() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(emptyLoanBook);
 
         assertFalse(versionedLoanBook.canUndo());
     }
 
     @Test
-    public void canUndo_multipleAddressBookPointerAtStartOfStateList_returnsFalse() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(
-                emptyAddressBook, addressBookWithAmy, addressBookWithBob);
+    public void canUndo_multipleLoanBookPointerAtStartOfStateList_returnsFalse() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(
+                emptyLoanBook, loanBookWithAmy, loanBookWithBob);
         shiftCurrentStatePointerLeftwards(versionedLoanBook, 2);
 
         assertFalse(versionedLoanBook.canUndo());
     }
 
     @Test
-    public void canRedo_multipleAddressBookPointerNotAtEndOfStateList_returnsTrue() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(
-                emptyAddressBook, addressBookWithAmy, addressBookWithBob);
+    public void canRedo_multipleLoanBookPointerNotAtEndOfStateList_returnsTrue() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(
+                emptyLoanBook, loanBookWithAmy, loanBookWithBob);
         shiftCurrentStatePointerLeftwards(versionedLoanBook, 1);
 
         assertTrue(versionedLoanBook.canRedo());
     }
 
     @Test
-    public void canRedo_multipleAddressBookPointerAtStartOfStateList_returnsTrue() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(
-                emptyAddressBook, addressBookWithAmy, addressBookWithBob);
+    public void canRedo_multipleLoanBookPointerAtStartOfStateList_returnsTrue() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(
+                emptyLoanBook, loanBookWithAmy, loanBookWithBob);
         shiftCurrentStatePointerLeftwards(versionedLoanBook, 2);
 
         assertTrue(versionedLoanBook.canRedo());
     }
 
     @Test
-    public void canRedo_singleAddressBook_returnsFalse() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(emptyAddressBook);
+    public void canRedo_singleLoanBook_returnsFalse() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(emptyLoanBook);
 
         assertFalse(versionedLoanBook.canRedo());
     }
 
     @Test
-    public void canRedo_multipleAddressBookPointerAtEndOfStateList_returnsFalse() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(
-                emptyAddressBook, addressBookWithAmy, addressBookWithBob);
+    public void canRedo_multipleLoanBookPointerAtEndOfStateList_returnsFalse() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(
+                emptyLoanBook, loanBookWithAmy, loanBookWithBob);
 
         assertFalse(versionedLoanBook.canRedo());
     }
 
     @Test
-    public void undo_multipleAddressBookPointerAtEndOfStateList_success() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(
-                emptyAddressBook, addressBookWithAmy, addressBookWithBob);
+    public void undo_multipleLoanBookPointerAtEndOfStateList_success() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(
+                emptyLoanBook, loanBookWithAmy, loanBookWithBob);
 
         versionedLoanBook.undo();
-        assertAddressBookListStatus(versionedLoanBook,
-                Collections.singletonList(emptyAddressBook),
-                addressBookWithAmy,
-                Collections.singletonList(addressBookWithBob));
+        assertLoanBookListStatus(versionedLoanBook,
+                Collections.singletonList(emptyLoanBook),
+                loanBookWithAmy,
+                Collections.singletonList(loanBookWithBob));
     }
 
     @Test
-    public void undo_multipleAddressBookPointerNotAtStartOfStateList_success() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(
-                emptyAddressBook, addressBookWithAmy, addressBookWithBob);
+    public void undo_multipleLoanBookPointerNotAtStartOfStateList_success() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(
+                emptyLoanBook, loanBookWithAmy, loanBookWithBob);
         shiftCurrentStatePointerLeftwards(versionedLoanBook, 1);
 
         versionedLoanBook.undo();
-        assertAddressBookListStatus(versionedLoanBook,
+        assertLoanBookListStatus(versionedLoanBook,
                 Collections.emptyList(),
-                emptyAddressBook,
-                Arrays.asList(addressBookWithAmy, addressBookWithBob));
+                emptyLoanBook,
+                Arrays.asList(loanBookWithAmy, loanBookWithBob));
     }
 
     @Test
-    public void undo_singleAddressBook_throwsNoUndoableStateException() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(emptyAddressBook);
+    public void undo_singleLoanBook_throwsNoUndoableStateException() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(emptyLoanBook);
 
         assertThrows(VersionedLoanBook.NoUndoableStateException.class, versionedLoanBook::undo);
     }
 
     @Test
-    public void undo_multipleAddressBookPointerAtStartOfStateList_throwsNoUndoableStateException() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(
-                emptyAddressBook, addressBookWithAmy, addressBookWithBob);
+    public void undo_multipleLoanBookPointerAtStartOfStateList_throwsNoUndoableStateException() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(
+                emptyLoanBook, loanBookWithAmy, loanBookWithBob);
         shiftCurrentStatePointerLeftwards(versionedLoanBook, 2);
 
         assertThrows(VersionedLoanBook.NoUndoableStateException.class, versionedLoanBook::undo);
     }
 
     @Test
-    public void redo_multipleAddressBookPointerNotAtEndOfStateList_success() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(
-                emptyAddressBook, addressBookWithAmy, addressBookWithBob);
+    public void redo_multipleLoanBookPointerNotAtEndOfStateList_success() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(
+                emptyLoanBook, loanBookWithAmy, loanBookWithBob);
         shiftCurrentStatePointerLeftwards(versionedLoanBook, 1);
 
         versionedLoanBook.redo();
-        assertAddressBookListStatus(versionedLoanBook,
-                Arrays.asList(emptyAddressBook, addressBookWithAmy),
-                addressBookWithBob,
+        assertLoanBookListStatus(versionedLoanBook,
+                Arrays.asList(emptyLoanBook, loanBookWithAmy),
+                loanBookWithBob,
                 Collections.emptyList());
     }
 
     @Test
-    public void redo_multipleAddressBookPointerAtStartOfStateList_success() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(
-                emptyAddressBook, addressBookWithAmy, addressBookWithBob);
+    public void redo_multipleLoanBookPointerAtStartOfStateList_success() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(
+                emptyLoanBook, loanBookWithAmy, loanBookWithBob);
         shiftCurrentStatePointerLeftwards(versionedLoanBook, 2);
 
         versionedLoanBook.redo();
-        assertAddressBookListStatus(versionedLoanBook,
-                Collections.singletonList(emptyAddressBook),
-                addressBookWithAmy,
-                Collections.singletonList(addressBookWithBob));
+        assertLoanBookListStatus(versionedLoanBook,
+                Collections.singletonList(emptyLoanBook),
+                loanBookWithAmy,
+                Collections.singletonList(loanBookWithBob));
     }
 
     @Test
-    public void redo_singleAddressBook_throwsNoRedoableStateException() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(emptyAddressBook);
+    public void redo_singleLoanBook_throwsNoRedoableStateException() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(emptyLoanBook);
 
         assertThrows(VersionedLoanBook.NoRedoableStateException.class, versionedLoanBook::redo);
     }
 
     @Test
-    public void redo_multipleAddressBookPointerAtEndOfStateList_throwsNoRedoableStateException() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(
-                emptyAddressBook, addressBookWithAmy, addressBookWithBob);
+    public void redo_multipleLoanBookPointerAtEndOfStateList_throwsNoRedoableStateException() {
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(
+                emptyLoanBook, loanBookWithAmy, loanBookWithBob);
 
         assertThrows(VersionedLoanBook.NoRedoableStateException.class, versionedLoanBook::redo);
     }
 
     @Test
     public void equals() {
-        VersionedLoanBook versionedLoanBook = prepareAddressBookList(addressBookWithAmy, addressBookWithBob);
+        VersionedLoanBook versionedLoanBook = prepareLoanBookList(loanBookWithAmy, loanBookWithBob);
 
         // same values -> returns true
-        VersionedLoanBook copy = prepareAddressBookList(addressBookWithAmy, addressBookWithBob);
+        VersionedLoanBook copy = prepareLoanBookList(loanBookWithAmy, loanBookWithBob);
         assertTrue(versionedLoanBook.equals(copy));
 
         // same object -> returns true
@@ -225,12 +225,12 @@ public class VersionedLoanBookTest {
         assertFalse(versionedLoanBook.equals(1));
 
         // different state list -> returns false
-        VersionedLoanBook differentAddressBookList = prepareAddressBookList(addressBookWithBob, addressBookWithCarl);
-        assertFalse(versionedLoanBook.equals(differentAddressBookList));
+        VersionedLoanBook differentLoanBookList = prepareLoanBookList(loanBookWithBob, loanBookWithCarl);
+        assertFalse(versionedLoanBook.equals(differentLoanBookList));
 
         // different current pointer index -> returns false
-        VersionedLoanBook differentCurrentStatePointer = prepareAddressBookList(
-                addressBookWithAmy, addressBookWithBob);
+        VersionedLoanBook differentCurrentStatePointer = prepareLoanBookList(
+                loanBookWithAmy, loanBookWithBob);
         shiftCurrentStatePointerLeftwards(versionedLoanBook, 1);
         assertFalse(versionedLoanBook.equals(differentCurrentStatePointer));
     }
@@ -240,10 +240,10 @@ public class VersionedLoanBookTest {
      * states before {@code versionedLoanBook#currentStatePointer} is equal to {@code expectedStatesBeforePointer},
      * and states after {@code versionedLoanBook#currentStatePointer} is equal to {@code expectedStatesAfterPointer}.
      */
-    private void assertAddressBookListStatus(VersionedLoanBook versionedLoanBook,
-                                             List<ReadOnlyLoanBook> expectedStatesBeforePointer,
-                                             ReadOnlyLoanBook expectedCurrentState,
-                                             List<ReadOnlyLoanBook> expectedStatesAfterPointer) {
+    private void assertLoanBookListStatus(VersionedLoanBook versionedLoanBook,
+                                          List<ReadOnlyLoanBook> expectedStatesBeforePointer,
+                                          ReadOnlyLoanBook expectedCurrentState,
+                                          List<ReadOnlyLoanBook> expectedStatesAfterPointer) {
         // check state currently pointing at is correct
         assertEquals(new LoanBook(versionedLoanBook), expectedCurrentState);
 
@@ -253,15 +253,15 @@ public class VersionedLoanBookTest {
         }
 
         // check states before pointer are correct
-        for (ReadOnlyLoanBook expectedAddressBook : expectedStatesBeforePointer) {
-            assertEquals(expectedAddressBook, new LoanBook(versionedLoanBook));
+        for (ReadOnlyLoanBook expectedLoanBook : expectedStatesBeforePointer) {
+            assertEquals(expectedLoanBook, new LoanBook(versionedLoanBook));
             versionedLoanBook.redo();
         }
 
         // check states after pointer are correct
-        for (ReadOnlyLoanBook expectedAddressBook : expectedStatesAfterPointer) {
+        for (ReadOnlyLoanBook expectedLoanBook : expectedStatesAfterPointer) {
             versionedLoanBook.redo();
-            assertEquals(expectedAddressBook, new LoanBook(versionedLoanBook));
+            assertEquals(expectedLoanBook, new LoanBook(versionedLoanBook));
         }
 
         // check that there are no more states after pointer
@@ -272,15 +272,15 @@ public class VersionedLoanBookTest {
     }
 
     /**
-     * Creates and returns a {@code VersionedLoanBook} with the {@code addressBookStates} added into it, and the
+     * Creates and returns a {@code VersionedLoanBook} with the {@code loanBookStates} added into it, and the
      * {@code VersionedLoanBook#currentStatePointer} at the end of list.
      */
-    private VersionedLoanBook prepareAddressBookList(ReadOnlyLoanBook... addressBookStates) {
-        assertFalse(addressBookStates.length == 0);
+    private VersionedLoanBook prepareLoanBookList(ReadOnlyLoanBook... loanBookStates) {
+        assertFalse(loanBookStates.length == 0);
 
-        VersionedLoanBook versionedLoanBook = new VersionedLoanBook(addressBookStates[0]);
-        for (int i = 1; i < addressBookStates.length; i++) {
-            versionedLoanBook.resetData(addressBookStates[i]);
+        VersionedLoanBook versionedLoanBook = new VersionedLoanBook(loanBookStates[0]);
+        for (int i = 1; i < loanBookStates.length; i++) {
+            versionedLoanBook.resetData(loanBookStates[i]);
             versionedLoanBook.commit();
         }
 

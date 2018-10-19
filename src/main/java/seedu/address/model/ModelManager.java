@@ -28,13 +28,13 @@ public class ModelManager extends ComponentManager implements Model {
     /**
      * Initializes a ModelManager with the given loanBook and userPrefs.
      */
-    public ModelManager(ReadOnlyLoanBook addressBook, UserPrefs userPrefs) {
+    public ModelManager(ReadOnlyLoanBook loanBook, UserPrefs userPrefs) {
         super();
-        requireAllNonNull(addressBook, userPrefs);
+        requireAllNonNull(loanBook, userPrefs);
 
-        logger.fine("Initializing with loan book: " + addressBook + " and user prefs " + userPrefs);
+        logger.fine("Initializing with loan book: " + loanBook + " and user prefs " + userPrefs);
 
-        versionedLoanBook = new VersionedLoanBook(addressBook);
+        versionedLoanBook = new VersionedLoanBook(loanBook);
         filteredBikes = new FilteredList<>(versionedLoanBook.getBikeList());
         filteredLoans = new FilteredList<>(versionedLoanBook.getLoanList());
     }
@@ -46,16 +46,16 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void resetData(ReadOnlyLoanBook newData) {
         versionedLoanBook.resetData(newData);
-        indicateAddressBookChanged();
+        indicateLoanBookChanged();
     }
 
     @Override
-    public ReadOnlyLoanBook getAddressBook() {
+    public ReadOnlyLoanBook getLoanBook() {
         return versionedLoanBook;
     }
 
     /** Raises an event to indicate the model has changed */
-    private void indicateAddressBookChanged() {
+    private void indicateLoanBookChanged() {
         raise(new AddressBookChangedEvent(versionedLoanBook));
     }
 
@@ -70,13 +70,13 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void addBike(Bike bike) {
         versionedLoanBook.addBike(bike);
-        indicateAddressBookChanged();
+        indicateLoanBookChanged();
     }
 
     @Override
     public void deleteBike(Bike target) {
         versionedLoanBook.removeBike(target);
-        indicateAddressBookChanged();
+        indicateLoanBookChanged();
     }
 
     @Override
@@ -84,7 +84,7 @@ public class ModelManager extends ComponentManager implements Model {
         requireAllNonNull(target, editedBike);
 
         versionedLoanBook.updateBike(target, editedBike);
-        indicateAddressBookChanged();
+        indicateLoanBookChanged();
     }
 
     //=========== Filtered Bike List Accessors =============================================================
@@ -116,13 +116,13 @@ public class ModelManager extends ComponentManager implements Model {
     public void addLoan(Loan loan) {
         versionedLoanBook.addLoan(loan);
         updateFilteredLoanList(PREDICATE_SHOW_ALL_LOANS);
-        indicateAddressBookChanged();
+        indicateLoanBookChanged();
     }
 
     @Override
     public void deleteLoan(Loan target) {
         versionedLoanBook.removeLoan(target);
-        indicateAddressBookChanged();
+        indicateLoanBookChanged();
     }
 
     @Override
@@ -130,7 +130,7 @@ public class ModelManager extends ComponentManager implements Model {
         requireAllNonNull(target, editedLoan);
 
         versionedLoanBook.updateLoan(target, editedLoan);
-        indicateAddressBookChanged();
+        indicateLoanBookChanged();
     }
 
     //=========== Filtered Loan List Accessors =============================================================
@@ -153,29 +153,29 @@ public class ModelManager extends ComponentManager implements Model {
     //=========== Undo/Redo =================================================================================
 
     @Override
-    public boolean canUndoAddressBook() {
+    public boolean canUndoLoanBook() {
         return versionedLoanBook.canUndo();
     }
 
     @Override
-    public boolean canRedoAddressBook() {
+    public boolean canRedoLoanBook() {
         return versionedLoanBook.canRedo();
     }
 
     @Override
-    public void undoAddressBook() {
+    public void undoLoanBook() {
         versionedLoanBook.undo();
-        indicateAddressBookChanged();
+        indicateLoanBookChanged();
     }
 
     @Override
-    public void redoAddressBook() {
+    public void redoLoanBook() {
         versionedLoanBook.redo();
-        indicateAddressBookChanged();
+        indicateLoanBookChanged();
     }
 
     @Override
-    public void commitAddressBook() {
+    public void commitLoanBook() {
         versionedLoanBook.commit();
     }
 

@@ -20,11 +20,11 @@ public class RedoCommand extends Command {
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         requireNonNull(model);
 
-        if (!model.canRedoAddressBook()) {
+        if (!model.canRedoLoanBook()) {
             throw new CommandException(MESSAGE_FAILURE);
         }
 
-        model.redoAddressBook();
+        model.redoLoanBook();
         model.updateFilteredLoanList(PREDICATE_SHOW_ALL_LOANS);
         return new CommandResult(MESSAGE_SUCCESS);
     }

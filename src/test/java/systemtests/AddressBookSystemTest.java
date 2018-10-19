@@ -85,7 +85,7 @@ public abstract class AddressBookSystemTest {
      * Returns the data to be loaded into the file in {@link #getDataFileLocation()}.
      */
     protected LoanBook getInitialData() {
-        return TypicalLoans.getTypicalAddressBook();
+        return TypicalLoans.getTypicalLoanBook();
     }
 
     /**
@@ -143,7 +143,7 @@ public abstract class AddressBookSystemTest {
      */
     protected void showAllLoans() {
         executeCommand(ListCommand.COMMAND_WORD);
-        assertEquals(getModel().getAddressBook().getLoanList().size(), getModel().getFilteredLoanList().size());
+        assertEquals(getModel().getLoanBook().getLoanList().size(), getModel().getFilteredLoanList().size());
     }
 
     /**
@@ -151,7 +151,7 @@ public abstract class AddressBookSystemTest {
      */
     protected void showLoansWithName(String keyword) {
         executeCommand(FindCommand.COMMAND_WORD + " " + keyword);
-        assertTrue(getModel().getFilteredLoanList().size() < getModel().getAddressBook().getLoanList().size());
+        assertTrue(getModel().getFilteredLoanList().size() < getModel().getLoanBook().getLoanList().size());
     }
 
     /**
@@ -167,7 +167,7 @@ public abstract class AddressBookSystemTest {
      */
     protected void deleteAllLoans() {
         executeCommand(ClearCommand.COMMAND_WORD);
-        assertEquals(0, getModel().getAddressBook().getLoanList().size());
+        assertEquals(0, getModel().getLoanBook().getLoanList().size());
     }
 
     /**
@@ -179,7 +179,7 @@ public abstract class AddressBookSystemTest {
             Model expectedModel) {
         assertEquals(expectedCommandInput, getCommandBox().getInput());
         assertEquals(expectedResultMessage, getResultDisplay().getText());
-        assertEquals(new LoanBook(expectedModel.getAddressBook()), testApp.readStorageAddressBook());
+        assertEquals(new LoanBook(expectedModel.getLoanBook()), testApp.readStorageAddressBook());
         assertListMatching(getLoanListPanel(), expectedModel.getFilteredLoanList());
     }
 

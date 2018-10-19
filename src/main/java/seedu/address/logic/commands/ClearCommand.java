@@ -19,7 +19,7 @@ public class ClearCommand extends Command {
     public CommandResult execute(Model model, CommandHistory history) {
         requireNonNull(model);
         model.resetData(new LoanBook());
-        model.commitAddressBook();
+        model.commitLoanBook();
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }

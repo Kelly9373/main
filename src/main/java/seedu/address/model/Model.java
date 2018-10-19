@@ -19,7 +19,7 @@ public interface Model {
     void resetData(ReadOnlyLoanBook newData);
 
     /** Returns the LoanBook */
-    ReadOnlyLoanBook getAddressBook();
+    ReadOnlyLoanBook getLoanBook();
 
     /**
      * Returns true if a bike with the same identity as {@code bike} exists in the loan book.
@@ -90,25 +90,25 @@ public interface Model {
     /**
      * Returns true if the model has previous loan book states to restore.
      */
-    boolean canUndoAddressBook();
+    boolean canUndoLoanBook();
 
     /**
      * Returns true if the model has undone loan book states to restore.
      */
-    boolean canRedoAddressBook();
+    boolean canRedoLoanBook();
 
     /**
      * Restores the model's loan book to its previous state.
      */
-    void undoAddressBook();
+    void undoLoanBook();
 
     /**
      * Restores the model's loan book to its previously undone state.
      */
-    void redoAddressBook();
+    void redoLoanBook();
 
     /**
      * Saves the current loan book state for undo/redo.
      */
-    void commitAddressBook();
+    void commitLoanBook();
 }

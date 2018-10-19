@@ -56,7 +56,7 @@ public class AddCommand extends Command {
         }
 
         model.addLoan(toAdd);
-        model.commitAddressBook();
+        model.commitLoanBook();
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
 

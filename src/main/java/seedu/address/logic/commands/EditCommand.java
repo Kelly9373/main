@@ -84,7 +84,7 @@ public class EditCommand extends Command {
 
         model.updateLoan(loanToEdit, editedLoan);
         model.updateFilteredLoanList(PREDICATE_SHOW_ALL_LOANS);
-        model.commitAddressBook();
+        model.commitLoanBook();
         return new CommandResult(String.format(MESSAGE_EDIT_LOAN_SUCCESS, editedLoan));
     }
 

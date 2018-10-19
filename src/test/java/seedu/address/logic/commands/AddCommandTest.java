@@ -95,7 +95,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public ReadOnlyLoanBook getAddressBook() {
+        public ReadOnlyLoanBook getLoanBook() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -160,27 +160,27 @@ public class AddCommandTest {
         }
 
         @Override
-        public boolean canUndoAddressBook() {
+        public boolean canUndoLoanBook() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public boolean canRedoAddressBook() {
+        public boolean canRedoLoanBook() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void undoAddressBook() {
+        public void undoLoanBook() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void redoAddressBook() {
+        public void redoLoanBook() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void commitAddressBook() {
+        public void commitLoanBook() {
             throw new AssertionError("This method should not be called.");
         }
     }
@@ -222,12 +222,12 @@ public class AddCommandTest {
         }
 
         @Override
-        public void commitAddressBook() {
+        public void commitLoanBook() {
             // called by {@code AddCommand#execute()}
         }
 
         @Override
-        public ReadOnlyLoanBook getAddressBook() {
+        public ReadOnlyLoanBook getLoanBook() {
             return new LoanBook();
         }
     }

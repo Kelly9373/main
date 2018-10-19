@@ -45,7 +45,7 @@ public class DeleteCommand extends Command {
 
         Loan loanToDelete = lastShownList.get(targetIndex.getZeroBased());
         model.deleteLoan(loanToDelete);
-        model.commitAddressBook();
+        model.commitLoanBook();
         return new CommandResult(String.format(MESSAGE_DELETE_LOAN_SUCCESS, loanToDelete));
     }
 

@@ -62,7 +62,7 @@ public class TypicalLoans {
     /**
      * Returns an {@code LoanBook} with all the typical loans.
      */
-    public static LoanBook getTypicalAddressBook() {
+    public static LoanBook getTypicalLoanBook() {
         LoanBook ab = new LoanBook();
         for (Loan loan : getTypicalLoans()) {
             ab.addLoan(loan);

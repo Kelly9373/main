@@ -73,7 +73,7 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
          * -> rejected
          */
         showLoansWithName(KEYWORD_MATCHING_MEIER);
-        int invalidIndex = getModel().getAddressBook().getLoanList().size();
+        int invalidIndex = getModel().getLoanBook().getLoanList().size();
         command = DeleteCommand.COMMAND_WORD + " i/" + invalidIndex + " x/a12345";
         assertCommandFailure(command, MESSAGE_INVALID_LOAN_DISPLAYED_INDEX);
 
@@ -102,7 +102,7 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: invalid index (size + 1) -> rejected */
         Index outOfBoundsIndex = Index.fromOneBased(
-                getModel().getAddressBook().getLoanList().size() + 1);
+                getModel().getLoanBook().getLoanList().size() + 1);
         command = DeleteCommand.COMMAND_WORD + " i/" + outOfBoundsIndex.getOneBased() + " x/a12345";
         assertCommandFailure(command, MESSAGE_INVALID_LOAN_DISPLAYED_INDEX);
 

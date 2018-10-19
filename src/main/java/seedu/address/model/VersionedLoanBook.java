@@ -8,14 +8,14 @@ import java.util.List;
  */
 public class VersionedLoanBook extends LoanBook {
 
-    private final List<ReadOnlyLoanBook> addressBookStateList;
+    private final List<ReadOnlyLoanBook> loanBookStateList;
     private int currentStatePointer;
 
     public VersionedLoanBook(ReadOnlyLoanBook initialState) {
         super(initialState);
 
-        addressBookStateList = new ArrayList<>();
-        addressBookStateList.add(new LoanBook(initialState));
+        loanBookStateList = new ArrayList<>();
+        loanBookStateList.add(new LoanBook(initialState));
         currentStatePointer = 0;
     }
 
@@ -25,12 +25,12 @@ public class VersionedLoanBook extends LoanBook {
      */
     public void commit() {
         removeStatesAfterCurrentPointer();
-        addressBookStateList.add(new LoanBook(this));
+        loanBookStateList.add(new LoanBook(this));
         currentStatePointer++;
     }
 
     private void removeStatesAfterCurrentPointer() {
-        addressBookStateList.subList(currentStatePointer + 1, addressBookStateList.size()).clear();
+        loanBookStateList.subList(currentStatePointer + 1, loanBookStateList.size()).clear();
     }
 
     /**
@@ -41,7 +41,7 @@ public class VersionedLoanBook extends LoanBook {
             throw new NoUndoableStateException();
         }
         currentStatePointer--;
-        resetData(addressBookStateList.get(currentStatePointer));
+        resetData(loanBookStateList.get(currentStatePointer));
     }
 
     /**
@@ -52,7 +52,7 @@ public class VersionedLoanBook extends LoanBook {
             throw new NoRedoableStateException();
         }
         currentStatePointer++;
-        resetData(addressBookStateList.get(currentStatePointer));
+        resetData(loanBookStateList.get(currentStatePointer));
     }
 
     /**
@@ -66,7 +66,7 @@ public class VersionedLoanBook extends LoanBook {
      * Returns true if {@code redo()} has loan book states to redo.
      */
     public boolean canRedo() {
-        return currentStatePointer < addressBookStateList.size() - 1;
+        return currentStatePointer < loanBookStateList.size() - 1;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class VersionedLoanBook extends LoanBook {
 
         // state check
         return super.equals(otherVersionedLoanBook)
-                && addressBookStateList.equals(otherVersionedLoanBook.addressBookStateList)
+                && loanBookStateList.equals(otherVersionedLoanBook.loanBookStateList)
                 && currentStatePointer == otherVersionedLoanBook.currentStatePointer;
     }
 

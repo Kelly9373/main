@@ -7,7 +7,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.TypicalBikes.BIKE1;
 import static seedu.address.testutil.TypicalLoans.ALICE;
-import static seedu.address.testutil.TypicalLoans.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalLoans.getTypicalLoanBook;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -45,8 +45,8 @@ public class LoanBookTest {
     }
 
     @Test
-    public void resetData_withValidReadOnlyAddressBook_replacesData() {
-        LoanBook newData = getTypicalAddressBook();
+    public void resetData_withValidReadOnlyLoanBook_replacesData() {
+        LoanBook newData = getTypicalLoanBook();
         loanBook.resetData(newData);
         assertEquals(newData, loanBook);
     }
@@ -77,29 +77,29 @@ public class LoanBookTest {
     }
 
     @Test
-    public void hasBike_bikeNotInAddressBook_returnsFalse() {
+    public void hasBike_bikeNotInLoanBook_returnsFalse() {
         assertFalse(loanBook.hasBike(BIKE1));
     }
 
     @Test
-    public void hasLoan_loanNotInAddressBook_returnsFalse() {
+    public void hasLoan_loanNotInLoanBook_returnsFalse() {
         assertFalse(loanBook.hasLoan(ALICE));
     }
 
     @Test
-    public void hasBike_bikeInAddressBook_returnsTrue() {
+    public void hasBike_bikeInLoanBook_returnsTrue() {
         loanBook.addBike(BIKE1);
         assertTrue(loanBook.hasBike(BIKE1));
     }
 
     @Test
-    public void hasLoan_loanInAddressBook_returnsTrue() {
+    public void hasLoan_loanInLoanBook_returnsTrue() {
         loanBook.addLoan(ALICE);
         assertTrue(loanBook.hasLoan(ALICE));
     }
 
     @Test
-    public void hasLoan_loanWithSameIdentityFieldsInAddressBook_returnsTrue() {
+    public void hasLoan_loanWithSameIdentityFieldsInLoanBook_returnsTrue() {
         loanBook.addLoan(ALICE);
         Loan editedAlice = new LoanBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();

@@ -17,7 +17,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.model.loan.NameContainsKeywordsPredicate;
-import seedu.address.testutil.AddressBookBuilder;
+import seedu.address.testutil.LoanBookBuilder;
 
 public class ModelManagerTest {
     @Rule
@@ -38,23 +38,23 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void hasBike_bikeNotInAddressBook_returnsFalse() {
+    public void hasBike_bikeNotInLoanBook_returnsFalse() {
         assertFalse(modelManager.hasBike(BIKE1));
     }
 
     @Test
-    public void hasLoan_loanNotInAddressBook_returnsFalse() {
+    public void hasLoan_loanNotInLoanBook_returnsFalse() {
         assertFalse(modelManager.hasLoan(ALICE));
     }
 
     @Test
-    public void hasBike_bikeInAddressBook_returnsTrue() {
+    public void hasBike_bikeInLoanBook_returnsTrue() {
         modelManager.addBike(BIKE1);
         assertTrue(modelManager.hasBike(BIKE1));
     }
 
     @Test
-    public void hasLoan_loanInAddressBook_returnsTrue() {
+    public void hasLoan_loanInLoanBook_returnsTrue() {
         modelManager.addLoan(ALICE);
         assertTrue(modelManager.hasLoan(ALICE));
     }
@@ -73,7 +73,7 @@ public class ModelManagerTest {
 
     @Test
     public void equals() {
-        LoanBook loanBook = new AddressBookBuilder()
+        LoanBook loanBook = new LoanBookBuilder()
                 .withLoan(ALICE).withLoan(BENSON)
                 .withBike(BIKE1).withBike(BIKE2).build();
         LoanBook differentLoanBook = new LoanBook();
@@ -107,7 +107,7 @@ public class ModelManagerTest {
 
         // different userPrefs -> returns true
         UserPrefs differentUserPrefs = new UserPrefs();
-        differentUserPrefs.setAddressBookFilePath(Paths.get("differentFilePath"));
+        differentUserPrefs.setLoanBookFilePath(Paths.get("differentFilePath"));
         assertTrue(modelManager.equals(new ModelManager(loanBook, differentUserPrefs)));
     }
 }

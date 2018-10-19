@@ -7,24 +7,24 @@ import seedu.address.model.loan.Loan;
 /**
  * A utility class to help with building Addressbook objects.
  * Example usage: <br>
- *     {@code LoanBook ab = new AddressBookBuilder().withBike("BiK001").withLoan("John", "Doe").build();}
+ *     {@code LoanBook ab = new LoanBookBuilder().withBike("BiK001").withLoan("John", "Doe").build();}
  */
-public class AddressBookBuilder {
+public class LoanBookBuilder {
 
     private LoanBook loanBook;
 
-    public AddressBookBuilder() {
+    public LoanBookBuilder() {
         loanBook = new LoanBook();
     }
 
-    public AddressBookBuilder(LoanBook loanBook) {
+    public LoanBookBuilder(LoanBook loanBook) {
         this.loanBook = loanBook;
     }
 
     /**
      * Adds a new {@code Bike} to the {@code LoanBook} that we are building.
      */
-    public AddressBookBuilder withBike(Bike bike) {
+    public LoanBookBuilder withBike(Bike bike) {
         loanBook.addBike(bike);
         return this;
     }
@@ -32,7 +32,7 @@ public class AddressBookBuilder {
     /**
      * Adds a new {@code Loan} to the {@code LoanBook} that we are building.
      */
-    public AddressBookBuilder withLoan(Loan loan) {
+    public LoanBookBuilder withLoan(Loan loan) {
         loanBook.addLoan(loan);
         return this;
     }
