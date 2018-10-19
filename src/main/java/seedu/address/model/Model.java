@@ -16,10 +16,10 @@ public interface Model {
     Predicate<Loan> PREDICATE_SHOW_ALL_LOANS = unused -> true;
 
     /** Clears existing backing model and replaces with the provided new data. */
-    void resetData(ReadOnlyAddressBook newData);
+    void resetData(ReadOnlyLoanBook newData);
 
     /** Returns the LoanBook */
-    ReadOnlyAddressBook getAddressBook();
+    ReadOnlyLoanBook getAddressBook();
 
     /**
      * Returns true if a bike with the same identity as {@code bike} exists in the loan book.

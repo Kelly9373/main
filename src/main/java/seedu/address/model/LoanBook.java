@@ -15,7 +15,7 @@ import seedu.address.model.loan.UniqueLoanList;
  * Wraps all data (bikes and loans) at the loan-book level
  * Duplicates are not allowed (by .isSameBike and .isSameLoan comparison)
  */
-public class LoanBook implements ReadOnlyAddressBook {
+public class LoanBook implements ReadOnlyLoanBook {
 
     private final UniqueBikeList bikes;
     private final UniqueLoanList loans;
@@ -37,7 +37,7 @@ public class LoanBook implements ReadOnlyAddressBook {
     /**
      * Creates an LoanBook using the Bikes and Loans in the {@code toBeCopied}
      */
-    public LoanBook(ReadOnlyAddressBook toBeCopied) {
+    public LoanBook(ReadOnlyLoanBook toBeCopied) {
         this();
         resetData(toBeCopied);
     }
@@ -63,7 +63,7 @@ public class LoanBook implements ReadOnlyAddressBook {
     /**
      * Resets the existing data of this {@code LoanBook} with {@code newData}.
      */
-    public void resetData(ReadOnlyAddressBook newData) {
+    public void resetData(ReadOnlyLoanBook newData) {
         requireNonNull(newData);
 
         setBikes(newData.getBikeList());

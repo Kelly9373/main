@@ -18,7 +18,7 @@ import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.LoanBook;
 import seedu.address.model.Model;
-import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyLoanBook;
 import seedu.address.model.bike.Bike;
 import seedu.address.model.loan.Loan;
 import seedu.address.testutil.LoanBuilder;
@@ -90,12 +90,12 @@ public class AddCommandTest {
      */
     private class ModelStub implements Model {
         @Override
-        public void resetData(ReadOnlyAddressBook newData) {
+        public void resetData(ReadOnlyLoanBook newData) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public ReadOnlyAddressBook getAddressBook() {
+        public ReadOnlyLoanBook getAddressBook() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -227,7 +227,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public ReadOnlyAddressBook getAddressBook() {
+        public ReadOnlyLoanBook getAddressBook() {
             return new LoanBook();
         }
     }

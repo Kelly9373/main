@@ -8,10 +8,10 @@ import java.util.List;
  */
 public class VersionedLoanBook extends LoanBook {
 
-    private final List<ReadOnlyAddressBook> addressBookStateList;
+    private final List<ReadOnlyLoanBook> addressBookStateList;
     private int currentStatePointer;
 
-    public VersionedLoanBook(ReadOnlyAddressBook initialState) {
+    public VersionedLoanBook(ReadOnlyLoanBook initialState) {
         super(initialState);
 
         addressBookStateList = new ArrayList<>();

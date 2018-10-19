@@ -18,10 +18,10 @@ import seedu.address.testutil.AddressBookBuilder;
 
 public class VersionedLoanBookTest {
 
-    private final ReadOnlyAddressBook addressBookWithAmy = new AddressBookBuilder().withLoan(AMY).build();
-    private final ReadOnlyAddressBook addressBookWithBob = new AddressBookBuilder().withLoan(BOB).build();
-    private final ReadOnlyAddressBook addressBookWithCarl = new AddressBookBuilder().withLoan(CARL).build();
-    private final ReadOnlyAddressBook emptyAddressBook = new AddressBookBuilder().build();
+    private final ReadOnlyLoanBook addressBookWithAmy = new AddressBookBuilder().withLoan(AMY).build();
+    private final ReadOnlyLoanBook addressBookWithBob = new AddressBookBuilder().withLoan(BOB).build();
+    private final ReadOnlyLoanBook addressBookWithCarl = new AddressBookBuilder().withLoan(CARL).build();
+    private final ReadOnlyLoanBook emptyAddressBook = new AddressBookBuilder().build();
 
     @Test
     public void commit_singleAddressBook_noStatesRemovedCurrentStateSaved() {
@@ -241,9 +241,9 @@ public class VersionedLoanBookTest {
      * and states after {@code versionedLoanBook#currentStatePointer} is equal to {@code expectedStatesAfterPointer}.
      */
     private void assertAddressBookListStatus(VersionedLoanBook versionedLoanBook,
-                                             List<ReadOnlyAddressBook> expectedStatesBeforePointer,
-                                             ReadOnlyAddressBook expectedCurrentState,
-                                             List<ReadOnlyAddressBook> expectedStatesAfterPointer) {
+                                             List<ReadOnlyLoanBook> expectedStatesBeforePointer,
+                                             ReadOnlyLoanBook expectedCurrentState,
+                                             List<ReadOnlyLoanBook> expectedStatesAfterPointer) {
         // check state currently pointing at is correct
         assertEquals(new LoanBook(versionedLoanBook), expectedCurrentState);
 
@@ -253,13 +253,13 @@ public class VersionedLoanBookTest {
         }
 
         // check states before pointer are correct
-        for (ReadOnlyAddressBook expectedAddressBook : expectedStatesBeforePointer) {
+        for (ReadOnlyLoanBook expectedAddressBook : expectedStatesBeforePointer) {
             assertEquals(expectedAddressBook, new LoanBook(versionedLoanBook));
             versionedLoanBook.redo();
         }
 
         // check states after pointer are correct
-        for (ReadOnlyAddressBook expectedAddressBook : expectedStatesAfterPointer) {
+        for (ReadOnlyLoanBook expectedAddressBook : expectedStatesAfterPointer) {
             versionedLoanBook.redo();
             assertEquals(expectedAddressBook, new LoanBook(versionedLoanBook));
         }
@@ -275,7 +275,7 @@ public class VersionedLoanBookTest {
      * Creates and returns a {@code VersionedLoanBook} with the {@code addressBookStates} added into it, and the
      * {@code VersionedLoanBook#currentStatePointer} at the end of list.
      */
-    private VersionedLoanBook prepareAddressBookList(ReadOnlyAddressBook... addressBookStates) {
+    private VersionedLoanBook prepareAddressBookList(ReadOnlyLoanBook... addressBookStates) {
         assertFalse(addressBookStates.length == 0);
 
         VersionedLoanBook versionedLoanBook = new VersionedLoanBook(addressBookStates[0]);

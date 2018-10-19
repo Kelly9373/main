@@ -58,7 +58,7 @@ public class LoanBookTest {
                 .build();
         List<Bike> newBikes = Arrays.asList();
         List<Loan> newLoans = Arrays.asList(ALICE, editedAlice);
-        AddressBookStub newData = new AddressBookStub(newBikes, newLoans);
+        LoanBookStub newData = new LoanBookStub(newBikes, newLoans);
 
         thrown.expect(DuplicateLoanException.class);
         loanBook.resetData(newData);
@@ -119,13 +119,13 @@ public class LoanBookTest {
     }
 
     /**
-     * A stub ReadOnlyAddressBook whose loans list can violate interface constraints.
+     * A stub ReadOnlyLoanBook whose loans list can violate interface constraints.
      */
-    private static class AddressBookStub implements ReadOnlyAddressBook {
+    private static class LoanBookStub implements ReadOnlyLoanBook {
         private final ObservableList<Bike> bikes = FXCollections.observableArrayList();
         private final ObservableList<Loan> loans = FXCollections.observableArrayList();
 
-        AddressBookStub(Collection<Bike> bikes, Collection<Loan> loans) {
+        LoanBookStub(Collection<Bike> bikes, Collection<Loan> loans) {
             this.bikes.setAll(bikes);
             this.loans.setAll(loans);
         }

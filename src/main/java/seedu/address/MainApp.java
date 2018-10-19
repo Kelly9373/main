@@ -79,8 +79,8 @@ public class MainApp extends Application {
      * or an empty loan book will be used instead if errors occur when reading {@code storage}'s loan book.
      */
     private Model initModelManager(Storage storage, UserPrefs userPrefs) {
-        Optional<ReadOnlyAddressBook> addressBookOptional;
-        ReadOnlyAddressBook initialData;
+        Optional<ReadOnlyLoanBook> addressBookOptional;
+        ReadOnlyLoanBook initialData;
         try {
             addressBookOptional = storage.readAddressBook();
             if (!addressBookOptional.isPresent()) {
