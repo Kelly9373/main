@@ -21,7 +21,7 @@ import seedu.address.model.loan.Loan;
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
-    private final VersionedAddressBook versionedAddressBook;
+    private final VersionedLoanBook versionedLoanBook;
     private final FilteredList<Bike> filteredBikes;
     private final FilteredList<Loan> filteredLoans;
 
@@ -34,9 +34,9 @@ public class ModelManager extends ComponentManager implements Model {
 
         logger.fine("Initializing with loan book: " + addressBook + " and user prefs " + userPrefs);
 
-        versionedAddressBook = new VersionedAddressBook(addressBook);
-        filteredBikes = new FilteredList<>(versionedAddressBook.getBikeList());
-        filteredLoans = new FilteredList<>(versionedAddressBook.getLoanList());
+        versionedLoanBook = new VersionedLoanBook(addressBook);
+        filteredBikes = new FilteredList<>(versionedLoanBook.getBikeList());
+        filteredLoans = new FilteredList<>(versionedLoanBook.getLoanList());
     }
 
     public ModelManager() {
@@ -45,18 +45,18 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public void resetData(ReadOnlyAddressBook newData) {
-        versionedAddressBook.resetData(newData);
+        versionedLoanBook.resetData(newData);
         indicateAddressBookChanged();
     }
 
     @Override
     public ReadOnlyAddressBook getAddressBook() {
-        return versionedAddressBook;
+        return versionedLoanBook;
     }
 
     /** Raises an event to indicate the model has changed */
     private void indicateAddressBookChanged() {
-        raise(new AddressBookChangedEvent(versionedAddressBook));
+        raise(new AddressBookChangedEvent(versionedLoanBook));
     }
 
     //=========== Bike List Mutators =============================================================
@@ -64,18 +64,18 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public boolean hasBike(Bike bike) {
         requireNonNull(bike);
-        return versionedAddressBook.hasBike(bike);
+        return versionedLoanBook.hasBike(bike);
     }
 
     @Override
     public void addBike(Bike bike) {
-        versionedAddressBook.addBike(bike);
+        versionedLoanBook.addBike(bike);
         indicateAddressBookChanged();
     }
 
     @Override
     public void deleteBike(Bike target) {
-        versionedAddressBook.removeBike(target);
+        versionedLoanBook.removeBike(target);
         indicateAddressBookChanged();
     }
 
@@ -83,7 +83,7 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateBike(Bike target, Bike editedBike) {
         requireAllNonNull(target, editedBike);
 
-        versionedAddressBook.updateBike(target, editedBike);
+        versionedLoanBook.updateBike(target, editedBike);
         indicateAddressBookChanged();
     }
 
@@ -109,19 +109,19 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public boolean hasLoan(Loan loan) {
         requireNonNull(loan);
-        return versionedAddressBook.hasLoan(loan);
+        return versionedLoanBook.hasLoan(loan);
     }
 
     @Override
     public void addLoan(Loan loan) {
-        versionedAddressBook.addLoan(loan);
+        versionedLoanBook.addLoan(loan);
         updateFilteredLoanList(PREDICATE_SHOW_ALL_LOANS);
         indicateAddressBookChanged();
     }
 
     @Override
     public void deleteLoan(Loan target) {
-        versionedAddressBook.removeLoan(target);
+        versionedLoanBook.removeLoan(target);
         indicateAddressBookChanged();
     }
 
@@ -129,7 +129,7 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateLoan(Loan target, Loan editedLoan) {
         requireAllNonNull(target, editedLoan);
 
-        versionedAddressBook.updateLoan(target, editedLoan);
+        versionedLoanBook.updateLoan(target, editedLoan);
         indicateAddressBookChanged();
     }
 
@@ -154,29 +154,29 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public boolean canUndoAddressBook() {
-        return versionedAddressBook.canUndo();
+        return versionedLoanBook.canUndo();
     }
 
     @Override
     public boolean canRedoAddressBook() {
-        return versionedAddressBook.canRedo();
+        return versionedLoanBook.canRedo();
     }
 
     @Override
     public void undoAddressBook() {
-        versionedAddressBook.undo();
+        versionedLoanBook.undo();
         indicateAddressBookChanged();
     }
 
     @Override
     public void redoAddressBook() {
-        versionedAddressBook.redo();
+        versionedLoanBook.redo();
         indicateAddressBookChanged();
     }
 
     @Override
     public void commitAddressBook() {
-        versionedAddressBook.commit();
+        versionedLoanBook.commit();
     }
 
     @Override
@@ -193,7 +193,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         // state check
         ModelManager other = (ModelManager) obj;
-        return versionedAddressBook.equals(other.versionedAddressBook)
+        return versionedLoanBook.equals(other.versionedLoanBook)
                 && filteredBikes.equals(other.filteredBikes)
                 && filteredLoans.equals(other.filteredLoans);
     }
