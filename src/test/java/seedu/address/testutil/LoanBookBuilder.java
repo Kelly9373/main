@@ -5,7 +5,7 @@ import seedu.address.model.bike.Bike;
 import seedu.address.model.loan.Loan;
 
 /**
- * A utility class to help with building Addressbook objects.
+ * A utility class to help with building Loanbook objects.
  * Example usage: <br>
  *     {@code LoanBook ab = new LoanBookBuilder().withBike("BiK001").withLoan("John", "Doe").build();}
  */

@@ -15,10 +15,10 @@ public class XmlFileStorage {
     /**
      * Saves the given loanbook data to the specified file.
      */
-    public static void saveDataToFile(Path file, XmlSerializableLoanBook addressBook)
+    public static void saveDataToFile(Path file, XmlSerializableLoanBook loanBook)
             throws FileNotFoundException {
         try {
-            XmlUtil.saveDataToFile(file, addressBook);
+            XmlUtil.saveDataToFile(file, loanBook);
         } catch (JAXBException e) {
             throw new AssertionError("Unexpected exception " + e.getMessage(), e);
         }

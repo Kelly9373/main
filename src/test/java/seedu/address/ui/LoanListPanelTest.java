@@ -81,9 +81,9 @@ public class LoanListPanelTest extends GuiUnitTest {
      */
     private ObservableList<Loan> createBackingList(int loanCount) throws Exception {
         Path xmlFile = createXmlFileWithLoans(loanCount);
-        XmlSerializableLoanBook xmlAddressBook =
+        XmlSerializableLoanBook xmlLoanBook =
                 XmlUtil.getDataFromFile(xmlFile, XmlSerializableLoanBook.class);
-        return FXCollections.observableArrayList(xmlAddressBook.toModelType().getLoanList());
+        return FXCollections.observableArrayList(xmlLoanBook.toModelType().getLoanList());
     }
 
     /**

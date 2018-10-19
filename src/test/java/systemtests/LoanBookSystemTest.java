@@ -48,7 +48,7 @@ import seedu.address.ui.CommandBox;
  * A system test class for LoanBook, which provides access to handles of GUI components and helper methods
  * for test verification.
  */
-public abstract class AddressBookSystemTest {
+public abstract class LoanBookSystemTest {
     @ClassRule
     public static ClockRule clockRule = new ClockRule();
 
@@ -139,7 +139,7 @@ public abstract class AddressBookSystemTest {
     }
 
     /**
-     * Displays all loans in the address book.
+     * Displays all loans in the loan book.
      */
     protected void showAllLoans() {
         executeCommand(ListCommand.COMMAND_WORD);
@@ -163,7 +163,7 @@ public abstract class AddressBookSystemTest {
     }
 
     /**
-     * Deletes all loans in the address book.
+     * Deletes all loans in the loan book.
      */
     protected void deleteAllLoans() {
         executeCommand(ClearCommand.COMMAND_WORD);
@@ -179,7 +179,7 @@ public abstract class AddressBookSystemTest {
             Model expectedModel) {
         assertEquals(expectedCommandInput, getCommandBox().getInput());
         assertEquals(expectedResultMessage, getResultDisplay().getText());
-        assertEquals(new LoanBook(expectedModel.getLoanBook()), testApp.readStorageAddressBook());
+        assertEquals(new LoanBook(expectedModel.getLoanBook()), testApp.readStorageLoanBook());
         assertListMatching(getLoanListPanel(), expectedModel.getFilteredLoanList());
     }
 

@@ -75,14 +75,14 @@ public class MainApp extends Application {
      * or an empty loan book will be used instead if errors occur when reading {@code storage}'s loan book.
      */
     private Model initModelManager(Storage storage, UserPrefs userPrefs) {
-        Optional<ReadOnlyLoanBook> addressBookOptional;
+        Optional<ReadOnlyLoanBook> loanBookOptional;
         ReadOnlyLoanBook initialData;
         try {
-            addressBookOptional = storage.readLoanBook();
-            if (!addressBookOptional.isPresent()) {
+            loanBookOptional = storage.readLoanBook();
+            if (!loanBookOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample LoanBook");
             }
-            initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleLoanBook);
+            initialData = loanBookOptional.orElseGet(SampleDataUtil::getSampleLoanBook);
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be starting with an empty LoanBook");
             initialData = new LoanBook();
