@@ -14,7 +14,7 @@ import seedu.address.model.Model;
 import seedu.address.model.loan.Loan;
 
 /**
- * Deletes a loan identified using it's displayed index from the address book.
+ * Deletes a loan identified using it's displayed index from the loan book.
  */
 public class DeleteCommand extends Command {
 
