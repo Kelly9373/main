@@ -245,7 +245,7 @@ public class VersionedAddressBookTest {
                                              ReadOnlyAddressBook expectedCurrentState,
                                              List<ReadOnlyAddressBook> expectedStatesAfterPointer) {
         // check state currently pointing at is correct
-        assertEquals(new AddressBook(versionedAddressBook), expectedCurrentState);
+        assertEquals(new LoanBook(versionedAddressBook), expectedCurrentState);
 
         // shift pointer to start of state list
         while (versionedAddressBook.canUndo()) {
@@ -254,14 +254,14 @@ public class VersionedAddressBookTest {
 
         // check states before pointer are correct
         for (ReadOnlyAddressBook expectedAddressBook : expectedStatesBeforePointer) {
-            assertEquals(expectedAddressBook, new AddressBook(versionedAddressBook));
+            assertEquals(expectedAddressBook, new LoanBook(versionedAddressBook));
             versionedAddressBook.redo();
         }
 
         // check states after pointer are correct
         for (ReadOnlyAddressBook expectedAddressBook : expectedStatesAfterPointer) {
             versionedAddressBook.redo();
-            assertEquals(expectedAddressBook, new AddressBook(versionedAddressBook));
+            assertEquals(expectedAddressBook, new LoanBook(versionedAddressBook));
         }
 
         // check that there are no more states after pointer

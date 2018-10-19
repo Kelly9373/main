@@ -11,11 +11,8 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.commons.util.XmlUtil;
-import seedu.address.model.AddressBook;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.UserPrefs;
+import seedu.address.model.*;
+import seedu.address.model.LoanBook;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlSerializableAddressBook;
 import seedu.address.testutil.TestUtil;
@@ -71,11 +68,11 @@ public class TestApp extends MainApp {
     /**
      * Returns a defensive copy of the address book data stored inside the storage file.
      */
-    public AddressBook readStorageAddressBook() {
+    public LoanBook readStorageAddressBook() {
         try {
-            return new AddressBook(storage.readAddressBook().get());
+            return new LoanBook(storage.readAddressBook().get());
         } catch (DataConversionException dce) {
-            throw new AssertionError("Data is not in the AddressBook format.", dce);
+            throw new AssertionError("Data is not in the LoanBook format.", dce);
         } catch (IOException ioe) {
             throw new AssertionError("Storage file cannot be found.", ioe);
         }

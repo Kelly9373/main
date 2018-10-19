@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.AddressBook;
+import seedu.address.model.LoanBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.loan.Loan;
 
@@ -45,16 +45,16 @@ public class XmlSerializableAddressBook {
      * @throws IllegalValueException if there were any data constraints violated or duplicates in the
      * {@code XmlAdaptedLoan}.
      */
-    public AddressBook toModelType() throws IllegalValueException {
-        AddressBook addressBook = new AddressBook();
+    public LoanBook toModelType() throws IllegalValueException {
+        LoanBook loanBook = new LoanBook();
         for (XmlAdaptedLoan p : loans) {
             Loan loan = p.toModelType();
-            if (addressBook.hasLoan(loan)) {
+            if (loanBook.hasLoan(loan)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_LOAN);
             }
-            addressBook.addLoan(loan);
+            loanBook.addLoan(loan);
         }
-        return addressBook;
+        return loanBook;
     }
 
     @Override

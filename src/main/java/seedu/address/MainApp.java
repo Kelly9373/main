@@ -20,11 +20,8 @@ import seedu.address.commons.util.ConfigUtil;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 import seedu.address.logic.LogicManager;
-import seedu.address.model.AddressBook;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.UserPrefs;
+import seedu.address.model.*;
+import seedu.address.model.LoanBook;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
@@ -92,10 +89,10 @@ public class MainApp extends Application {
             initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be starting with an empty LoanBook");
-            initialData = new AddressBook();
+            initialData = new LoanBook();
         } catch (IOException e) {
             logger.warning("Problem while reading from the file. Will be starting with an empty LoanBook");
-            initialData = new AddressBook();
+            initialData = new LoanBook();
         }
 
         return new ModelManager(initialData, userPrefs);

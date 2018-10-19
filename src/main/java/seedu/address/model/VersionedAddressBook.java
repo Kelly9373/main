@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@code AddressBook} that keeps track of its own history.
+ * {@code LoanBook} that keeps track of its own history.
  */
-public class VersionedAddressBook extends AddressBook {
+public class VersionedAddressBook extends LoanBook {
 
     private final List<ReadOnlyAddressBook> addressBookStateList;
     private int currentStatePointer;
@@ -15,7 +15,7 @@ public class VersionedAddressBook extends AddressBook {
         super(initialState);
 
         addressBookStateList = new ArrayList<>();
-        addressBookStateList.add(new AddressBook(initialState));
+        addressBookStateList.add(new LoanBook(initialState));
         currentStatePointer = 0;
     }
 
@@ -25,7 +25,7 @@ public class VersionedAddressBook extends AddressBook {
      */
     public void commit() {
         removeStatesAfterCurrentPointer();
-        addressBookStateList.add(new AddressBook(this));
+        addressBookStateList.add(new LoanBook(this));
         currentStatePointer++;
     }
 

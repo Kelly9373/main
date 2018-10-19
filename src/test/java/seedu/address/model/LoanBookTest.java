@@ -25,30 +25,30 @@ import seedu.address.model.loan.Loan;
 import seedu.address.model.loan.exceptions.DuplicateLoanException;
 import seedu.address.testutil.LoanBuilder;
 
-public class AddressBookTest {
+public class LoanBookTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private final AddressBook addressBook = new AddressBook();
+    private final LoanBook loanBook = new LoanBook();
 
     @Test
     public void constructor() {
-        assertEquals(Collections.emptyList(), addressBook.getLoanList());
-        assertEquals(Collections.emptyList(), addressBook.getBikeList());
+        assertEquals(Collections.emptyList(), loanBook.getLoanList());
+        assertEquals(Collections.emptyList(), loanBook.getBikeList());
     }
 
     @Test
     public void resetData_null_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
-        addressBook.resetData(null);
+        loanBook.resetData(null);
     }
 
     @Test
     public void resetData_withValidReadOnlyAddressBook_replacesData() {
-        AddressBook newData = getTypicalAddressBook();
-        addressBook.resetData(newData);
-        assertEquals(newData, addressBook);
+        LoanBook newData = getTypicalAddressBook();
+        loanBook.resetData(newData);
+        assertEquals(newData, loanBook);
     }
 
     @Test
@@ -61,61 +61,61 @@ public class AddressBookTest {
         AddressBookStub newData = new AddressBookStub(newBikes, newLoans);
 
         thrown.expect(DuplicateLoanException.class);
-        addressBook.resetData(newData);
+        loanBook.resetData(newData);
     }
 
     @Test
     public void hasBike_nullBike_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
-        addressBook.hasBike(null);
+        loanBook.hasBike(null);
     }
 
     @Test
     public void hasLoan_nullLoan_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
-        addressBook.hasLoan(null);
+        loanBook.hasLoan(null);
     }
 
     @Test
     public void hasBike_bikeNotInAddressBook_returnsFalse() {
-        assertFalse(addressBook.hasBike(BIKE1));
+        assertFalse(loanBook.hasBike(BIKE1));
     }
 
     @Test
     public void hasLoan_loanNotInAddressBook_returnsFalse() {
-        assertFalse(addressBook.hasLoan(ALICE));
+        assertFalse(loanBook.hasLoan(ALICE));
     }
 
     @Test
     public void hasBike_bikeInAddressBook_returnsTrue() {
-        addressBook.addBike(BIKE1);
-        assertTrue(addressBook.hasBike(BIKE1));
+        loanBook.addBike(BIKE1);
+        assertTrue(loanBook.hasBike(BIKE1));
     }
 
     @Test
     public void hasLoan_loanInAddressBook_returnsTrue() {
-        addressBook.addLoan(ALICE);
-        assertTrue(addressBook.hasLoan(ALICE));
+        loanBook.addLoan(ALICE);
+        assertTrue(loanBook.hasLoan(ALICE));
     }
 
     @Test
     public void hasLoan_loanWithSameIdentityFieldsInAddressBook_returnsTrue() {
-        addressBook.addLoan(ALICE);
+        loanBook.addLoan(ALICE);
         Loan editedAlice = new LoanBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
-        assertTrue(addressBook.hasLoan(editedAlice));
+        assertTrue(loanBook.hasLoan(editedAlice));
     }
 
     @Test
     public void getBikeList_modifyList_throwsUnsupportedOperationException() {
         thrown.expect(UnsupportedOperationException.class);
-        addressBook.getBikeList().remove(0);
+        loanBook.getBikeList().remove(0);
     }
 
     @Test
     public void getLoanList_modifyList_throwsUnsupportedOperationException() {
         thrown.expect(UnsupportedOperationException.class);
-        addressBook.getLoanList().remove(0);
+        loanBook.getLoanList().remove(0);
     }
 
     /**
