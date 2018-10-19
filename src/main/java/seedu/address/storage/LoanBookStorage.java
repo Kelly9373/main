@@ -11,12 +11,12 @@ import seedu.address.model.ReadOnlyLoanBook;
 /**
  * Represents a storage for {@link LoanBook}.
  */
-public interface AddressBookStorage {
+public interface LoanBookStorage {
 
     /**
      * Returns the file path of the data file.
      */
-    Path getAddressBookFilePath();
+    Path getLoanBookFilePath();
 
     /**
      * Returns LoanBook data as a {@link ReadOnlyLoanBook}.
@@ -24,23 +24,23 @@ public interface AddressBookStorage {
      * @throws DataConversionException if the data in storage is not in the expected format.
      * @throws IOException if there was any problem when reading from the storage.
      */
-    Optional<ReadOnlyLoanBook> readAddressBook() throws DataConversionException, IOException;
+    Optional<ReadOnlyLoanBook> readLoanBook() throws DataConversionException, IOException;
 
     /**
-     * @see #getAddressBookFilePath()
+     * @see #getLoanBookFilePath()
      */
-    Optional<ReadOnlyLoanBook> readAddressBook(Path filePath) throws DataConversionException, IOException;
+    Optional<ReadOnlyLoanBook> readLoanBook(Path filePath) throws DataConversionException, IOException;
 
     /**
      * Saves the given {@link ReadOnlyLoanBook} to the storage.
-     * @param addressBook cannot be null.
+     * @param loanBook cannot be null.
      * @throws IOException if there was any problem writing to the file.
      */
-    void saveAddressBook(ReadOnlyLoanBook addressBook) throws IOException;
+    void saveLoanBook(ReadOnlyLoanBook loanBook) throws IOException;
 
     /**
-     * @see #saveAddressBook(ReadOnlyLoanBook)
+     * @see #saveLoanBook(ReadOnlyLoanBook)
      */
-    void saveAddressBook(ReadOnlyLoanBook addressBook, Path filePath) throws IOException;
+    void saveLoanBook(ReadOnlyLoanBook loanBook, Path filePath) throws IOException;
 
 }

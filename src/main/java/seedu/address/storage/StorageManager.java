@@ -21,13 +21,13 @@ import seedu.address.model.UserPrefs;
 public class StorageManager extends ComponentManager implements Storage {
 
     private static final Logger logger = LogsCenter.getLogger(StorageManager.class);
-    private AddressBookStorage addressBookStorage;
+    private LoanBookStorage loanBookStorage;
     private UserPrefsStorage userPrefsStorage;
 
 
-    public StorageManager(AddressBookStorage addressBookStorage, UserPrefsStorage userPrefsStorage) {
+    public StorageManager(LoanBookStorage loanBookStorage, UserPrefsStorage userPrefsStorage) {
         super();
-        this.addressBookStorage = addressBookStorage;
+        this.loanBookStorage = loanBookStorage;
         this.userPrefsStorage = userPrefsStorage;
     }
 
@@ -52,39 +52,39 @@ public class StorageManager extends ComponentManager implements Storage {
     // ================ LoanBook methods ==============================
 
     @Override
-    public Path getAddressBookFilePath() {
-        return addressBookStorage.getAddressBookFilePath();
+    public Path getLoanBookFilePath() {
+        return loanBookStorage.getLoanBookFilePath();
     }
 
     @Override
-    public Optional<ReadOnlyLoanBook> readAddressBook() throws DataConversionException, IOException {
-        return readAddressBook(addressBookStorage.getAddressBookFilePath());
+    public Optional<ReadOnlyLoanBook> readLoanBook() throws DataConversionException, IOException {
+        return readLoanBook(loanBookStorage.getLoanBookFilePath());
     }
 
     @Override
-    public Optional<ReadOnlyLoanBook> readAddressBook(Path filePath) throws DataConversionException, IOException {
+    public Optional<ReadOnlyLoanBook> readLoanBook(Path filePath) throws DataConversionException, IOException {
         logger.fine("Attempting to read data from file: " + filePath);
-        return addressBookStorage.readAddressBook(filePath);
+        return loanBookStorage.readLoanBook(filePath);
     }
 
     @Override
-    public void saveAddressBook(ReadOnlyLoanBook addressBook) throws IOException {
-        saveAddressBook(addressBook, addressBookStorage.getAddressBookFilePath());
+    public void saveLoanBook(ReadOnlyLoanBook loanBook) throws IOException {
+        saveLoanBook(loanBook, loanBookStorage.getLoanBookFilePath());
     }
 
     @Override
-    public void saveAddressBook(ReadOnlyLoanBook addressBook, Path filePath) throws IOException {
+    public void saveLoanBook(ReadOnlyLoanBook loanBook, Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
-        addressBookStorage.saveAddressBook(addressBook, filePath);
+        loanBookStorage.saveLoanBook(loanBook, filePath);
     }
 
 
     @Override
     @Subscribe
-    public void handleAddressBookChangedEvent(LoanBookChangedEvent event) {
+    public void handleLoanBookChangedEvent(LoanBookChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event, "Local data changed, saving to file"));
         try {
-            saveAddressBook(event.data);
+            saveLoanBook(event.data);
         } catch (IOException e) {
             raise(new DataSavingExceptionEvent(e));
         }

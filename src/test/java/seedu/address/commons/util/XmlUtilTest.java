@@ -18,7 +18,7 @@ import org.junit.rules.ExpectedException;
 import seedu.address.model.LoanBook;
 import seedu.address.storage.XmlAdaptedLoan;
 import seedu.address.storage.XmlAdaptedTag;
-import seedu.address.storage.XmlSerializableAddressBook;
+import seedu.address.storage.XmlSerializableLoanBook;
 import seedu.address.testutil.LoanBookBuilder;
 import seedu.address.testutil.LoanBuilder;
 import seedu.address.testutil.TestUtil;
@@ -28,11 +28,11 @@ public class XmlUtilTest {
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "XmlUtilTest");
     private static final Path EMPTY_FILE = TEST_DATA_FOLDER.resolve("empty.xml");
     private static final Path MISSING_FILE = TEST_DATA_FOLDER.resolve("missing.xml");
-    private static final Path VALID_FILE = TEST_DATA_FOLDER.resolve("validAddressBook.xml");
+    private static final Path VALID_FILE = TEST_DATA_FOLDER.resolve("validLoanBook.xml");
     private static final Path MISSING_LOAN_FIELD_FILE = TEST_DATA_FOLDER.resolve("missingLoanField.xml");
     private static final Path INVALID_LOAN_FIELD_FILE = TEST_DATA_FOLDER.resolve("invalidLoanField.xml");
     private static final Path VALID_LOAN_FILE = TEST_DATA_FOLDER.resolve("validLoan.xml");
-    private static final Path TEMP_FILE = TestUtil.getFilePathInSandboxFolder("tempAddressBook.xml");
+    private static final Path TEMP_FILE = TestUtil.getFilePathInSandboxFolder("tempLoanBook.xml");
 
     private static final String INVALID_PHONE = "9482asf424";
 
@@ -71,7 +71,7 @@ public class XmlUtilTest {
 
     @Test
     public void getDataFromFile_validFile_validResult() throws Exception {
-        LoanBook dataFromFile = XmlUtil.getDataFromFile(VALID_FILE, XmlSerializableAddressBook.class).toModelType();
+        LoanBook dataFromFile = XmlUtil.getDataFromFile(VALID_FILE, XmlSerializableLoanBook.class).toModelType();
         assertEquals(9, dataFromFile.getLoanList().size());
     }
 
@@ -123,18 +123,18 @@ public class XmlUtilTest {
     @Test
     public void saveDataToFile_validFile_dataSaved() throws Exception {
         FileUtil.createFile(TEMP_FILE);
-        XmlSerializableAddressBook dataToWrite = new XmlSerializableAddressBook(new LoanBook());
+        XmlSerializableLoanBook dataToWrite = new XmlSerializableLoanBook(new LoanBook());
         XmlUtil.saveDataToFile(TEMP_FILE, dataToWrite);
-        XmlSerializableAddressBook dataFromFile = XmlUtil.getDataFromFile(TEMP_FILE, XmlSerializableAddressBook.class);
+        XmlSerializableLoanBook dataFromFile = XmlUtil.getDataFromFile(TEMP_FILE, XmlSerializableLoanBook.class);
         assertEquals(dataToWrite, dataFromFile);
 
         LoanBookBuilder builder = new LoanBookBuilder(new LoanBook());
-        dataToWrite = new XmlSerializableAddressBook(
+        dataToWrite = new XmlSerializableLoanBook(
                 builder.withLoan(new LoanBuilder().build()).build());
 
         XmlUtil.saveDataToFile(TEMP_FILE,
             dataToWrite);
-        dataFromFile = XmlUtil.getDataFromFile(TEMP_FILE, XmlSerializableAddressBook.class);
+        dataFromFile = XmlUtil.getDataFromFile(TEMP_FILE, XmlSerializableLoanBook.class);
         assertEquals(dataToWrite, dataFromFile);
     }
 

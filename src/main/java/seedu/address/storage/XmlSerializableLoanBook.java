@@ -15,8 +15,8 @@ import seedu.address.model.loan.Loan;
 /**
  * An Immutable LoanBook that is serializable to XML format
  */
-@XmlRootElement(name = "addressbook")
-public class XmlSerializableAddressBook {
+@XmlRootElement(name = "loanbook")
+public class XmlSerializableLoanBook {
 
     public static final String MESSAGE_DUPLICATE_LOAN = "Loans list contains duplicate loan(s).";
 
@@ -27,14 +27,14 @@ public class XmlSerializableAddressBook {
      * Creates an empty XmlSerializableLoanBook.
      * This empty constructor is required for marshalling.
      */
-    public XmlSerializableAddressBook() {
+    public XmlSerializableLoanBook() {
         loans = new ArrayList<>();
     }
 
     /**
      * Conversion
      */
-    public XmlSerializableAddressBook(ReadOnlyLoanBook src) {
+    public XmlSerializableLoanBook(ReadOnlyLoanBook src) {
         this();
         loans.addAll(src.getLoanList().stream().map(XmlAdaptedLoan::new).collect(Collectors.toList()));
     }
@@ -63,9 +63,9 @@ public class XmlSerializableAddressBook {
             return true;
         }
 
-        if (!(other instanceof XmlSerializableAddressBook)) {
+        if (!(other instanceof XmlSerializableLoanBook)) {
             return false;
         }
-        return loans.equals(((XmlSerializableAddressBook) other).loans);
+        return loans.equals(((XmlSerializableLoanBook) other).loans);
     }
 }
