@@ -16,7 +16,7 @@ public class ClearCommandTest {
     private CommandHistory commandHistory = new CommandHistory();
 
     @Test
-    public void execute_emptyAddressBook_success() {
+    public void execute_emptyLoanBook_success() {
         Model model = new ModelManager();
         Model expectedModel = new ModelManager();
         expectedModel.commitLoanBook();
@@ -25,7 +25,7 @@ public class ClearCommandTest {
     }
 
     @Test
-    public void execute_nonEmptyAddressBook_success() {
+    public void execute_nonEmptyLoanBook_success() {
         Model model = new ModelManager(getTypicalLoanBook(), new UserPrefs());
         Model expectedModel = new ModelManager(getTypicalLoanBook(), new UserPrefs());
         expectedModel.resetData(new LoanBook());

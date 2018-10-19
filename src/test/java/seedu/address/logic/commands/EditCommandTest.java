@@ -118,7 +118,7 @@ public class EditCommandTest {
     public void execute_duplicateLoanFilteredList_failure() {
         showLoanAtIndex(model, INDEX_FIRST_LOAN);
 
-        // edit loan in filtered list into a duplicate in address book
+        // edit loan in filtered list into a duplicate in loan book
         Loan loanInList = model.getLoanBook().getLoanList().get(INDEX_SECOND_LOAN.getZeroBased());
         EditCommand editCommand = new EditCommand(INDEX_FIRST_LOAN,
                 new EditLoanDescriptorBuilder(loanInList).build());
@@ -137,13 +137,13 @@ public class EditCommandTest {
 
     /**
      * Edit filtered list where index is larger than size of filtered list,
-     * but smaller than size of address book
+     * but smaller than size of loan book
      */
     @Test
     public void execute_invalidLoanIndexFilteredList_failure() {
         showLoanAtIndex(model, INDEX_FIRST_LOAN);
         Index outOfBoundIndex = INDEX_SECOND_LOAN;
-        // ensures that outOfBoundIndex is still in bounds of address book list
+        // ensures that outOfBoundIndex is still in bounds of loan book list
         assertTrue(outOfBoundIndex.getZeroBased() < model.getLoanBook().getLoanList().size());
 
         EditCommand editCommand = new EditCommand(outOfBoundIndex,
@@ -165,7 +165,7 @@ public class EditCommandTest {
         // edit -> first loan edited
         editCommand.execute(model, commandHistory);
 
-        // undo -> reverts addressbook back to previous state and filtered loan list to show all loans
+        // undo -> reverts loanbook back to previous state and filtered loan list to show all loans
         expectedModel.undoLoanBook();
         assertCommandSuccess(new UndoCommand(), model, commandHistory, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 
@@ -180,10 +180,10 @@ public class EditCommandTest {
         EditLoanDescriptor descriptor = new EditLoanDescriptorBuilder().withName(VALID_NAME_BOB).build();
         EditCommand editCommand = new EditCommand(outOfBoundIndex, descriptor);
 
-        // execution failed -> address book state not added into model
+        // execution failed -> loan book state not added into model
         assertCommandFailure(editCommand, model, commandHistory, Messages.MESSAGE_INVALID_LOAN_DISPLAYED_INDEX);
 
-        // single address book state in model -> undoCommand and redoCommand fail
+        // single loan book state in model -> undoCommand and redoCommand fail
         assertCommandFailure(new UndoCommand(), model, commandHistory, UndoCommand.MESSAGE_FAILURE);
         assertCommandFailure(new RedoCommand(), model, commandHistory, RedoCommand.MESSAGE_FAILURE);
     }
@@ -210,7 +210,7 @@ public class EditCommandTest {
         // edit -> edits second loan in unfiltered loan list / first loan in filtered loan list
         editCommand.execute(model, commandHistory);
 
-        // undo -> reverts addressbook back to previous state and filtered loan list to show all loans
+        // undo -> reverts loanbook back to previous state and filtered loan list to show all loans
         expectedModel.undoLoanBook();
         assertCommandSuccess(new UndoCommand(), model, commandHistory, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 

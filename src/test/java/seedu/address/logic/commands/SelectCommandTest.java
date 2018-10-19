@@ -64,7 +64,7 @@ public class SelectCommandTest {
         showLoanAtIndex(expectedModel, INDEX_FIRST_LOAN);
 
         Index outOfBoundsIndex = INDEX_SECOND_LOAN;
-        // ensures that outOfBoundIndex is still in bounds of address book list
+        // ensures that outOfBoundIndex is still in bounds of loan book list
         assertTrue(outOfBoundsIndex.getZeroBased() < model.getLoanBook().getLoanList().size());
 
         assertExecutionFailure(outOfBoundsIndex, Messages.MESSAGE_INVALID_LOAN_DISPLAYED_INDEX);
