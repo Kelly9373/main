@@ -11,9 +11,14 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.bike.Bike;
 import seedu.address.model.loan.Address;
 import seedu.address.model.loan.Email;
+import seedu.address.model.loan.Loan;
+import seedu.address.model.loan.LoanRate;
+import seedu.address.model.loan.LoanTime;
 import seedu.address.model.loan.Name;
+import seedu.address.model.loan.Nric;
 import seedu.address.model.loan.Phone;
 import seedu.address.testutil.Assert;
 
@@ -33,7 +38,7 @@ public class XmlAdaptedLoanTest {
     private static final String VALID_PHONE = BENSON.getPhone().toString();
     private static final String VALID_EMAIL = BENSON.getEmail().toString();
     private static final String VALID_ADDRESS = BENSON.getAddress().toString();
-    private static final String VALID_BIKE = BENSON.getBike().toString();
+    private static final String VALID_BIKE = BENSON.getBike().getName().toString();
     private static final String VALID_LOANRATE = BENSON.getLoanRate().toString();
     private static final String VALID_LOANTIME = BENSON.getLoanTime().toString();
     private static final List<XmlAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
@@ -75,6 +80,38 @@ public class XmlAdaptedLoanTest {
                         VALID_LOANTIME,
                         VALID_TAGS);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName());
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, loan::toModelType);
+    }
+
+    @Test
+    public void toModelTypeInvalidNricThrowsIllegalValueException() {
+        XmlAdaptedLoan loan =
+                new XmlAdaptedLoan(VALID_NAME,
+                        INVALID_NRIC,
+                        VALID_PHONE,
+                        VALID_EMAIL,
+                        VALID_ADDRESS,
+                        VALID_BIKE,
+                        VALID_LOANRATE,
+                        VALID_LOANTIME,
+                        VALID_TAGS);
+        String expectedMessage = Nric.MESSAGE_NRIC_CONSTRAINTS;
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, loan::toModelType);
+    }
+
+    @Test
+    public void toModelTypeNullNricThrowsIllegalValueException() {
+        XmlAdaptedLoan loan =
+                new XmlAdaptedLoan(VALID_NAME,
+                        null,
+                        VALID_PHONE,
+                        VALID_EMAIL,
+                        VALID_ADDRESS,
+                        VALID_BIKE,
+                        VALID_LOANRATE,
+                        VALID_LOANTIME,
+                        VALID_TAGS);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Nric.class.getSimpleName());
         Assert.assertThrows(IllegalValueException.class, expectedMessage, loan::toModelType);
     }
 
@@ -171,6 +208,102 @@ public class XmlAdaptedLoanTest {
                         VALID_LOANTIME,
                         VALID_TAGS);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName());
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, loan::toModelType);
+    }
+
+    @Test
+    public void toModelTypeInvalidBikeThrowsIllegalValueException() {
+        XmlAdaptedLoan loan =
+                new XmlAdaptedLoan(VALID_NAME,
+                        VALID_NRIC,
+                        VALID_PHONE,
+                        VALID_EMAIL,
+                        VALID_ADDRESS,
+                        INVALID_BIKE,
+                        VALID_LOANRATE,
+                        VALID_LOANTIME,
+                        VALID_TAGS);
+        String expectedMessage = Name.MESSAGE_NAME_CONSTRAINTS;
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, loan::toModelType);
+    }
+
+    @Test
+    public void toModelTypeNullBikeThrowsIllegalValueException() {
+        XmlAdaptedLoan loan =
+                new XmlAdaptedLoan(VALID_NAME,
+                        VALID_NRIC,
+                        VALID_PHONE,
+                        VALID_EMAIL,
+                        VALID_ADDRESS,
+                        null,
+                        VALID_LOANRATE,
+                        VALID_LOANTIME,
+                        VALID_TAGS);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Bike.class.getSimpleName());
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, loan::toModelType);
+    }
+
+    @Test
+    public void toModelTypeInvalidLoanRateThrowsIllegalValueException() {
+        XmlAdaptedLoan loan =
+                new XmlAdaptedLoan(VALID_NAME,
+                        VALID_NRIC,
+                        VALID_PHONE,
+                        VALID_EMAIL,
+                        VALID_ADDRESS,
+                        VALID_BIKE,
+                        INVALID_LOANRATE,
+                        VALID_LOANTIME,
+                        VALID_TAGS);
+        String expectedMessage = LoanRate.MESSAGE_LOANRATE_CONSTRAINTS;
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, loan::toModelType);
+    }
+
+    @Test
+    public void toModelTypeNullLoanRateThrowsIllegalValueException() {
+        XmlAdaptedLoan loan =
+                new XmlAdaptedLoan(VALID_NAME,
+                        VALID_NRIC,
+                        VALID_PHONE,
+                        VALID_EMAIL,
+                        VALID_ADDRESS,
+                        VALID_BIKE,
+                        null,
+                        VALID_LOANTIME,
+                        VALID_TAGS);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, LoanRate.class.getSimpleName());
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, loan::toModelType);
+    }
+
+    @Test
+    public void toModelTypeInvalidLoanTimeThrowsIllegalValueException() {
+        XmlAdaptedLoan loan =
+                new XmlAdaptedLoan(VALID_NAME,
+                        VALID_NRIC,
+                        VALID_PHONE,
+                        VALID_EMAIL,
+                        VALID_ADDRESS,
+                        VALID_BIKE,
+                        VALID_LOANRATE,
+                        INVALID_LOANTIME,
+                        VALID_TAGS);
+        String expectedMessage = LoanTime.MESSAGE_LOANTIME_CONSTRAINTS;
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, loan::toModelType);
+    }
+
+    @Test
+    public void toModelTypeNullLoanTimeThrowsIllegalValueException() {
+        XmlAdaptedLoan loan =
+                new XmlAdaptedLoan(VALID_NAME,
+                        VALID_NRIC,
+                        VALID_PHONE,
+                        VALID_EMAIL,
+                        VALID_ADDRESS,
+                        VALID_BIKE,
+                        VALID_LOANRATE,
+                        null,
+                        VALID_TAGS);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, LoanTime.class.getSimpleName());
         Assert.assertThrows(IllegalValueException.class, expectedMessage, loan::toModelType);
     }
 
