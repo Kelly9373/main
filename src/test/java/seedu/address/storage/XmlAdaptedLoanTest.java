@@ -14,7 +14,6 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.bike.Bike;
 import seedu.address.model.loan.Address;
 import seedu.address.model.loan.Email;
-import seedu.address.model.loan.Loan;
 import seedu.address.model.loan.LoanRate;
 import seedu.address.model.loan.LoanTime;
 import seedu.address.model.loan.Name;
