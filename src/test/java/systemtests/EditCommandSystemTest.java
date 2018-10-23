@@ -178,7 +178,7 @@ public class EditCommandSystemTest extends LoanBookSystemTest {
         showAllLoans();
         index = INDEX_FIRST_LOAN;
         selectLoan(index);
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_AMY + NRIC_DESC_AMY +PHONE_DESC_AMY
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_AMY + NRIC_DESC_AMY + PHONE_DESC_AMY
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
                 + BIKE_DESC_AMY + LOANRATE_DESC_AMY + LOANTIME_DESC_AMY
                 + TAG_DESC_FRIEND;
