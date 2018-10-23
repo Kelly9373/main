@@ -49,6 +49,11 @@ public class CommandTestUtil {
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
 
+    public static final String VALID_NAME_BIKE1 = "BIKE001";
+    public static final String VALID_NAME_BIKE2 = "BIKE002";
+    public static final String VALID_NAME_BIKE3 = "Silver Surfer";
+    public static final String VALID_NAME_BIKE4 = "Blue Ocean";
+
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
     public static final String NRIC_DESC_AMY = " " + PREFIX_NRIC + VALID_NRIC_AMY;
@@ -67,6 +72,11 @@ public class CommandTestUtil {
     public static final String LOANTIME_DESC_BOB = " " + PREFIX_LOANTIME + VALID_LOANTIME_BOB;
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
+
+    public static final String NAME_DESC_BIKE1 = " " + PREFIX_NAME + VALID_NAME_BIKE1;
+    public static final String NAME_DESC_BIKE2 = " " + PREFIX_NAME + VALID_NAME_BIKE2;
+    public static final String NAME_DESC_BIKE3 = " " + PREFIX_NAME + VALID_NAME_BIKE3;
+    public static final String NAME_DESC_BIKE4 = " " + PREFIX_NAME + VALID_NAME_BIKE4;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_NRIC_DESC = " " + PREFIX_NRIC + "S*055310A"; // wrong format

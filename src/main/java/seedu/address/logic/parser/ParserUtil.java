@@ -17,6 +17,7 @@ import seedu.address.model.loan.LoanTime;
 import seedu.address.model.loan.Name;
 import seedu.address.model.loan.Nric;
 import seedu.address.model.loan.Phone;
+import seedu.address.model.Password;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -82,6 +83,21 @@ public class ParserUtil {
             throw new ParseException(Phone.MESSAGE_PHONE_CONSTRAINTS);
         }
         return new Phone(trimmedPhone);
+    }
+
+    /**
+     * Parses a {@code String password} into a {@code Password}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code Password} is invalid.
+     */
+    public static Password parsePass(String pass) throws ParseException {
+        requireNonNull(pass);
+        String trimmedPass = pass.trim();
+        if (!Password.isValidPass(trimmedPass)) {
+            throw new ParseException(Password.MESSAGE_PASSWORD_CONSTRAINTS);
+        }
+        return new Password(trimmedPass);
     }
 
     /**
