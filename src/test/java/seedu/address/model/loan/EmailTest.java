@@ -1,5 +1,6 @@
 package seedu.address.model.loan;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -58,5 +59,21 @@ public class EmailTest {
         assertTrue(Email.isValidEmail("a1+be!@example1.com")); // mixture of alphanumeric and special characters
         assertTrue(Email.isValidEmail("peter_jack@very-very-very-long-example.com")); // long domain name
         assertTrue(Email.isValidEmail("if.you.dream.it_you.can.do.it@example.com")); // long local part
+    }
+
+    @Test
+    public void Censor() {
+        Email email1 = new Email("a@abc.com");
+        Email email2 = new Email("ab@abc.com");
+        Email email3 = new Email("abc@abc.com");
+        Email email4 = new Email("abcd@abc.com");
+        Email email5 = new Email("abcde@abc.com");
+        Email email6 = new Email("loooooooooooooooong@abc.com");
+        assertEquals("axxxxaa@abc.com", email1.getCensored());
+        assertEquals("axxxxab@abc.com", email2.getCensored());
+        assertEquals("axxxxbc@abc.com", email3.getCensored());
+        assertEquals("axxxxcd@abc.com", email4.getCensored());
+        assertEquals("axxxxde@abc.com", email5.getCensored());
+        assertEquals("lxxxxng@abc.com", email6.getCensored());
     }
 }

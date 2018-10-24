@@ -6,7 +6,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 /**
  * Class that stores the NRIC of a person.
  */
-public class Nric {
+public class Nric implements Censor {
 
     public static final String MESSAGE_NRIC_CONSTRAINTS =
             "NRIC should be Singapore issued. It may be blank. ";
@@ -79,5 +79,12 @@ public class Nric {
     @Override
     public int hashCode() {
         return nric.hashCode();
+    }
+
+    @Override
+    public String getCensored() {
+        String output = this.nric;
+        output = output.charAt(0) + "xxxxx" + output.substring(6);
+        return output;
     }
 }

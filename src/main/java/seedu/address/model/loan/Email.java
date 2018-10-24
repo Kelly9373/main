@@ -6,7 +6,7 @@ import java.util.function.Function;
  * Represents a Loan's email in the loan book.
  * Guarantees: immutable; is valid as declared in {@link #isValidEmail(String)}
  */
-public class Email extends DataField<String> {
+public class Email extends DataField<String> implements Censor {
 
     private static final String SPECIAL_CHARACTERS = "!#$%&'*+/=?`{|}~^.-";
     public static final String MESSAGE_EMAIL_CONSTRAINTS = "Emails should be of the format local-part@domain "
@@ -40,6 +40,22 @@ public class Email extends DataField<String> {
     public static boolean isValidEmail(String objString) {
         return objString.matches(LOCAL_PART_REGEX + "@"
             + DOMAIN_FIRST_CHARACTER_REGEX + DOMAIN_MIDDLE_REGEX + DOMAIN_LAST_CHARACTER_REGEX);
+    }
+
+    @Override
+    public String getCensored() {
+        String output = this.value;
+        if (output.charAt(1) == '@') {
+            return output.charAt(0) + "xxxx" + output.charAt(0) + output;
+        } else if (output.charAt(2) == '@') {
+            return output.charAt(0) + "xxxx" + output;
+        } else {
+            int index = 1;
+            while(output.charAt(index + 2) != '@') {
+                index++;
+            }
+            return output.charAt(0) + "xxxx" + output.substring(index);
+        }
     }
 
 }
