@@ -34,7 +34,13 @@ public class LoanCard extends UiPart<Region> {
     @FXML
     private Label id;
     @FXML
+    private Label nric;
+    @FXML
     private Label bike;
+    @FXML
+    private Label phone;
+    @FXML
+    private Label email;
     @FXML
     private Label rate;
     @FXML
@@ -47,6 +53,9 @@ public class LoanCard extends UiPart<Region> {
         this.loan = loan;
         id.setText(Integer.toString(displayedIndex));
         name.setText(loan.getName().value);
+        nric.setText(loan.getNric().getCensored());
+        phone.setText(loan.getPhone().getCensored());
+        email.setText(loan.getEmail().getCensored());
         bike.setText(loan.getBike().getName().value);
         rate.setText(loan.getLoanRate().toString());
         time.setText(loan.getLoanTime().toString());

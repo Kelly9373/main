@@ -51,6 +51,24 @@
            <Label fx:id="name" styleClass="cell_small_label" text="\$name" />
             </children>
          </TextFlow>
+         <TextFlow prefHeight="0.0" prefWidth="130.0">
+            <children>
+               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="  &gt; Nric: " wrappingWidth="120.21043395996094" />
+               <Label fx:id="nric" styleClass="cell_small_label" text="\$nric" />
+            </children>
+         </TextFlow>
+         <TextFlow>
+            <children>
+               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="  &gt; Phone: " />
+               <Label fx:id="phone" text="\$phone" />
+            </children>
+         </TextFlow>
+         <TextFlow>
+            <children>
+               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="  &gt; Email: " />
+               <Label fx:id="email" text="\$email" />
+            </children>
+         </TextFlow>
          <TextFlow>
             <children>
                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="On " wrappingWidth="27.21875" />
