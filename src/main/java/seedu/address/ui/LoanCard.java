@@ -36,11 +36,11 @@ public class LoanCard extends UiPart<Region> {
     @FXML
     private Label nric;
     @FXML
-    private Label bike;
-    @FXML
     private Label phone;
     @FXML
     private Label email;
+    @FXML
+    private Label bike;
     @FXML
     private Label rate;
     @FXML
