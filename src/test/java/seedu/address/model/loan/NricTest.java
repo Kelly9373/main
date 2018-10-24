@@ -63,4 +63,10 @@ public class NricTest {
         assertEquals("Gxxxxx67X", nric4.getCensored());
         assertEquals("Sxxxxx67D", nric5.getCensored());
     }
+
+    @Test
+    public void censorPartLengthCheck() {
+        Nric testNric = new Nric("G1234567X");
+        assertEquals("xxxxx", testNric.doCensoring(testNric.toString().length() - 4));
+    }
 }

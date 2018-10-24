@@ -69,11 +69,22 @@ public class EmailTest {
         Email email4 = new Email("abcd@abc.com");
         Email email5 = new Email("abcde@abc.com");
         Email email6 = new Email("loooooooooooooooong@abc.com");
-        assertEquals("axxxxaa@abc.com", email1.getCensored());
-        assertEquals("axxxxab@abc.com", email2.getCensored());
-        assertEquals("axxxxbc@abc.com", email3.getCensored());
-        assertEquals("axxxxcd@abc.com", email4.getCensored());
-        assertEquals("axxxxde@abc.com", email5.getCensored());
-        assertEquals("lxxxxng@abc.com", email6.getCensored());
+        assertEquals("a@abc.com", email1.getCensored());
+        assertEquals("ab@abc.com", email2.getCensored());
+        assertEquals("abc@abc.com", email3.getCensored());
+        assertEquals("axcd@abc.com", email4.getCensored());
+        assertEquals("axxde@abc.com", email5.getCensored());
+        assertEquals("lxxxxxxxxxxxxxxxxng@abc.com", email6.getCensored());
+    }
+
+    @Test
+    public void censorPartLengthCheck() {
+        Email testEmail = new Email("abc@abc.com");
+        assertEquals("", testEmail.doCensoring(1));
+        assertEquals("", testEmail.doCensoring(2));
+        assertEquals("", testEmail.doCensoring(3));
+        assertEquals("x", testEmail.doCensoring(4));
+        assertEquals("xx", testEmail.doCensoring(5));
+        assertEquals("xxxxxxxxxx", testEmail.doCensoring(13));
     }
 }

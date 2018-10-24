@@ -29,9 +29,24 @@ public class Phone extends DataField<String> implements Censor {
 
     @Override
     public String getCensored() {
-        String output = this.value;
-        output = output.charAt(0) + "xxxxx" + output.substring(output.length() - 2);
-        return output;
+        String censorPart = doCensoring(this.value.length());
+        if (censorPart.length() == 0) {
+            return this.value;
+        } else {
+            return this.value.charAt(0) + censorPart + this.value.substring(this.value.length() - 2);
+        }
     }
 
+    @Override
+    public String doCensoring(int length) {
+        if (length == 3) {
+            return "";
+        } else {
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < length - 3; i++) {
+                sb.append('x');
+            }
+            return sb.toString();
+        }
+    }
 }

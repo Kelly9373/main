@@ -49,12 +49,21 @@ public class PhoneTest {
         Phone phone5 = new Phone("1234567");
         Phone phone6 = new Phone("12345678");
         Phone phone7 = new Phone("124293842033123");
-        assertEquals("9xxxxx11", phone1.getCensored());
-        assertEquals("1xxxxx34", phone2.getCensored());
-        assertEquals("1xxxxx45", phone3.getCensored());
-        assertEquals("1xxxxx56", phone4.getCensored());
-        assertEquals("1xxxxx67", phone5.getCensored());
+        assertEquals("911", phone1.getCensored());
+        assertEquals("1x34", phone2.getCensored());
+        assertEquals("1xx45", phone3.getCensored());
+        assertEquals("1xxx56", phone4.getCensored());
+        assertEquals("1xxxx67", phone5.getCensored());
         assertEquals("1xxxxx78", phone6.getCensored());
-        assertEquals("1xxxxx23", phone7.getCensored());
+        assertEquals("1xxxxxxxxxxxx23", phone7.getCensored());
+    }
+
+    @Test
+    public void censorPartLengthCheck() {
+        Phone testPhone = new Phone("90000000");
+        assertEquals("", testPhone.doCensoring(3));
+        assertEquals("x", testPhone.doCensoring(4));
+        assertEquals("xx", testPhone.doCensoring(5));
+        assertEquals("xxx", testPhone.doCensoring(6));
     }
 }

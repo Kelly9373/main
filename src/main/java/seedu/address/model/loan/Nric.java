@@ -83,8 +83,16 @@ public class Nric implements Censor {
 
     @Override
     public String getCensored() {
-        String output = this.nric;
-        output = output.charAt(0) + "xxxxx" + output.substring(6);
-        return output;
+        String censorPart = doCensoring(this.nric.length() - 4);
+        return this.nric.charAt(0) + censorPart + this.nric.substring(6);
+    }
+
+    @Override
+    public String doCensoring(int length) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            sb.append('x');
+        }
+        return sb.toString();
     }
 }

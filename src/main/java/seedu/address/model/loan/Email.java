@@ -44,18 +44,25 @@ public class Email extends DataField<String> implements Censor {
 
     @Override
     public String getCensored() {
-        String output = this.value;
-        if (output.charAt(1) == '@') {
-            return output.charAt(0) + "xxxx" + output.charAt(0) + output;
-        } else if (output.charAt(2) == '@') {
-            return output.charAt(0) + "xxxx" + output;
+        int index = this.value.indexOf('@');
+        String censorPart = doCensoring(index);
+        if (censorPart.length() == 0) {
+            return this.value;
         } else {
-            int index = 1;
-            while (output.charAt(index + 2) != '@') {
-                index++;
-            }
-            return output.charAt(0) + "xxxx" + output.substring(index);
+            return this.value.charAt(0) + censorPart + this.value.substring(index - 2);
         }
     }
 
+    @Override
+    public String doCensoring(int length) {
+        if (length <= 3) {
+            return "";
+        } else {
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < length - 3; i++) {
+                sb.append('x');
+            }
+            return sb.toString();
+        }
+    }
 }
