@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.text.Text;
 import seedu.address.model.loan.Loan;
 
 /**
@@ -33,22 +34,22 @@ public class LoanCard extends UiPart<Region> {
     @FXML
     private Label id;
     @FXML
-    private Label phone;
+    private Label bike;
     @FXML
-    private Label address;
+    private Label rate;
     @FXML
-    private Label email;
+    private Label time;
     @FXML
     private FlowPane tags;
 
     public LoanCard(Loan loan, int displayedIndex) {
         super(FXML);
         this.loan = loan;
-        id.setText(displayedIndex + ". ");
+        id.setText(Integer.toString(displayedIndex));
         name.setText(loan.getName().value);
-        phone.setText(loan.getPhone().value);
-        address.setText(loan.getAddress().value);
-        email.setText(loan.getEmail().value);
+        bike.setText(loan.getBike().getName().value);
+        rate.setText(loan.getLoanRate().toString());
+        time.setText(loan.getLoanTime().toString());
         initTags(loan);
     }
 
