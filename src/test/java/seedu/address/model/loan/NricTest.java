@@ -51,7 +51,7 @@ public class NricTest {
     }
 
     @Test
-    public void Censor() {
+    public void censor() {
         Nric nric1 = new Nric("S1234567D");
         Nric nric2 = new Nric("T1234567J");
         Nric nric3 = new Nric("F1234567N");

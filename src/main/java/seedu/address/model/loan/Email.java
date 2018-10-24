@@ -51,7 +51,7 @@ public class Email extends DataField<String> implements Censor {
             return output.charAt(0) + "xxxx" + output;
         } else {
             int index = 1;
-            while(output.charAt(index + 2) != '@') {
+            while (output.charAt(index + 2) != '@') {
                 index++;
             }
             return output.charAt(0) + "xxxx" + output.substring(index);

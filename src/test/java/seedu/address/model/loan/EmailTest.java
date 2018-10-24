@@ -62,7 +62,7 @@ public class EmailTest {
     }
 
     @Test
-    public void Censor() {
+    public void censor() {
         Email email1 = new Email("a@abc.com");
         Email email2 = new Email("ab@abc.com");
         Email email3 = new Email("abc@abc.com");

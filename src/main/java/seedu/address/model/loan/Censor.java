@@ -1,5 +1,8 @@
 package seedu.address.model.loan;
 
+/**
+ * The API of Censor.
+ */
 public interface Censor {
 
     /**

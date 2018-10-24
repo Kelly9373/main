@@ -41,7 +41,7 @@ public class PhoneTest {
     }
 
     @Test
-    public void Censor() {
+    public void censor() {
         Phone phone1 = new Phone("911");
         Phone phone2 = new Phone("1234");
         Phone phone3 = new Phone("12345");
