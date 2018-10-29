@@ -1,10 +1,5 @@
 package loanbook.logic.parser;
 
-import loanbook.logic.commands.RemindCommand;
-import loanbook.model.bike.Bike;
-import loanbook.model.loan.Name;
-import org.junit.Test;
-
 import static loanbook.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static loanbook.logic.commands.CommandTestUtil.BIKE_DESC_AMY;
 import static loanbook.logic.commands.CommandTestUtil.NAME_DESC_AMY;
@@ -15,6 +10,12 @@ import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_BIKE1;
 import static loanbook.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static loanbook.logic.parser.CommandParserTestUtil.assertParseSuccess;
+
+import org.junit.Test;
+
+import loanbook.logic.commands.RemindCommand;
+import loanbook.model.bike.Bike;
+import loanbook.model.loan.Name;
 
 public class RemindCommandParserTest {
     private RemindCommandParser parser = new RemindCommandParser();

@@ -1,14 +1,13 @@
 package loanbook.testutil;
 
-import loanbook.model.loan.Loan;
-import loanbook.model.loan.LoanStatus;
+import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_BIKE1;
+import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_BIKE2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_BIKE1;
-import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_BIKE2;
+import loanbook.model.loan.Loan;
 
 /**
  * A utility class containing a list of {@code Loan} objects to be used in Remind tests.

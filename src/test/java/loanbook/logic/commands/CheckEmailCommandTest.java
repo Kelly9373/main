@@ -1,17 +1,18 @@
 package loanbook.logic.commands;
 
-import loanbook.logic.CommandHistory;
-import loanbook.model.Model;
-import loanbook.model.ModelManager;
-import loanbook.model.UserPrefs;
-import loanbook.model.loan.Email;
-import org.junit.Test;
-
 import static loanbook.logic.commands.CommandTestUtil.VALID_USER_EMAIL1;
 import static loanbook.logic.commands.CommandTestUtil.VALID_USER_EMAIL2;
 import static loanbook.logic.commands.CommandTestUtil.assertCommandFailure;
 import static loanbook.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static loanbook.testutil.TypicalLoanBook.getTypicalLoanBook;
+
+import org.junit.Test;
+
+import loanbook.logic.CommandHistory;
+import loanbook.model.Model;
+import loanbook.model.ModelManager;
+import loanbook.model.UserPrefs;
+import loanbook.model.loan.Email;
 
 public class CheckEmailCommandTest {
 

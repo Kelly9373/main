@@ -1,13 +1,5 @@
 package loanbook.logic.commands;
 
-import loanbook.commons.core.Messages;
-import loanbook.logic.CommandHistory;
-import loanbook.logic.commands.exceptions.CommandException;
-import loanbook.testutil.ModelStub;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
 import static loanbook.logic.commands.CommandTestUtil.DEFAULT_USER_EMAIL;
 import static loanbook.logic.commands.CommandTestUtil.VALID_USER_EMAIL1;
 import static loanbook.logic.commands.CommandTestUtil.VALID_USER_EMAIL2;
@@ -16,6 +8,15 @@ import static loanbook.logic.commands.CommandTestUtil.VALID_USER_EMAIL4;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import loanbook.commons.core.Messages;
+import loanbook.logic.CommandHistory;
+import loanbook.logic.commands.exceptions.CommandException;
+import loanbook.testutil.ModelStub;
 
 public class SetEmailCommandTest {
 
