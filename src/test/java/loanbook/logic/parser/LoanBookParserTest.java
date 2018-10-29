@@ -32,6 +32,7 @@ import loanbook.logic.commands.ExitCommand;
 import loanbook.logic.commands.FindCommand;
 import loanbook.logic.commands.HelpCommand;
 import loanbook.logic.commands.HistoryCommand;
+import loanbook.logic.commands.ListBikesCommand;
 import loanbook.logic.commands.ListCommand;
 import loanbook.logic.commands.RedoCommand;
 import loanbook.logic.commands.RemindCommand;
@@ -152,6 +153,12 @@ public class LoanBookParserTest {
     public void parseCommand_checkemail() throws Exception {
         assertTrue(parser.parseCommand(CheckEmailCommand.COMMAND_WORD) instanceof CheckEmailCommand);
         assertTrue(parser.parseCommand(CheckEmailCommand.COMMAND_WORD + " 3") instanceof CheckEmailCommand);
+    }
+      
+    @Test
+    public void parseCommand_listbikes() throws Exception {
+        assertTrue(parser.parseCommand(ListBikesCommand.COMMAND_WORD) instanceof ListBikesCommand);
+        assertTrue(parser.parseCommand(ListBikesCommand.COMMAND_WORD + " 3") instanceof ListBikesCommand);
     }
 
     @Test

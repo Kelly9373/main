@@ -17,6 +17,7 @@ import loanbook.logic.commands.ExitCommand;
 import loanbook.logic.commands.FindCommand;
 import loanbook.logic.commands.HelpCommand;
 import loanbook.logic.commands.HistoryCommand;
+import loanbook.logic.commands.ListBikesCommand;
 import loanbook.logic.commands.ListCommand;
 import loanbook.logic.commands.RedoCommand;
 import loanbook.logic.commands.RemindCommand;
@@ -82,6 +83,9 @@ public class LoanBookParser {
 
         case SetEmailCommand.COMMAND_WORD:
             return new SetEmailCommandParser().parse(arguments);
+
+        case ListBikesCommand.COMMAND_WORD:
+            return new ListBikesCommand();
 
         case ListCommand.COMMAND_WORD:
             return new ListCommand();
