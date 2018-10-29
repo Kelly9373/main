@@ -67,8 +67,8 @@ public class SetEmailCommandTest {
         ModelStubWithUserEmail modelStub = new ModelStubWithUserEmail();
 
         // User's Email is default
-        CommandResult commandResult
-                = new SetEmailCommand(DEFAULT_USER_EMAIL, VALID_USER_EMAIL1).execute(modelStub, commandHistory);
+        CommandResult commandResult =
+                new SetEmailCommand(DEFAULT_USER_EMAIL, VALID_USER_EMAIL1).execute(modelStub, commandHistory);
 
         assertEquals(SetEmailCommand.MESSAGE_SUCCESS, commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
@@ -83,7 +83,7 @@ public class SetEmailCommandTest {
     }
 
     @Test
-    public void execute_wrongOldEmail_whenUserEmailIsDefault_throwsCommandException() throws Exception {
+    public void execute_wrongOldEmailWhenUserEmailIsDefault_throwsCommandException() throws Exception {
         SetEmailCommand command = new SetEmailCommand(VALID_USER_EMAIL1, VALID_USER_EMAIL2);
         ModelStubWithUserEmail modelStub = new ModelStubWithUserEmail();
 

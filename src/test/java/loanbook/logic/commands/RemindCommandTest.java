@@ -58,8 +58,7 @@ public class RemindCommandTest {
         ModelStubWithUserEmail modelStub = new ModelStubWithUserEmail();
         Name name = new Name("Alice Pauline");
         Bike bike = new Bike(new Name(VALID_NAME_BIKE1));
-        CommandResult commandResult
-                = new RemindCommand(PASSWORD1, name, bike).execute(modelStub, commandHistory);
+        CommandResult commandResult = new RemindCommand(PASSWORD1, name, bike).execute(modelStub, commandHistory);
 
         assertEquals(RemindCommand.MESSAGE_SUCCESS, commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
@@ -85,7 +84,8 @@ public class RemindCommandTest {
         RemindCommand command = new RemindCommand(PASSWORD1, name, bike);
 
         thrown.expect(CommandException.class);
-        thrown.expectMessage(String.format(String.format(Messages.MESSAGE_LOAN_IS_DONE, LoanStatus.RETURNED.toString())));
+        thrown.expectMessage(String.format(String.format(Messages.MESSAGE_LOAN_IS_DONE,
+                LoanStatus.RETURNED.toString())));
         command.execute(modelStub, commandHistory);
     }
 
@@ -97,7 +97,8 @@ public class RemindCommandTest {
         RemindCommand command = new RemindCommand(PASSWORD1, name, bike);
 
         thrown.expect(CommandException.class);
-        thrown.expectMessage(String.format(String.format(Messages.MESSAGE_LOAN_IS_DONE, LoanStatus.DELETED.toString())));
+        thrown.expectMessage(String.format(String.format(Messages.MESSAGE_LOAN_IS_DONE,
+                LoanStatus.DELETED.toString())));
         command.execute(modelStub, commandHistory);
     }
 
@@ -115,10 +116,10 @@ public class RemindCommandTest {
 
     @Test
     public void equals() {
-        final RemindCommand standardCommand
-                = new RemindCommand(PASSWORD1, new Name(VALID_NAME_AMY), new Bike(new Name(VALID_NAME_BIKE1)));
-        RemindCommand commandWithSameValues
-                = new RemindCommand(PASSWORD1, new Name(VALID_NAME_AMY), new Bike(new Name(VALID_NAME_BIKE1)));
+        final RemindCommand standardCommand =
+                new RemindCommand(PASSWORD1, new Name(VALID_NAME_AMY), new Bike(new Name(VALID_NAME_BIKE1)));
+        RemindCommand commandWithSameValues =
+                new RemindCommand(PASSWORD1, new Name(VALID_NAME_AMY), new Bike(new Name(VALID_NAME_BIKE1)));
 
         // same values -> returns true
         assertTrue(standardCommand.equals(commandWithSameValues));
