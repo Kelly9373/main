@@ -2,6 +2,13 @@ package loanbook.logic.parser;
 
 import static loanbook.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static loanbook.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static loanbook.logic.commands.CommandTestUtil.BIKE_DESC_AMY;
+import static loanbook.logic.commands.CommandTestUtil.DEFAULT_USER_EMAIL;
+import static loanbook.logic.commands.CommandTestUtil.NAME_DESC_AMY;
+import static loanbook.logic.commands.CommandTestUtil.PASSWORD2_DESC;
+import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_AMY;
+import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_BIKE1;
+import static loanbook.logic.commands.CommandTestUtil.VALID_USER_EMAIL1;
 import static loanbook.testutil.TypicalIndexes.INDEX_FIRST_LOAN;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -10,6 +17,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import loanbook.logic.commands.CheckEmailCommand;
+import loanbook.logic.commands.RemindCommand;
+import loanbook.logic.commands.SetEmailCommand;
+import loanbook.model.loan.Name;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -97,6 +108,22 @@ public class LoanBookParserTest {
     }
 
     @Test
+    public void parseCommand_setemail() throws Exception {
+        SetEmailCommand command = (SetEmailCommand) parser.parseCommand(
+                SetEmailCommand.COMMAND_WORD + " default " + "abcdefg@gmail.com");
+        assertEquals(new SetEmailCommand(DEFAULT_USER_EMAIL, VALID_USER_EMAIL1), command);
+    }
+
+    @Test
+    public void parseCommand_remind() throws Exception {
+        RemindCommand command = (RemindCommand) parser.parseCommand(
+                RemindCommand.COMMAND_WORD + PASSWORD2_DESC + NAME_DESC_AMY + BIKE_DESC_AMY);
+        Name name = new Name(VALID_NAME_AMY);
+        Bike bike = new Bike(new Name(VALID_NAME_BIKE1));
+        assertEquals(new RemindCommand("loanbookpassword", name, bike), command);
+    }
+
+    @Test
     public void parseCommand_help() throws Exception {
         assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD) instanceof HelpCommand);
         assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD + " 3") instanceof HelpCommand);
@@ -119,6 +146,12 @@ public class LoanBookParserTest {
     public void parseCommand_list() throws Exception {
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD) instanceof ListCommand);
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD + " 3") instanceof ListCommand);
+    }
+
+    @Test
+    public void parseCommand_checkemail() throws Exception {
+        assertTrue(parser.parseCommand(CheckEmailCommand.COMMAND_WORD) instanceof CheckEmailCommand);
+        assertTrue(parser.parseCommand(CheckEmailCommand.COMMAND_WORD + " 3") instanceof CheckEmailCommand);
     }
 
     @Test
