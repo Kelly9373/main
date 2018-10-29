@@ -241,20 +241,20 @@ Format: `history`
 Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and next input respectively in the command box.
 ====
 
-=== check your email : `check`
+=== Check your email : `check`
 
-Check whether you have set your email or not and show the censored email address if you have set it before. +
+Checks whether you have set your email or not, and displays the censored email address if you have set it before. +
 Format: `check`
 
-=== set your email : `setemail`
+=== Set your email : `setemail`
 
-Set your email. +
+Sets the email address to send reminder emails from. +
 Format: `setemail OLDEMAIL NEWEMAIL`
 
-* `OLDEMAIL` can be `default` if you have not set email before.
+* `OLDEMAIL` is `default` if you have not set an email yet.
 * `OLDEMAIL` must be the same as the one you set last time.
-* `NEWEMAIL` cannot the same as `OLDEMAIL`
-* `NEWEMAIL` must be a valid gmail
+* `NEWEMAIL` cannot the same as `OLDEMAIL`.
+* `NEWEMAIL` must be a valid gmail.
 
 [NOTE]
 Only gmail is accepted!
@@ -266,14 +266,14 @@ Examples:
 
 === send reminder email : `remind`
 
-Send reminder email to the customer. +
+Sends a reminder email to the customer. +
 Format: `remind x/EMAILPASSWORD n/NAME b/BIKE`
 
 * `NAME` and `BIKE` must be from the same `ONGOING` loan.
 * `EMAILPASSWORD` must be correct.
 
 [NOTE]
-*[IMPORTANT] Before using this command, please go to* https://www.google.com/settings/security/lesssecureapps[Less Secure Apps] *, enable it and refresh this setting page!*
+*[IMPORTANT] Before using this command, please go to* https://www.google.com/settings/security/lesssecureapps[Less Secure Apps] *, enable it and refresh the Settings page!*
 
 Examples:
 
