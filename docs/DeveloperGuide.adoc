@@ -624,29 +624,29 @@ The censored data are only hidden from the window, not changed in the database. 
 
 ==== Current Implementation
 
-The sending email mechanism is supported by `Javax Mail` library. This feature is composed by three commands, which are `check`, `setemail` and `remind`.
+The email sending mechanism is supported by the https://docs.oracle.com/javaee/7/api/javax/mail/package-summary.html[`JavaMail`] library. This feature is composed of three commands: `check`, `setemail` and `remind`.
 
-* `check` command: check for the personal email the user has set and the app will show the censored email address.
+* `check` command: display the email address that the user has set to send emails from. The app will censor the email address.
 [NOTE]
-If user has not set an email, the email address will be a string "default" and the app will throw a `CommandException`.
+If user has not set an email, the email address will be a string `"default"` and the app will throw a `CommandException`.
 
-* `setemail` command: set the personal email address used for sending reminder to the customers.
+* `setemail` command: set the email address used for sending reminders to the customers.
 [NOTE]
 Only gmail is accepted by the app.
 
-* `remind` command: automatically generate an email containing some information of the loan and send it to the corresponding customer from user's email. This command will use the `Javax Mail` library.
+* `remind` command: automatically generate an email containing some core information about the loan, and send it to the corresponding customer from user's email. This command will use the `JavaMail` library.
 [NOTE]
-The email contains `Name`, `BikeId`, `LoanStartTime`, `LoanRate` of the loan.
+The email will contain the `Name`, `BikeId`, `LoanStartTime` and `LoanRate` of the loan.
 
-Given below is an example usage scenario and how the sending a reminder email mechanism behaves at each step.
+Given below is an example usage scenario and how the reminder email mechanism behaves at each step.
 
-*Step 1.* The user launches the application for the first time. User's email address is string "default" by default.
+*Step 1.* The user launches the application for the first time. The user's email address is string `"default"` by default.
 
-*Step 2.* The user executes `check`. The command executes `ModelManager#getMyEmail()`, which calls `UserPrefs#getDefaultEmail()` and returns user's email stored in `UserPref`. The app checks if user's email equals to "default". In this case, they are equal, so it throws a `CommandException`.
+*Step 2.* The user executes `check`. The command executes `ModelManager#getMyEmail()`, which calls `UserPrefs#getDefaultEmail()` and returns user's email stored in `UserPref`. The app checks if user's email equals to `"default"`. In this case, they are equal, so it throws a `CommandException`.
 
 *Step 3.* The user executes `setemail OLDEMAIL NEWEMAIL`. This command implements the following operations:
 
-a. Check if `OLDEMAIL` equals to "default" or the email the user set last time.
+a. Check if `OLDEMAIL` equals to `"default"` or the email the user set last time.
 
 b. If they are equal, then check if `OLDEMAIL` equals to `NEWEMAIL`.
 
@@ -656,47 +656,47 @@ d. If it returns true, call `ModelManager#setMyEmail(NEWEMAIL)` and this method 
 [NOTE]
 For step a, b and c, if the next step cannot be executed, the app throws a `CommandException` with corresponding failure message.
 
-*Step 4.* The user forgets what email he set before, so he executes `check` again. It has the same procedure as *Step 2*. However, the app detects that user's email is not "default" this time, so it creates an `Email(userEmail)` object and executes `Email#getCensored()`. Then, the function returns a `CommandResult` with a success message and the censored user email.
+*Step 4.* The user forgets what email he has set before, so he executes `check` again. It has the same procedure as *Step 2*. However, the app detects that user's email is not `"default"` this time, so it creates an `Email(userEmail)` object and executes `Email#getCensored()`. Then, the function returns a `CommandResult` with a success message and the censored user email.
 
-*Step 5.* The user wants to send an reminder email to a customer by executing `remind x/EMAILPASSWORD n/NAME b/BIKEID`. This command implements the following operations:
+*Step 5.* The user sends a reminder email to a customer by executing `remind x/EMAILPASSWORD n/NAME b/BIKEID`. This command implements the following operations:
 
-a. Get a list of `Loans` from `LoanBook` class and executes `RemindCommand#getLoan(list, NAME, BIKE)` to check if there is a `loan` that contains both this `NAME` and `BIKE`.
+a. Get a list of `Loans` from the `LoanBook` class and execute `RemindCommand#getLoan(list, NAME, BIKE)` to check if there is a `loan` that contains both this `NAME` and `BIKE`.
 
 b. If it returns a non-null `loan`, then check its `LoanStatus`.
 
 c. If its `LoanStatus` is `LoanStatus.ONGOING`, create a `SendReminder(model, EMAILPASSWORD, loan)` object and execute `SendReminder#send()` to send email. +
 The `SendReminder#send()` method calls `SendReminder#createReminderEmail(session, userEmail)` to create the content of the email, connects user's email using `EMAILPASSWORD` and finally send the email.
 [NOTE]
-If the user cannot remember the customer's `NAME` or the loaned `BIKE`, he can use `find [NAME] [BIKE]` to search for the target loan.
+If the user cannot remember the customer's `NAME` or the loaned `BIKE`, he can use the `find [NAME] [BIKE]` command to search for the target loan.
 [NOTE]
 For Step a and b, if the next step cannot be executed, a `CommandException` with corresponding failure message will be thrown.
 [NOTE]
-If it throws a `CommandException` with authentication failed message in step c, please check if user's email and its password are correct. If they are correct, please make sure the `less secure apps` setting of user's email is enabled. If it is not enabled, enable it and refresh the page.
+If it throws a `CommandException` with authentication failed message in step c, please check if user's email and password are correct. If they are, please make sure that the `less secure apps` setting of user's email is enabled. If it is not, enable it and refresh the page.
 
 ==== Design considerations
 *Aspect: use user's personal email vs share an immutable common email*
 
-* *Alternative 1 (current choice):* use user's own email
+* *Alternative 1 (current choice):* Use a user-specified email.
 
-** Pros: The user can have multiple choice when setting their personal email. +
-The user needs to type in the correct email password if they want to send reminder email, which ensures the security and privacy of the email.
+** Pros: The user has a choice of what email address to use. +
+The user needs to type in the correct password if they want to send acreminder email, which ensures the security and privacy of the email.
 
-** Cons: The user might encounters troubles when enabling `less secure apps` setting and this might make user's email less secure.
+** Cons: The user might need to enable the `less secure apps` setting, which could be a security concern.
 
-* *Alternative 2:* every user shares the same email
+* *Alternative 2:* Use a common email provided by the app.
 
-** Pros: The user does not need to set their own email and do the setting before sending reminder email. +
-The format of `remind` command can be changed to `remind n/NAME b/BIKE`, which means the user do not bother to type in email's password, because it is stored in the app.
+** Pros: The user does not need to set their own email when sending reminder emails, reducing hassle when setting up. +
+The user does not need to type in a password when sending a reminder email.
 
-** Cons: The security of the default email can be threatened, because the password of the email can be found in the program. +
+** Cons: The default email is less secure, as its password can be found within the program. +
 The password of this email can be changed by malicious users. +
-The email might be overloaded. +
-Customer might receive spam emails, because email password is not required.
+The email might get overloaded. +
+Customer might receive spam emails, as a email password is not required.
 
-==== Future function
-We plan to add a feature that can automatically send an e-receipt to the customer after `return` a loan.
+==== Future considerations
+We plan to add a feature that can automatically send an e-receipt to the customer after `return` ing a loan.
 
-The e-receipt will contain `Name`, `BikeID`, `LoanStartTime`, `LoanEndTime` and `TotalCost` of the loan.
+The e-receipt will contain the `Name`, `BikeID`, `LoanStartTime`, `LoanEndTime` and `TotalCost` of the loan.
 
 === [Proposed] Improved `delete` functionality
 
@@ -1418,12 +1418,12 @@ _{ more test cases ... }_
 
 === Sending Reminder Email
 
-Prerequisites: Connect to the web. The email must be gmail and its `less secure apps` is enabled.
+Prerequisites: Make sure the system is connected to the internet. The email must be gmail and its `less secure apps` option is enabled.
 
 . Send a reminder email successfully.
 
-`Add` a loan that contains your another email. Execute `check` command. Then use `setemail` command to set the correct email or `find [NAME]` to find the loan you just added if necessay. After that, execute `remind x/correctpassword n/Name b/BikeId`. +
-Expected: Receive a success message "Email sent!" on the screen. Login your sent-from email, a reminder email exists in the sent box. Login your sent-to email, you received a reminder email.
+`add` a loan with a valid customer's email (but you own it of course). Execute `check` command. Then use the `setemail` command to set the sender's email. After that, execute `remind x/correctpassword n/Name b/BikeId`. +
+Expected: Receive a success message "Email sent!" on the screen. A reminder email should have been sent from the sender's email (check the Sent folder). A reminder email should be in the inbox of the customer's email account that you set.
 
 . Negative tests:
 .. Test case: `setemail \WRONG_OLD_EMAIL@gmail.com \NEW_EMAIL@gmail.com` +
@@ -1431,19 +1431,19 @@ Expected: Failure message "The old email address is wrong!" will show. User's em
 .. Test case: `setemail \YOUR_EMAIL@gmail.com \YOUR_EMAIL@gmail.com` +
 Expected: Failure message "The old email and the new email cannot be the same!" will show. User's email is not changed.
 .. Test case: `setemail \OLD_EMAIL@gmail.com \INVALID_NEW_EMAIL@outlook.com` +
-Expected: Failure message "Your new email address is invalid! It must be valid gmail!" will show. User's email is not changed.
+Expected: Failure message "Your new email address is invalid! It must be a valid gmail!" will show. User's email is not changed.
 .. Test case: `setemail \OLD_EMAIL@gmail.com \INVALID_NEW_EMAIL@gmail.com@gmail.com` +
-Expected: Failure message "Your new email address is invalid! It must be valid gmail!" will show. User's email is not changed.
+Expected: Failure message "Your new email address is invalid! It must be a valid gmail!" will show. User's email is not changed.
 .. Test case: `remind x/CORRECTPASSWORD n/NAME b/MISMATCHED_BIKE` +
 Expected: Failure message "No loan contains both `NAME` and `MISMATCHED_BIKE`!" will show. The email is not sent.
 .. Test case: `remind x/CORRECTPASSWORD n/MISMATCHED_NAME b/BIKE` +
 Expected: Failure message "No loan contains both `MISMATCHED_NAME` and `BIKE`!" will show. The email is not sent.
 .. Test case: `remind x/CORRECTPASSWORD n/RETURNED_NAME b/RETURNED_BIKE` +
-Expected: Failure message "You do not need to send reminder, because the loan is RETURNED" will show. The email is not sent.
+Expected: Failure message "That loan has already been returned!" will show. The email is not sent.
 .. Test case: `remind x/CORRECTPASSWORD n/DELETED_NAME n/DELETED_BIKE` +
-Expected: Failure message "You do not need to send reminder, because the loan is DELETED" will show. The email is not sent.
+Expected: Failure message "That loan has been deleted!" will show. The email is not sent.
 .. Test case: `remind x/WRONGPASSWORD n/NAME b/BIKE` +
-Expected: Failure message "Connection to your email failed! The password is wrong or you did not enable `less secure app` in your google account setting before you use remind command. Please refer to the User Guide!" will show. The email is not sent.
+Expected: Failure message "Connection to your email failed! The password is wrong or you did not enable the `less secure app` option in your google account setting before you use remind command. Please refer to the User Guide!" will show. The email is not sent.
 .. Test case: Make sure your email is set, disable its `less secure apps` setting and refresh the setting page. Execute `remind x/CORRECTPASSWORD n/NAME b/BIKE` +
 Expected: Failure message "Connection to your email failed! The password is wrong or you did not enable `less secure app` in your google account setting before you use remind command. Please refer to the User Guide!" will show. The email is not sent.
 .. Other incorrect commands to try: `setemail`, `setemail x` (where x can be any string), `remind`, `remind x y z` (no prefix, x, y and z can be any string).
