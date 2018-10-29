@@ -1,11 +1,9 @@
 package loanbook.logic.parser;
 
+import static loanbook.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+
 import loanbook.logic.commands.SetEmailCommand;
 import loanbook.logic.parser.exceptions.ParseException;
-
-import java.util.stream.Stream;
-
-import static loanbook.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 /**
  * Parses input arguments and creates a new SetEmailCommand object

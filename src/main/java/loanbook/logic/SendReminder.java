@@ -1,14 +1,15 @@
 package loanbook.logic;
 
-import loanbook.model.Model;
-import loanbook.model.loan.Loan;
+import java.util.Date;
+import java.util.Properties;
 
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.Date;
-import java.util.Properties;
+
+import loanbook.model.Model;
+import loanbook.model.loan.Loan;
 
 /**
  * The class is used for create reminder email and send the email.

@@ -1,11 +1,11 @@
 package loanbook.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+
 import loanbook.logic.CommandHistory;
 import loanbook.logic.commands.exceptions.CommandException;
 import loanbook.model.Model;
 import loanbook.model.loan.Email;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * Get user's current email address.

@@ -1,12 +1,12 @@
 package loanbook.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+import static loanbook.commons.util.CollectionUtil.requireAllNonNull;
+
 import loanbook.commons.core.Messages;
 import loanbook.logic.CommandHistory;
 import loanbook.logic.commands.exceptions.CommandException;
 import loanbook.model.Model;
-
-import static java.util.Objects.requireNonNull;
-import static loanbook.commons.util.CollectionUtil.requireAllNonNull;
 
 /**
  * Set user's email to the app.

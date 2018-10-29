@@ -1,16 +1,16 @@
 package loanbook.logic.parser;
 
-import loanbook.logic.commands.RemindCommand;
-import loanbook.logic.parser.exceptions.ParseException;
-import loanbook.model.bike.Bike;
-import loanbook.model.loan.Name;
-
-import java.util.stream.Stream;
-
 import static loanbook.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static loanbook.logic.parser.CliSyntax.PREFIX_BIKE;
 import static loanbook.logic.parser.CliSyntax.PREFIX_NAME;
 import static loanbook.logic.parser.CliSyntax.PREFIX_PASSWORD;
+
+import java.util.stream.Stream;
+
+import loanbook.logic.commands.RemindCommand;
+import loanbook.logic.parser.exceptions.ParseException;
+import loanbook.model.bike.Bike;
+import loanbook.model.loan.Name;
 
 /**
  * Parses input arguments and creates a new RemindCommand object

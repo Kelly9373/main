@@ -1,5 +1,15 @@
 package loanbook.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+import static loanbook.commons.util.CollectionUtil.requireAllNonNull;
+import static loanbook.logic.parser.CliSyntax.PREFIX_BIKE;
+import static loanbook.logic.parser.CliSyntax.PREFIX_NAME;
+import static loanbook.logic.parser.CliSyntax.PREFIX_PASSWORD;
+
+import java.util.List;
+
+import javax.mail.AuthenticationFailedException;
+
 import loanbook.commons.core.Messages;
 import loanbook.logic.CommandHistory;
 import loanbook.logic.SendReminder;
@@ -9,16 +19,6 @@ import loanbook.model.bike.Bike;
 import loanbook.model.loan.Loan;
 import loanbook.model.loan.LoanStatus;
 import loanbook.model.loan.Name;
-
-import javax.mail.AuthenticationFailedException;
-
-import java.util.List;
-
-import static java.util.Objects.requireNonNull;
-import static loanbook.commons.util.CollectionUtil.requireAllNonNull;
-import static loanbook.logic.parser.CliSyntax.PREFIX_BIKE;
-import static loanbook.logic.parser.CliSyntax.PREFIX_NAME;
-import static loanbook.logic.parser.CliSyntax.PREFIX_PASSWORD;
 
 /**
  * Send a reminder email to the customer.
