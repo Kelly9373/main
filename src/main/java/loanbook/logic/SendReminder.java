@@ -17,7 +17,7 @@ import loanbook.model.loan.Loan;
 public class SendReminder {
     private String myEmailAccount;
     private String myEmailPassword;
-    private String myEmailSMTPHost = "smtp.gmail.com";
+    private String myEmailSmtpHost = "smtp.gmail.com";
     private Loan targetLoan;
 
     public SendReminder(Model model, String myEmailPassword, Loan targetLoan) {
@@ -34,7 +34,7 @@ public class SendReminder {
     public void send() throws Exception {
         Properties props = new Properties();
         props.setProperty("mail.transport.protocol", "smtp");
-        props.setProperty("mail.smtp.host", myEmailSMTPHost);
+        props.setProperty("mail.smtp.host", myEmailSmtpHost);
         props.setProperty("mail.smtp.auth", "true");
 
         final String smtpPort = "465";

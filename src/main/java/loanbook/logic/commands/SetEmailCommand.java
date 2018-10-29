@@ -34,6 +34,9 @@ public class SetEmailCommand extends Command {
         this.newEmail = newEmail;
     }
 
+    /**
+     * Check if user's new {@code Email} is a valid Gmail.
+     */
     public boolean isValidGmail(String email) {
         int index = email.indexOf('@');
 
