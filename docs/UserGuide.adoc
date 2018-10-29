@@ -241,10 +241,10 @@ Format: `history`
 Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and next input respectively in the command box.
 ====
 
-=== Check your email : `check`
+=== Check your email : `checkemail`
 
 Checks whether you have set your email or not, and displays the censored email address if you have set it before. +
-Format: `check`
+Format: `checkemail`
 
 === Set your email : `setemail`
 
