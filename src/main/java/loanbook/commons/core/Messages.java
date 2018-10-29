@@ -12,7 +12,8 @@ public class Messages {
     public static final String MESSAGE_INVALID_PASSWORD = "The password provided is incorrect!";
     public static final String MESSAGE_INVALID_OLD_PASS = "The old password entered is incorrect!";
     public static final String MESSAGE_SAME_AS_CURRENT_PASSWORD = "The password provided is same as before!";
-    public static final String MESSAGE_AUTHEN_FAILURE = "Connection to your email failed! The password is wrong "
+    public static final String MESSAGE_AUTHEN_FAILURE = "Connection to your email failed! "
+            + "Please make sure you have connected to network! If connected, then your password might be wrong "
             + "or you did not enable \"less secure app\" in your google account setting before you use remind command."
             + " Please refer to the User Guide!";
     public static final String MESSAGE_INVALID_INFO = "No loan contains both %1$s and %2$s!";

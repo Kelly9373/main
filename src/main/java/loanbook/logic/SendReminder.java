@@ -1,8 +1,10 @@
 package loanbook.logic;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 
+import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -31,7 +33,9 @@ public class SendReminder {
      *
      * @throws Exception
      */
-    public void send() throws Exception {
+    public void send() throws MessagingException, UnsupportedEncodingException {
+        //@@author Kelly9373-reused
+        //Reused from https://github.com/clk528/maven-spring/blob/master/src/main/java/com/clk/library/sendmail.java
         Properties props = new Properties();
         props.setProperty("mail.transport.protocol", "smtp");
         props.setProperty("mail.smtp.host", myEmailSmtpHost);
@@ -52,6 +56,7 @@ public class SendReminder {
         transport.connect(myEmailAccount, myEmailPassword);
         transport.sendMessage(message, message.getAllRecipients());
         transport.close();
+        //@@author
     }
 
     /**
@@ -59,7 +64,8 @@ public class SendReminder {
      *
      * @throws Exception
      */
-    public MimeMessage createReminderEmail(Session session, String sendMail) throws Exception {
+    public MimeMessage createReminderEmail(Session session, String sendMail)
+            throws MessagingException, UnsupportedEncodingException {
         String content = "Dear " + targetLoan.getName().value + ",<br>";
         content += "<br>This is a gentle reminder for your loan. You rented " + targetLoan.getBike().getName().value;
         content += " on " + targetLoan.getLoanStartTime().toString() + " with rate $";
@@ -69,6 +75,8 @@ public class SendReminder {
         content += "<br>Best Regards,<br>";
         content += "LoanBook Team";
 
+        //@@author Kelly9373-reused
+        //Reused from https://github.com/clk528/maven-spring/blob/master/src/main/java/com/clk/library/sendmail.java
         MimeMessage message = new MimeMessage(session);
 
         message.setFrom(new InternetAddress(sendMail, "LoanBook", "UTF-8"));
@@ -80,5 +88,6 @@ public class SendReminder {
         message.saveChanges();
 
         return message;
+        //@@author
     }
 }

@@ -154,7 +154,7 @@ public class LoanBookParserTest {
         assertTrue(parser.parseCommand(CheckEmailCommand.COMMAND_WORD) instanceof CheckEmailCommand);
         assertTrue(parser.parseCommand(CheckEmailCommand.COMMAND_WORD + " 3") instanceof CheckEmailCommand);
     }
-      
+
     @Test
     public void parseCommand_listbikes() throws Exception {
         assertTrue(parser.parseCommand(ListBikesCommand.COMMAND_WORD) instanceof ListBikesCommand);
