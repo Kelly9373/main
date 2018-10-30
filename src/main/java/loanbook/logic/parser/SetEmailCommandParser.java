@@ -6,7 +6,7 @@ import loanbook.logic.commands.SetEmailCommand;
 import loanbook.logic.parser.exceptions.ParseException;
 
 /**
- * Parses input arguments and creates a new SetEmailCommand object
+ * Parses input arguments and creates a new SetEmailCommand object.
  */
 public class SetEmailCommandParser implements Parser<SetEmailCommand> {
 

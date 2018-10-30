@@ -31,7 +31,7 @@ public class SendReminder {
     }
 
     /**
-     * Send a reminder email
+     * Send a reminder email.
      *
      * @throws MessagingException
      * @throws UnsupportedEncodingException
@@ -63,7 +63,7 @@ public class SendReminder {
     }
 
     /**
-     * Create a reminder email
+     * Create a reminder email.
      *
      * @throws MessagingException
      * @throws UnsupportedEncodingException

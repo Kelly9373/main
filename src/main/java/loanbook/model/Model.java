@@ -74,12 +74,12 @@ public interface Model {
     boolean hasLoan(Loan loan);
 
     /**
-     * Set your email
+     * Set user's email.
      */
     void setMyEmail(String email);
 
     /**
-     * Get user's email
+     * Get user's email.
      */
     String getMyEmail();
 

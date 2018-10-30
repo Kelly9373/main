@@ -13,7 +13,7 @@ import loanbook.model.bike.Bike;
 import loanbook.model.loan.Name;
 
 /**
- * Parses input arguments and creates a new RemindCommand object
+ * Parses input arguments and creates a new RemindCommand object.
  */
 public class RemindCommandParser implements Parser<RemindCommand> {
 

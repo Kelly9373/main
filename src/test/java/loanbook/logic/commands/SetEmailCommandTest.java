@@ -40,29 +40,6 @@ public class SetEmailCommandTest {
     }
 
     @Test
-    public void isValidGmail() {
-        final SetEmailCommand command = new SetEmailCommand(VALID_USER_EMAIL1, VALID_USER_EMAIL2);
-        final String invalidGmail1 = "123456";
-        final String invalidGmail2 = "123456@";
-        final String invalidGmail3 = "123456@gmail";
-        final String invalidGmail4 = "123456@outlook.com";
-        final String invalidGmail5 = "123456@gmail.com@gmail.com";
-        final String validGmail = "example@gmail.com";
-
-        //invalid domain -> return false
-        assertFalse(command.isValidGmail(invalidGmail1));
-        assertFalse(command.isValidGmail(invalidGmail2));
-        assertFalse(command.isValidGmail(invalidGmail3));
-        assertFalse(command.isValidGmail(invalidGmail5));
-
-        //not gmail -> return false
-        assertFalse(command.isValidGmail(invalidGmail4));
-
-        //valid gmail -> returns true
-        assertTrue(command.isValidGmail(validGmail));
-    }
-
-    @Test
     public void execute_setemailSuccessful() throws Exception {
         ModelStubWithUserEmail modelStub = new ModelStubWithUserEmail();
 

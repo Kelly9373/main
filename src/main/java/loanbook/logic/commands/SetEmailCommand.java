@@ -7,6 +7,7 @@ import loanbook.commons.core.Messages;
 import loanbook.logic.CommandHistory;
 import loanbook.logic.commands.exceptions.CommandException;
 import loanbook.model.Model;
+import loanbook.model.loan.Email;
 
 /**
  * Set user's email to the app.
@@ -34,21 +35,6 @@ public class SetEmailCommand extends Command {
         this.newEmail = newEmail;
     }
 
-    /**
-     * Check if user's new {@code Email} is a valid Gmail.
-     */
-    public boolean isValidGmail(String email) {
-        int index = email.indexOf('@');
-
-        if (index == -1) {
-            return false;
-        }
-
-        String domain = email.substring(index + 1);
-
-        return domain.length() == 9 && domain.equals("gmail.com");
-    }
-
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         requireNonNull(model);
@@ -61,7 +47,7 @@ public class SetEmailCommand extends Command {
             throw new CommandException(Messages.MESSAGE_DUPLICATE_FAILURE);
         }
 
-        if (!isValidGmail(newEmail)) {
+        if (!Email.isValidGmail(newEmail)) {
             throw new CommandException(Messages.MESSAGE_INVALID_EMAIL);
         }
 

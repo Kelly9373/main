@@ -22,6 +22,28 @@ public class EmailTest {
     }
 
     @Test
+    public void isValidGmail() {
+        final String invalidGmail1 = "123456";
+        final String invalidGmail2 = "123456@";
+        final String invalidGmail3 = "123456@gmail";
+        final String invalidGmail4 = "123456@outlook.com";
+        final String invalidGmail5 = "123456@gmail.com@gmail.com";
+        final String validGmail = "example@gmail.com";
+
+        //invalid domain -> return false
+        assertFalse(Email.isValidGmail(invalidGmail1));
+        assertFalse(Email.isValidGmail(invalidGmail2));
+        assertFalse(Email.isValidGmail(invalidGmail3));
+        assertFalse(Email.isValidGmail(invalidGmail5));
+
+        //not gmail -> return false
+        assertFalse(Email.isValidGmail(invalidGmail4));
+
+        //valid gmail -> returns true
+        assertTrue(Email.isValidGmail(validGmail));
+    }
+
+    @Test
     public void isValidEmail() {
         // null email
         Assert.assertThrows(NullPointerException.class, () -> Email.isValidEmail(null));

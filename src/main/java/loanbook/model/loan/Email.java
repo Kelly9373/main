@@ -35,6 +35,21 @@ public class Email extends DataField<String> implements Censor {
     }
 
     /**
+     * Check if user's new {@code Email} is a valid Gmail.
+     */
+    public static boolean isValidGmail(String email) {
+        int index = email.indexOf('@');
+
+        if (index == -1) {
+            return false;
+        }
+
+        String domain = email.substring(index + 1);
+
+        return domain.length() == 9 && domain.equals("gmail.com");
+    }
+
+    /**
      * Returns if a given string is a valid email.
      */
     public static boolean isValidEmail(String objString) {
