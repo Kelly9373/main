@@ -17,7 +17,8 @@ public class Messages {
             + " Please refer to the User Guide!";
     public static final String MESSAGE_NO_NETWORK_CONNECTION = "No connection to the network! "
             + "Please make sure you have network connected!";
-    public static final String MESSAGE_BAD_RUNTIME = "You execute your code in a Java runtime that does not support UTF-8!";
+    public static final String MESSAGE_BAD_RUNTIME = "You execute your code in a Java runtime"
+            + " that does not support UTF-8!";
     public static final String MESSAGE_INVALID_INFO = "No loan contains both %1$s and %2$s!";
     public static final String MESSAGE_LOAN_IS_DONE = "You do not need to send reminder, because the loan is %s";
     public static final String MESSAGE_WRONG_OLDEMAIL = "The old email address is wrong!";
