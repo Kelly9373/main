@@ -4,12 +4,14 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 
+import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.sun.mail.util.MailConnectException;
 import loanbook.model.Model;
 import loanbook.model.loan.Loan;
 
@@ -31,7 +33,8 @@ public class SendReminder {
     /**
      * Send a reminder email
      *
-     * @throws Exception
+     * @throws MessagingException
+     * @throws UnsupportedEncodingException
      */
     public void send() throws MessagingException, UnsupportedEncodingException {
         //@@author Kelly9373-reused
@@ -62,7 +65,8 @@ public class SendReminder {
     /**
      * Create a reminder email
      *
-     * @throws Exception
+     * @throws MessagingException
+     * @throws UnsupportedEncodingException
      */
     public MimeMessage createReminderEmail(Session session, String sendMail)
             throws MessagingException, UnsupportedEncodingException {

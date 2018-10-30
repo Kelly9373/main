@@ -9,6 +9,7 @@ import static loanbook.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
 
 import loanbook.commons.core.Messages;
@@ -77,10 +78,12 @@ public class RemindCommand extends Command {
         try {
             sendReminder.send();
             return new CommandResult(MESSAGE_SUCCESS);
-        } catch (MessagingException e) {
+        } catch (AuthenticationFailedException e) {
             throw new CommandException(Messages.MESSAGE_AUTHEN_FAILURE);
+        } catch (MessagingException e) {
+            throw new CommandException(Messages.MESSAGE_NO_NETWORK_CONNECTION);
         } catch (UnsupportedEncodingException e) {
-            throw new CommandException("You execute your code in a Java runtime that does not support UTF-8!");
+            throw new CommandException(Messages.MESSAGE_BAD_RUNTIME);
         }
     }
 
