@@ -29,6 +29,23 @@ public class TypicalLoanBook {
 
         return lb;
     }
+  
+    /**
+     * Returns an {@code LoanBook} with one not returned loan.
+     */
+    public static LoanBook getLoanBookWithUnreturnedLoans() {
+        LoanBook lb = new LoanBook();
+        for (Bike bike : TypicalBikes.getTypicalBikes()) {
+            lb.addBike(bike);
+        }
+        lb.addLoan(new LoanBuilder().build());
+  
+        int lastUsedId = lb.getLoanList().size() + LoanId.MINIMUM_ID - 1;
+        LoanId lastUsedLoanId = LoanId.isValidLoanId(lastUsedId) ? LoanId.fromInt(lastUsedId) : null;
+        lb.setLoanIdManager(new LoanIdManager(lastUsedLoanId));
+
+        return lb;
+    }
 
     /**
      * Returns an {@code LoanBook} with all the bikes and loans only for the remind tests.
@@ -38,6 +55,7 @@ public class TypicalLoanBook {
         for (Bike bike : TypicalBikes.getTypicalBikes()) {
             lb.addBike(bike);
         }
+
         for (Loan loan : TypicalLoans.getLoansForRemindTest()) {
             lb.addLoan(loan);
         }
