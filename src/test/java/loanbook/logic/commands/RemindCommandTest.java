@@ -7,12 +7,12 @@ import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_BIKE1;
 import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_BIKE2;
 import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static loanbook.logic.commands.CommandTestUtil.VALID_USER_EMAIL4;
-import static loanbook.testutil.LoanBookForRemindTest.getLoanBookForRemindTest;
 import static loanbook.testutil.TypicalLoanBook.getTypicalLoanBook;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import loanbook.testutil.TypicalLoanBook;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -170,7 +170,7 @@ public class RemindCommandTest {
      */
     private class ModelStubWithTwoLoans extends ModelStub {
         private String defaultEmail = VALID_USER_EMAIL4;
-        private final ReadOnlyLoanBook loanBook = getLoanBookForRemindTest();
+        private final ReadOnlyLoanBook loanBook = TypicalLoanBook.getLoanBookForRemindTest();
 
         @Override
         public String getMyEmail() {

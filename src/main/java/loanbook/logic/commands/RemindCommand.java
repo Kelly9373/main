@@ -35,7 +35,7 @@ public class RemindCommand extends Command {
             + PREFIX_NAME + "NAME "
             + PREFIX_BIKE + "BIKE\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_PASSWORD + "hispassword "
+            + PREFIX_PASSWORD + "samplepassword "
             + PREFIX_NAME + "John Doe "
             + PREFIX_BIKE + "BIKE001";
 

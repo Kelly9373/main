@@ -28,7 +28,14 @@ public class EmailTest {
         final String invalidGmail3 = "123456@gmail";
         final String invalidGmail4 = "123456@outlook.com";
         final String invalidGmail5 = "123456@gmail.com@gmail.com";
-        final String validGmail = "example@gmail.com";
+        final String invalidGmail6 = "dotbeforeat.@gmail.com";
+        final String invalidGmail7 = "two..dots@gmail.com";
+        final String invalidGmail8 = "$ymbols@gmail.com";
+        final String invalidGmail9 = "symbolB*tween@gmail.com";
+        final String invalidGmail10 = "some spaces@gmail.com";
+        final String validGmail1 = "example@gmail.com";
+        final String validGmail2 = "aaaaa.aaaa@gmail.com";
+        final String validGmail3 = "bbb.aaa.090@gmail.com";
 
         //invalid domain -> return false
         assertFalse(Email.isValidGmail(invalidGmail1));
@@ -39,8 +46,18 @@ public class EmailTest {
         //not gmail -> return false
         assertFalse(Email.isValidGmail(invalidGmail4));
 
+        //invalid local -> return false
+        assertFalse(Email.isValidGmail(invalidGmail6));
+        assertFalse(Email.isValidGmail(invalidGmail7));
+        assertFalse(Email.isValidGmail(invalidGmail8));
+        assertFalse(Email.isValidGmail(invalidGmail9));
+        assertFalse(Email.isValidGmail(invalidGmail10));
+
+
         //valid gmail -> returns true
-        assertTrue(Email.isValidGmail(validGmail));
+        assertTrue(Email.isValidGmail(validGmail1));
+        assertTrue(Email.isValidGmail(validGmail2));
+        assertTrue(Email.isValidGmail(validGmail3));
     }
 
     @Test
