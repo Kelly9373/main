@@ -29,7 +29,7 @@ public class SendReminder {
     }
 
     /**
-     * Send a reminder email.
+     * Connect to your email and send a reminder email.
      *
      * @throws MessagingException
      * @throws UnsupportedEncodingException
@@ -68,14 +68,17 @@ public class SendReminder {
      */
     public MimeMessage createReminderEmail(Session session, String sendMail)
             throws MessagingException, UnsupportedEncodingException {
-        String content = "Dear " + targetLoan.getName().value + ",<br>";
-        content += "<br>This is a gentle reminder for your loan. You rented " + targetLoan.getBike().getName().value;
-        content += " on " + targetLoan.getLoanStartTime().toString() + " with rate $";
-        content += targetLoan.getLoanRate().toString();
-        content += "/hr. Please remember to return your bike after use as soon as possible.<br>";
-        content += "<br>Thank you for using Loan Book! Enjoy your trip!<br>";
-        content += "<br>Best Regards,<br>";
-        content += "LoanBook Team";
+
+        StringBuffer content = new StringBuffer();
+        content.append("Dear " + targetLoan.getName().value + ",<br>");
+        content.append("<br>This is a gentle reminder for your loan. You rented "
+                + targetLoan.getBike().getName().value);
+        content.append(" on " + targetLoan.getLoanStartTime().toString() + " with rate $");
+        content.append(targetLoan.getLoanRate().toString());
+        content.append("/hr. Please remember to return your bike after use as soon as possible.<br>");
+        content.append("<br>Thank you for using Loan Book! Enjoy your trip!<br>");
+        content.append("<br>Best Regards,<br>");
+        content.append("LoanBook Team");
 
         //@@author Kelly9373-reused
         //Reused from https://github.com/clk528/maven-spring/blob/master/src/main/java/com/clk/library/sendmail.java
@@ -85,7 +88,7 @@ public class SendReminder {
         message.setRecipient(MimeMessage.RecipientType.TO,
                 new InternetAddress(targetLoan.getEmail().value, targetLoan.getName().value, "UTF-8"));
         message.setSubject("Your trip with Loan Book", "UTF-8");
-        message.setContent(content, "text/html");
+        message.setContent(content.toString(), "text/html");
         message.setSentDate(new Date());
         message.saveChanges();
 
