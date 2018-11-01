@@ -14,7 +14,7 @@ public class Messages {
     public static final String MESSAGE_SAME_AS_CURRENT_PASSWORD = "The password provided is same as before!";
     public static final String MESSAGE_AUTHEN_FAILURE = "Your password might be wrong "
             + "or you did not enable \"less secure app\" in your google account setting before you use remind command."
-            + " Please refer to the User Guide!";
+            + " Please refer to the User Guide by pressing F1!";
     public static final String MESSAGE_NO_NETWORK_CONNECTION = "No connection to the network! "
             + "Please make sure you have network connected!";
     public static final String MESSAGE_BAD_RUNTIME = "You execute your code in a Java runtime"
