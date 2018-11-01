@@ -12,7 +12,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import loanbook.testutil.TypicalLoanBook;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -25,6 +24,7 @@ import loanbook.model.bike.Bike;
 import loanbook.model.loan.LoanStatus;
 import loanbook.model.loan.Name;
 import loanbook.testutil.ModelStub;
+import loanbook.testutil.TypicalLoanBook;
 
 public class RemindCommandTest {
 
