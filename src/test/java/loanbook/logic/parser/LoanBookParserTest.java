@@ -125,7 +125,7 @@ public class LoanBookParserTest {
                 RemindCommand.COMMAND_WORD + PASSWORD2_DESC + NAME_DESC_AMY + BIKE_DESC_AMY);
         Name name = new Name(VALID_NAME_AMY);
         Bike bike = new Bike(new Name(VALID_NAME_BIKE1));
-        assertEquals(new RemindCommand("loanbookpassword", name, bike), command);
+        assertEquals(new RemindCommand("a12345", name, bike), command);
     }
 
     @Test
