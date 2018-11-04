@@ -51,7 +51,7 @@ public class SetEmailCommand extends Command {
             throw new CommandException(Messages.MESSAGE_INVALID_EMAIL);
         }
 
-        if(!Password.isSamePassword(model.getPass(), password)) {
+        if (!Password.isSamePassword(model.getPass(), password)) {
             throw new CommandException(Messages.MESSAGE_INVALID_PASSWORD);
         }
 
