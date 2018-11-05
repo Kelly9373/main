@@ -13,7 +13,6 @@ import loanbook.model.Password;
 import loanbook.model.bike.Bike;
 import loanbook.model.loan.Email;
 import loanbook.model.loan.LoanRate;
-import loanbook.model.loan.LoanTime;
 import loanbook.model.loan.Name;
 import loanbook.model.loan.Nric;
 import loanbook.model.loan.Phone;
@@ -144,21 +143,6 @@ public class ParserUtil {
             throw new ParseException(LoanRate.MESSAGE_LOANRATE_CONSTRAINTS);
         }
         return new LoanRate(trimmedLoanRate);
-    }
-
-    /**
-     * Parses a {@code String time} into a {@code LoanTime}.
-     * Leading and trailing whitespaces will be trimmed.
-     *
-     * @throws ParseException if the given {@code time} is invalid.
-     */
-    public static LoanTime parseLoanTime(String time) throws ParseException {
-        requireNonNull(time);
-        String trimmedLoanTime = time.trim();
-        if (!LoanTime.isValidLoanTime(trimmedLoanTime)) {
-            throw new ParseException(LoanTime.MESSAGE_LOANTIME_CONSTRAINTS);
-        }
-        return new LoanTime(trimmedLoanTime);
     }
 
     /**
