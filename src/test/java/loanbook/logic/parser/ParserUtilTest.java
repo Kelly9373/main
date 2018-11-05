@@ -10,13 +10,13 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import loanbook.model.loan.LoanId;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import loanbook.logic.parser.exceptions.ParseException;
 import loanbook.model.loan.Email;
+import loanbook.model.loan.LoanId;
 import loanbook.model.loan.Name;
 import loanbook.model.loan.Phone;
 import loanbook.model.tag.Tag;

@@ -8,10 +8,10 @@ import static loanbook.logic.parser.CliSyntax.PREFIX_ID;
 import static loanbook.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static loanbook.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
-import loanbook.model.loan.LoanId;
 import org.junit.Test;
 
 import loanbook.logic.commands.RemindCommand;
+import loanbook.model.loan.LoanId;
 
 public class RemindCommandParserTest {
     private RemindCommandParser parser = new RemindCommandParser();
