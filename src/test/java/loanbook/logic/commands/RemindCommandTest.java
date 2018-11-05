@@ -2,10 +2,6 @@ package loanbook.logic.commands;
 
 import static loanbook.logic.commands.CommandTestUtil.PASSWORD1;
 import static loanbook.logic.commands.CommandTestUtil.PASSWORD2;
-import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_AMY;
-import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_BIKE1;
-import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_BIKE2;
-import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static loanbook.logic.commands.CommandTestUtil.VALID_USER_EMAIL4;
 import static loanbook.testutil.TypicalLoanBook.getTypicalLoanBook;
 import static org.junit.Assert.assertEquals;
@@ -20,9 +16,8 @@ import loanbook.commons.core.Messages;
 import loanbook.logic.CommandHistory;
 import loanbook.logic.commands.exceptions.CommandException;
 import loanbook.model.ReadOnlyLoanBook;
-import loanbook.model.bike.Bike;
+import loanbook.model.loan.LoanId;
 import loanbook.model.loan.LoanStatus;
-import loanbook.model.loan.Name;
 import loanbook.testutil.ModelStub;
 import loanbook.testutil.TypicalLoanBook;
 
@@ -38,27 +33,20 @@ public class RemindCommandTest {
     @Test
     public void constructor_nullPassword_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
-        new RemindCommand(null, new Name(VALID_NAME_AMY), new Bike(new Name(VALID_NAME_BIKE1)));
+        new RemindCommand(null, new LoanId("0"));
     }
 
     @Test
-    public void constructor_nullName_throwsNullPointerException() {
+    public void constructor_nullId_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
-        new RemindCommand(PASSWORD1, null, new Bike(new Name(VALID_NAME_BIKE1)));
-    }
-
-    @Test
-    public void constructor_nullBike_throwsNullPointerException() {
-        thrown.expect(NullPointerException.class);
-        new RemindCommand(PASSWORD1, new Name(VALID_NAME_AMY), null);
+        new RemindCommand(PASSWORD1, null);
     }
 
     @Test
     public void execute_remindSuccessful() throws Exception {
         ModelStubWithUserEmail modelStub = new ModelStubWithUserEmail();
-        Name name = new Name("Alice Pauline");
-        Bike bike = new Bike(new Name(VALID_NAME_BIKE1));
-        CommandResult commandResult = new RemindCommand(PASSWORD1, name, bike).execute(modelStub, commandHistory);
+        LoanId id = new LoanId("0");
+        CommandResult commandResult = new RemindCommand(PASSWORD1, id).execute(modelStub, commandHistory);
 
         assertEquals(RemindCommand.MESSAGE_SUCCESS, commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
@@ -66,22 +54,20 @@ public class RemindCommandTest {
 
     @Test
     public void execute_noTargetLoan_throwsCommandException() throws Exception {
-        Name name = new Name("Alice Pauline");
-        Bike bike = new Bike(new Name(VALID_NAME_BIKE2));
+        LoanId id = new LoanId("999");
         ModelStubWithUserEmail modelStub = new ModelStubWithUserEmail();
-        RemindCommand command = new RemindCommand(PASSWORD1, name, bike);
+        RemindCommand command = new RemindCommand(PASSWORD1, id);
 
         thrown.expect(CommandException.class);
-        thrown.expectMessage(String.format(Messages.MESSAGE_INVALID_INFO, name, bike.getName()));
+        thrown.expectMessage(Messages.MESSAGE_INVALID_INFO);
         command.execute(modelStub, commandHistory);
     }
 
     @Test
     public void execute_sendToReturnedLoan_throwsCommandException() throws Exception {
         ModelStubWithTwoLoans modelStub = new ModelStubWithTwoLoans();
-        Name name = new Name("Alice Pauline");
-        Bike bike = new Bike(new Name(VALID_NAME_BIKE1));
-        RemindCommand command = new RemindCommand(PASSWORD1, name, bike);
+        LoanId id = new LoanId("0");
+        RemindCommand command = new RemindCommand(PASSWORD1, id);
 
         thrown.expect(CommandException.class);
         thrown.expectMessage(String.format(String.format(Messages.MESSAGE_LOAN_IS_DONE,
@@ -92,9 +78,8 @@ public class RemindCommandTest {
     @Test
     public void execute_sendToDeletedLoan_throwsCommandException() throws Exception {
         ModelStubWithTwoLoans modelStub = new ModelStubWithTwoLoans();
-        Name name = new Name("Benson Meier");
-        Bike bike = new Bike(new Name(VALID_NAME_BIKE2));
-        RemindCommand command = new RemindCommand(PASSWORD1, name, bike);
+        LoanId id = new LoanId("1");
+        RemindCommand command = new RemindCommand(PASSWORD1, id);
 
         thrown.expect(CommandException.class);
         thrown.expectMessage(String.format(String.format(Messages.MESSAGE_LOAN_IS_DONE,
@@ -105,9 +90,8 @@ public class RemindCommandTest {
     @Test
     public void execute_wrongEmailPassword_throwsCommandException() throws Exception {
         ModelStubWithUserEmail modelStub = new ModelStubWithUserEmail();
-        Name name = new Name("Alice Pauline");
-        Bike bike = new Bike(new Name(VALID_NAME_BIKE1));
-        RemindCommand command = new RemindCommand(PASSWORD2, name, bike);
+        LoanId id = new LoanId("0");
+        RemindCommand command = new RemindCommand(PASSWORD2, id);
 
         thrown.expect(CommandException.class);
         thrown.expectMessage(Messages.MESSAGE_AUTHEN_FAILURE);
@@ -116,10 +100,8 @@ public class RemindCommandTest {
 
     @Test
     public void equals() {
-        final RemindCommand standardCommand =
-                new RemindCommand(PASSWORD1, new Name(VALID_NAME_AMY), new Bike(new Name(VALID_NAME_BIKE1)));
-        RemindCommand commandWithSameValues =
-                new RemindCommand(PASSWORD1, new Name(VALID_NAME_AMY), new Bike(new Name(VALID_NAME_BIKE1)));
+        final RemindCommand standardCommand = new RemindCommand(PASSWORD1, new LoanId("0"));
+        RemindCommand commandWithSameValues = new RemindCommand(PASSWORD1, new LoanId("0"));
 
         // same values -> returns true
         assertTrue(standardCommand.equals(commandWithSameValues));
@@ -134,12 +116,8 @@ public class RemindCommandTest {
         assertFalse(standardCommand.equals(new ClearCommand()));
 
         // different value -> returns false
-        assertFalse(standardCommand.equals(
-                new RemindCommand(PASSWORD2, new Name(VALID_NAME_AMY), new Bike(new Name(VALID_NAME_BIKE1)))));
-        assertFalse(standardCommand.equals(
-                new RemindCommand(PASSWORD1, new Name(VALID_NAME_BOB), new Bike(new Name(VALID_NAME_BIKE1)))));
-        assertFalse(standardCommand.equals(
-                new RemindCommand(PASSWORD1, new Name(VALID_NAME_AMY), new Bike(new Name(VALID_NAME_BIKE2)))));
+        assertFalse(standardCommand.equals(new RemindCommand(PASSWORD2, new LoanId("0"))));
+        assertFalse(standardCommand.equals(new RemindCommand(PASSWORD1, new LoanId("1"))));
     }
 
     /**

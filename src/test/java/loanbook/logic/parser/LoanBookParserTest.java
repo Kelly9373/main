@@ -4,11 +4,13 @@ import static loanbook.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static loanbook.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static loanbook.logic.commands.CommandTestUtil.BIKE_DESC_AMY;
 import static loanbook.logic.commands.CommandTestUtil.DEFAULT_USER_EMAIL;
+import static loanbook.logic.commands.CommandTestUtil.EMAILPW2_DESC;
 import static loanbook.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static loanbook.logic.commands.CommandTestUtil.PASSWORD2_DESC;
 import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_BIKE1;
 import static loanbook.logic.commands.CommandTestUtil.VALID_USER_EMAIL1;
+import static loanbook.logic.parser.CliSyntax.PREFIX_ID;
 import static loanbook.testutil.TypicalIndexes.INDEX_FIRST_LOAN;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -17,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import loanbook.model.loan.LoanId;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -120,10 +123,9 @@ public class LoanBookParserTest {
     @Test
     public void parseCommand_remind() throws Exception {
         RemindCommand command = (RemindCommand) parser.parseCommand(
-                RemindCommand.COMMAND_WORD + PASSWORD2_DESC + NAME_DESC_AMY + BIKE_DESC_AMY);
-        Name name = new Name(VALID_NAME_AMY);
-        Bike bike = new Bike(new Name(VALID_NAME_BIKE1));
-        assertEquals(new RemindCommand("loanbookpassword", name, bike), command);
+                RemindCommand.COMMAND_WORD + EMAILPW2_DESC + " " + PREFIX_ID + "0");
+        LoanId id = new LoanId("0");
+        assertEquals(new RemindCommand("loanbookpassword", id), command);
     }
 
     @Test
