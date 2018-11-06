@@ -6,7 +6,7 @@ import static loanbook.logic.parser.CliSyntax.PREFIX_EMAILPW;
 import static loanbook.logic.parser.CliSyntax.PREFIX_ID;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
+import java.util.Optional;
 
 import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
@@ -53,22 +53,21 @@ public class RemindCommand extends Command {
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         requireNonNull(model);
-        List<Loan> loanList = model.getLoanBook().getLoanList();
-        int maxId = loanList.size() - 1;
+        int maxId = model.getNextAvailableId().value - 1;
 
         if (id.value > maxId) {
             throw new CommandException(Messages.MESSAGE_INVALID_INFO);
         }
 
-        Loan targetLoan = loanList.get(id.value);
+        Optional<Loan> targetLoan = model.getLoanById(id);
 
-        if (targetLoan.getLoanStatus().equals(LoanStatus.RETURNED)) {
+        if (targetLoan.isPresent() && targetLoan.get().getLoanStatus().equals(LoanStatus.RETURNED)) {
             throw new CommandException(String.format(Messages.MESSAGE_LOAN_IS_DONE, LoanStatus.RETURNED.toString()));
-        } else if (targetLoan.getLoanStatus().equals(LoanStatus.DELETED)) {
+        } else if (!targetLoan.isPresent()) {
             throw new CommandException(String.format(Messages.MESSAGE_LOAN_IS_DONE, LoanStatus.DELETED.toString()));
         }
 
-        SendReminder sendReminder = new SendReminder(model, emailPassword, targetLoan);
+        SendReminder sendReminder = new SendReminder(model, emailPassword, targetLoan.get());
 
         try {
             sendReminder.send();
