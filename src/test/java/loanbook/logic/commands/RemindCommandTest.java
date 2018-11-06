@@ -9,10 +9,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import loanbook.model.Model;
-import loanbook.model.ModelManager;
-import loanbook.model.Password;
-import loanbook.model.UserPrefs;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -20,6 +16,10 @@ import org.junit.rules.ExpectedException;
 import loanbook.commons.core.Messages;
 import loanbook.logic.CommandHistory;
 import loanbook.logic.commands.exceptions.CommandException;
+import loanbook.model.Model;
+import loanbook.model.ModelManager;
+import loanbook.model.Password;
+import loanbook.model.UserPrefs;
 import loanbook.model.loan.LoanId;
 import loanbook.model.loan.LoanStatus;
 
