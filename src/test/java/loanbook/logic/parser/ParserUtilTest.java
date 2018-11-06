@@ -51,7 +51,7 @@ public class ParserUtilTest {
     public void parseIndex_outOfRangeInput_throwsParseException() throws Exception {
         thrown.expect(ParseException.class);
         thrown.expectMessage(MESSAGE_INVALID_INDEX);
-        ParserUtil.parseIndex(Long.toString(Integer.MAX_VALUE + 1));
+        ParserUtil.parseIndex(Long.toString((long) Integer.MAX_VALUE + 1));
     }
 
     @Test
@@ -62,6 +62,22 @@ public class ParserUtilTest {
         // Leading and trailing whitespaces
         assertEquals(INDEX_FIRST_LOAN, ParserUtil.parseIndex("  1  "));
     }
+
+    @Test
+    public void parseLoanId_validInput_success() throws Exception {
+        // No whitespaces
+        assertEquals(LoanId.fromInt(50), ParserUtil.parseLoanId("50"));
+
+        // Leading and trailing whitespaces
+        assertEquals(LoanId.fromInt(50), ParserUtil.parseLoanId("  50  "));
+    }
+
+    @Test
+    public void parseLoanId_invalidInput_throwsParseException() {
+        Assert.assertThrows(ParseException.class, LoanId.MESSAGE_LOANID_CONSTRAINTS, () ->
+                ParserUtil.parseLoanId("Invalid ID"));
+    }
+
 
     @Test
     public void parseName_null_throwsNullPointerException() {
