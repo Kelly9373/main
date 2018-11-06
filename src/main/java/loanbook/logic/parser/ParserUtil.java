@@ -12,6 +12,7 @@ import loanbook.logic.parser.exceptions.ParseException;
 import loanbook.model.Password;
 import loanbook.model.bike.Bike;
 import loanbook.model.loan.Email;
+import loanbook.model.loan.LoanId;
 import loanbook.model.loan.LoanRate;
 import loanbook.model.loan.Name;
 import loanbook.model.loan.Nric;
@@ -143,6 +144,21 @@ public class ParserUtil {
             throw new ParseException(LoanRate.MESSAGE_LOANRATE_CONSTRAINTS);
         }
         return new LoanRate(trimmedLoanRate);
+    }
+
+    /**
+     * Parses a {@code String loanId} into a {@code LoanID}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code loanId} is invalid.
+     */
+    public static LoanId parseLoanId(String loanId) throws ParseException {
+        requireNonNull(loanId);
+        String trimmedLoanId = loanId.trim();
+        if (!LoanId.isValidLoanId(trimmedLoanId)) {
+            throw new ParseException(LoanId.MESSAGE_LOANID_CONSTRAINTS);
+        }
+        return new LoanId(trimmedLoanId);
     }
 
     /**
