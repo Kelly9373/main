@@ -29,13 +29,13 @@ public class SetEmailCommandTest {
     private CommandHistory commandHistory = new CommandHistory();
 
     @Test
-    public void constructor_nullOldEmail_throwsNullPointerException() {
+    public void constructor_nullNewEmail_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
         new SetEmailCommand(null, new Password("a12345"));
     }
 
     @Test
-    public void constructor_nullNewEmail_throwsNullPointerException() {
+    public void constructor_nullEmailPassword_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
         new SetEmailCommand(new Email(VALID_USER_EMAIL2), null);
     }
