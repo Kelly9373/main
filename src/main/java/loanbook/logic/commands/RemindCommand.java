@@ -53,18 +53,14 @@ public class RemindCommand extends Command {
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         requireNonNull(model);
-        int maxId = model.getNextAvailableId().value - 1;
+        Optional<Loan> targetLoan = model.getLoanById(id);
 
-        if (id.value > maxId) {
+        if (!targetLoan.isPresent()) {
             throw new CommandException(Messages.MESSAGE_INVALID_INFO);
         }
 
-        Optional<Loan> targetLoan = model.getLoanById(id);
-
-        if (targetLoan.isPresent() && targetLoan.get().getLoanStatus().equals(LoanStatus.RETURNED)) {
+        if (targetLoan.get().getLoanStatus().equals(LoanStatus.RETURNED)) {
             throw new CommandException(String.format(Messages.MESSAGE_LOAN_IS_DONE, LoanStatus.RETURNED.toString()));
-        } else if (!targetLoan.isPresent()) {
-            throw new CommandException(String.format(Messages.MESSAGE_LOAN_IS_DONE, LoanStatus.DELETED.toString()));
         }
 
         SendReminder sendReminder = new SendReminder(model, emailPassword, targetLoan.get());

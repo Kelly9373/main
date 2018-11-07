@@ -77,8 +77,7 @@ public class RemindCommandTest {
         RemindCommand command = new RemindCommand(PASSWORD1, id);
 
         thrown.expect(CommandException.class);
-        thrown.expectMessage(String.format(String.format(Messages.MESSAGE_LOAN_IS_DONE,
-                LoanStatus.RETURNED.toString())));
+        thrown.expectMessage(String.format(Messages.MESSAGE_LOAN_IS_DONE, LoanStatus.RETURNED.toString()));
         command.execute(modelStub, commandHistory);
     }
 
@@ -92,8 +91,7 @@ public class RemindCommandTest {
         RemindCommand command = new RemindCommand(PASSWORD1, id);
 
         thrown.expect(CommandException.class);
-        thrown.expectMessage(String.format(String.format(Messages.MESSAGE_LOAN_IS_DONE,
-                LoanStatus.DELETED.toString())));
+        thrown.expectMessage(Messages.MESSAGE_INVALID_INFO);
         command.execute(modelStub, commandHistory);
     }
 
