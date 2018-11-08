@@ -131,7 +131,7 @@ public class LoanBookParserTest {
         RemindCommand command = (RemindCommand) parser.parseCommand(
                 RemindCommand.COMMAND_WORD + EMAILPW2_DESC + " " + PREFIX_ID + "0");
         LoanId id = new LoanId("0");
-        assertEquals(new RemindCommand("loanbookpassword", id), command);
+        assertEquals(new RemindCommand(PASSWORD2, id), command);
     }
 
     @Test
