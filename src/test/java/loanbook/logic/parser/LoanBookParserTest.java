@@ -2,10 +2,10 @@ package loanbook.logic.parser;
 
 import static loanbook.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static loanbook.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static loanbook.logic.commands.CommandTestUtil.EMAILPW2_DESC;
 import static loanbook.logic.commands.CommandTestUtil.PASSWORD2;
 import static loanbook.logic.commands.CommandTestUtil.PASSWORD2_DESC;
 import static loanbook.logic.commands.CommandTestUtil.USER_EMAIL1_DESC;
-import static loanbook.logic.commands.CommandTestUtil.EMAILPW2_DESC;
 import static loanbook.logic.commands.CommandTestUtil.VALID_USER_EMAIL1;
 import static loanbook.logic.parser.CliSyntax.PREFIX_ID;
 import static loanbook.logic.parser.CliSyntax.PREFIX_PASSWORD;
