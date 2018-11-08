@@ -2,14 +2,12 @@ package loanbook.logic.parser;
 
 import static loanbook.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static loanbook.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static loanbook.logic.commands.CommandTestUtil.BIKE_DESC_AMY;
-import static loanbook.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static loanbook.logic.commands.CommandTestUtil.PASSWORD2;
 import static loanbook.logic.commands.CommandTestUtil.PASSWORD2_DESC;
 import static loanbook.logic.commands.CommandTestUtil.USER_EMAIL1_DESC;
-import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_AMY;
-import static loanbook.logic.commands.CommandTestUtil.VALID_NAME_BIKE1;
+import static loanbook.logic.commands.CommandTestUtil.EMAILPW2_DESC;
 import static loanbook.logic.commands.CommandTestUtil.VALID_USER_EMAIL1;
+import static loanbook.logic.parser.CliSyntax.PREFIX_ID;
 import static loanbook.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import static loanbook.testutil.TypicalIndexes.INDEX_FIRST_LOAN;
 import static org.junit.Assert.assertEquals;
@@ -48,8 +46,8 @@ import loanbook.model.Password;
 import loanbook.model.bike.Bike;
 import loanbook.model.loan.Email;
 import loanbook.model.loan.Loan;
+import loanbook.model.loan.LoanId;
 import loanbook.model.loan.LoanTime;
-import loanbook.model.loan.Name;
 import loanbook.model.loan.NameContainsKeywordsPredicate;
 import loanbook.testutil.BikeBuilder;
 import loanbook.testutil.BikeUtil;
@@ -131,10 +129,9 @@ public class LoanBookParserTest {
     @Test
     public void parseCommand_remind() throws Exception {
         RemindCommand command = (RemindCommand) parser.parseCommand(
-                RemindCommand.COMMAND_WORD + PASSWORD2_DESC + NAME_DESC_AMY + BIKE_DESC_AMY);
-        Name name = new Name(VALID_NAME_AMY);
-        Bike bike = new Bike(new Name(VALID_NAME_BIKE1));
-        assertEquals(new RemindCommand("a12345", name, bike), command);
+                RemindCommand.COMMAND_WORD + EMAILPW2_DESC + " " + PREFIX_ID + "0");
+        LoanId id = new LoanId("0");
+        assertEquals(new RemindCommand("loanbookpassword", id), command);
     }
 
     @Test
