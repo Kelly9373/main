@@ -268,7 +268,7 @@ public class EditCommandTest {
         assertFalse(standardCommand == null);
 
         // different types -> returns false
-        assertFalse(standardCommand.equals(new ClearCommand()));
+        assertFalse(standardCommand.equals(new ListCommand()));
 
         // different index -> returns false
         assertFalse(standardCommand.equals(new EditCommand(INDEX_SECOND_LOAN, DESC_AMY)));
