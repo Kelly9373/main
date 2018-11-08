@@ -32,10 +32,10 @@ e.g. typing *`help`* and pressing kbd:[ENTER] will open the help window.
 * *`list`* : List the status of the loanbook
 * **`add`**`p/John hp/12345678 e/john@abc.com r/3 o/Bicycle-007` : Loans Bicycle-007 to John at a rate of $3 per hour
 * **`delete`**`i/1 x/a12345` : deletes the 1st loan shown in the current list
-* *`reset`* : Reset the loanbook
+* *`resetall`* : Reset the loanbook
 
 [NOTE]
-The default password for the app is `a12345`. This is required for some commands such as `reset` and `delete`.
+The default password for the app is `a12345`. This is required for some commands such as `resetall` and `delete`.
 
 .  Refer to <<Features>> for details of each command.
 
@@ -203,7 +203,7 @@ Deletes the loan with that has been indexed at position 1.
 // tag::setpass[]
 === Changing the password of the app: `setpass`
 
-Change the current password of the app to `NEW_PASSWORD`. This ensures that critical commands such as `delete` and `reset` may be performed by authorized personnel only. +
+Change the current password of the app to `NEW_PASSWORD`. This ensures that critical commands such as `delete` and `resetall` may be performed by authorized personnel only. +
 Format: `setpass CURRENT_PASSWORD NEW_PASSWORD`
 
 ****
@@ -271,20 +271,53 @@ Searches for loans with loan start date and time as 2018-01-01.
 Searches for loans with loan start date and time between 2018-01-01 and 2018-01-02, inclusive.
 // end::searchcommand[]
 
-=== Hard reset the entire loan book : `reset`
+// tag::resetloans[]
+=== Hard reset all loans from loan book : `resetloans`
 
-Removes all the loans from the loan book and resets the LOAN_ID counter. +
-Format: `reset`
+Removes all loans from the loan book and resets the Loan ID counter. This operation requires password authentication.
+
+Format: `resetloans x/CURRENT_PASSWORD`
+
+Example:
+
+* `resetloans x/a12345`
+
+////
+// The current implementation of `delete` does not match what this note says.
 
 [NOTE]
 ====
 The difference between deleting all the loans and hard resetting the LoanBook is that when a loan is deleted, you will still be able to search for it. However, the statistics of deleted loans do not appear in the `summary` command.
 ====
+////
+
+[NOTE]
+====
+This operation will not modify the bicycles in the Loan Book. To reset the entire loan book, including the bicycles, see the <<Hard reset the entire loan book : `resetall`, `resetall`>> command.
+====
 
 [WARNING]
 ====
-**Hard resetting the LoanBook will remove ALL loans! Do this ar your own peril.**
+**This operation will erase the data of ALL loans! Do this at your own peril.**
 ====
+// end::resetloans[]
+
+// tag::resetall[]
+=== Hard reset the entire loan book : `resetall`
+
+Resets the entire loan book. This includes the removal of all loans and bikes from the loan book and the Loan ID counter being reset. This operation requires password authentication.
+
+Format: `resetall x/CURRENT_PASSWORD`
+
+Example:
+
+* `resetall x/a12345`
+
+[WARNING]
+====
+**This operation will erase the data of ALL loans and bikes! Do this at your own peril.**
+====
+// end::resetall[]
 
 === Summarize all the transactions: `summary`
 
@@ -316,7 +349,6 @@ Format: `history`
 Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and next input respectively in the command box.
 ====
 
-// tag::sendemail[]
 === Check your email: `checkemail`
 
 Checks whether you have set your email or not, and displays the censored email address if you have set it before. +
@@ -337,8 +369,8 @@ Only Gmail is accepted!
 
 Examples:
 
-* `setemail default \new.email@gmail.com`
-* `setemail \old.email@gmail.com \new.email@gmail.com`
+* `setemail default \new_email@gmail.com`
+* `setemail \old_email@gmail.com \new_email@gmail.com`
 
 === Send reminder email: `remind`
 

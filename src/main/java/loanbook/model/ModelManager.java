@@ -106,6 +106,12 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
+    public void resetBikes() {
+        setBikes(Collections.emptyList());
+        // Change has already been indicated in the above command.
+    }
+
+    @Override
     public Optional<Loan> getLoanById(LoanId loanId) {
         return versionedLoanBook.getLoanById(loanId);
     }
@@ -155,12 +161,11 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     /**
-     * Clears the loan list and resets the loan ID.
+     * Clears the loan list.
      */
     @Override
     public void resetLoans() {
         setLoans(Collections.emptyList());
-        resetId();
         // Change has already been indicated in the above commands
     }
 

@@ -6,6 +6,7 @@ import static loanbook.logic.commands.CommandTestUtil.DEFAULT_USER_EMAIL;
 import static loanbook.logic.commands.CommandTestUtil.EMAILPW2_DESC;
 import static loanbook.logic.commands.CommandTestUtil.VALID_USER_EMAIL1;
 import static loanbook.logic.parser.CliSyntax.PREFIX_ID;
+import static loanbook.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import static loanbook.testutil.TypicalIndexes.INDEX_FIRST_LOAN;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -21,7 +22,6 @@ import org.junit.rules.ExpectedException;
 import loanbook.logic.commands.AddBikeCommand;
 import loanbook.logic.commands.AddCommand;
 import loanbook.logic.commands.CheckEmailCommand;
-import loanbook.logic.commands.ClearCommand;
 import loanbook.logic.commands.DeleteCommand;
 import loanbook.logic.commands.EditCommand;
 import loanbook.logic.commands.ExitCommand;
@@ -32,6 +32,7 @@ import loanbook.logic.commands.ListBikesCommand;
 import loanbook.logic.commands.ListCommand;
 import loanbook.logic.commands.RedoCommand;
 import loanbook.logic.commands.RemindCommand;
+import loanbook.logic.commands.ResetLoansCommand;
 import loanbook.logic.commands.ReturnCommand;
 import loanbook.logic.commands.SearchCommand;
 import loanbook.logic.commands.SelectCommand;
@@ -75,8 +76,13 @@ public class LoanBookParserTest {
 
     @Test
     public void parseCommand_clear() throws Exception {
-        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD) instanceof ClearCommand);
-        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD + " 3") instanceof ClearCommand);
+        String samplePasswordUserInput = "a12345";
+        Password samplePassword = new Password(samplePasswordUserInput);
+
+        ResetLoansCommand expectedCommand = new ResetLoansCommand(samplePassword);
+
+        assertEquals(expectedCommand,
+                parser.parseCommand(ResetLoansCommand.COMMAND_WORD + " " + PREFIX_PASSWORD + samplePasswordUserInput));
     }
 
     @Test

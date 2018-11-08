@@ -123,7 +123,7 @@ public class RemindCommandTest {
         assertFalse(standardCommand == null);
 
         // different types -> returns false
-        assertFalse(standardCommand.equals(new ClearCommand()));
+        assertFalse(standardCommand.equals(new ListCommand()));
 
         // different value -> returns false
         assertFalse(standardCommand.equals(new RemindCommand(PASSWORD2, new LoanId("0"))));

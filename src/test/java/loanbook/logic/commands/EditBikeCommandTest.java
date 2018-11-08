@@ -127,7 +127,7 @@ public class EditBikeCommandTest {
         assertFalse(standardCommand == null);
 
         // different types -> returns false
-        assertFalse(standardCommand.equals(new ClearCommand()));
+        assertFalse(standardCommand.equals(new ListCommand()));
 
         // different index -> returns false
         assertFalse(standardCommand.equals(new EditBikeCommand(new Name(VALID_NAME_BIKE2), DESC_BIKE1)));
