@@ -88,9 +88,8 @@
         </TextFlow>
          <TextFlow prefHeight="17.0" prefWidth="130.0">
             <children>
-               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="With rate: " />
+               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="With rate(/hr): " />
             <Label fx:id="rate" prefHeight="17.0" prefWidth="33.0" styleClass="cell_small_label" text="\$rate" />
-               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="/hr" />
             </children>
          </TextFlow>
     </VBox>

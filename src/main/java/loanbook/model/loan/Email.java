@@ -38,11 +38,8 @@ public class Email extends DataField<String> implements Censor {
      * Check if user's new {@code Email} is a valid Gmail.
      */
     public static boolean isValidGmail(String email) {
-        if (email.length() < 16) {
-            return false;
-        }
-
-        return email.matches("^[a-z0-9](\\.?[a-zA-Z0-9])+@gmail\\.com$");
+        // A valid gmail's local part should have at least 6 characters(alphabet, number, dot)
+        return email.matches("^[a-z0-9](\\.?[a-zA-Z0-9]){5,}@g(oogle)?mail\\.com$");
     }
 
     /**
