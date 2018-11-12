@@ -59,7 +59,9 @@ This section shows my contribution to the LoanBook's development.
 
 * *Other contributions*:
 
-** Project management: [red]#(TODO)#
+** Project management:
+
+*** Add config.json file to fix the problem that repoSense not correctly detecting teammates' contributions.
 
 ** Enhancements to existing features:
 
