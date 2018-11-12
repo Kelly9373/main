@@ -28,7 +28,9 @@ The project was morphed from the https://github.com/nus-cs2103-AY1819S1/addressb
 |_This section records my contributions to the main code base._
 |===
 
-=== *Major enhancement 1*: `return` functionality.
+=== *Major enhancement*: return and summary functionality.
+
+==== `return` functionality
 
 Added a command that allows the user to return a loan.
 
@@ -40,7 +42,7 @@ Added a command that allows the user to return a loan.
 
 ** PR https://github.com/CS2103-AY1819S1-F10-2/main/pull/159[#159].
 
-=== *Major enhancement 2*: `summary` functionality
+==== `summary` functionality
 
 ** Feature: Generates a single page summary of all the undeleted loans that the user has enetered into the LoanBook.
 
@@ -241,3 +243,48 @@ image::ReturnSequenceLogic.png[width="450"]
 ** Pros: Computing the `summary` of the LoanBook would be much easier, and quicker.
 ** Cons: `return` functionality would run much slower, as there will be empty slots in the ArrayList after shifting the Loan objects around. Searching for loans would also be much more difficult, as the results from the various Loan ArrayLists has to be appended together.
 
+
+=== Instructions for Manual Testing
+==== Summary functionality
+
+Use the `summary` command on various sizes of the LoanBook to test this functionality
+
+. Create an empty LoanBook and run the `summary` command. +
+Expected: The summary should report the following:
+** Total loans: 0
+** Loans in progress: 0
+** Returned loans: 0
+** Total product loan time: 0 minutes
+** Total revenue: $0.00
+
+. Add 1 loan with a rate of $30/hr. Run the `summary` command. +
+Expected: The displayed page should report the following:
+** Total loans: 1
+** Loans in progress: 1
+** Returned loans: 0
+** Total product loan time: 0 minutes
+** Total revenue: $0.00
+
+. Add 3 more loans with rates $120/hr. Run the `summary` command. +
+Expected: The displayed page should report the following:
+** Total loans: 4
+** Loans in progress: 4
+** Returned loans: 0
+** Total product loan time: 0 minutes
+** Total revenue: $0.00
+
+. Return the first loan that you have added from above after exactly 1 minute, and run the `summary` command. +
+Expected: The displayed page should report the following:
+** Total loans: 4
+** Loans in progress: 3
+** Returned loans: 1
+** Total product loan time: 1 minutes
+** Total revenue: $0.50
+
+. Return 2 of the 3 loans that you have added from above after exactly 1 and 2 minutes from when you added them, respectively. Run the `summary` command. +
+Expected: The displayed page should report the following:
+** Total loans: 4
+** Loans in progress: 1
+** Returned loans: 3
+** Total product loan time: 4 minutes
+** Total revenue: $6.50
