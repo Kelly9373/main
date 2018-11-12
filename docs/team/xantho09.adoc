@@ -1,0 +1,63 @@
+= Muhammad Irham Rasyidi Bin Zainal - Project Portfolio
+:site-section: AboutUs
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: Loanbook
+
+---
+
+== Overview
+
+Link to GitHub Repo: https://github.com/CS2103-AY1819S1-F10-2/main
+
+Loanbook is a desktop application targeted towards bicycle shop owners who are proficient with interacting with a command-line interface (CLI). This application allows them to manage their bicycle loaning business, from the loaning and returning process to bicycle management.
+
+The user interacts with the application using a CLI and it has a GUI created with JavaFX. The code base has approximately 20,000 lines of code.
+
+This project was morphed from an existing project, https://github.com/nus-cs2103-AY1819S1/addressbook-level4[Addressbook Level 4].
+
+== Summary of contributions
+
+* *Major enhancement*: added *the assignment of unique Loan IDs to Loans upon addition*
+** What it does: When the user adds a new Loan, the app will automatically assign a unique Loan ID to that Loan.
+** Justification: When performing a bicycle Loan, it is convenient to be able to have a way to uniquely identify that transaction. For example, the customer (who rented out the bicycle) can have the Loan ID printed on the receipt (or e-receipt). This will smoothen the returning process since the shop owner can identify the Loan to return easily.
+** Highlights: The implementation of this feature was fairly troublesome, mostly due to the existing tests, but also due to the existing implementation of the `add` command (which is the command that assigns new Loan IDs to Loans).
+*** In the original implementation of the `add` command, the `AddCommandParser` produces an `AddCommand` that already contains the `Loan` to add into the Loanbook. This could be done in the Addressbook since all the relevant fields of a Loan can be extracted from the typed command. However, with the LoanID, the actual Loan cannot be fully formed until the `execute()` method of `AddCommand`, which has access to the Model.
+*** Many of the existng tests which failed were troublesome to fix since the expected loans to be added now required knowledge on the current state of the Model. The edit command is also another culprit since Loan ID is not an editable field, meaning when trying to edit an existing Loan to a specified Loan, the ID of the actual loan may not be able to match the expected loan.
+
+* *Minor enhancement*: added a `resetall` command that reset the entire Loanbook.
+
+* *Minor enhancement*: added password authentication to `resetloans` and `resetall` commands.
+
+* *Code contributed*: [https://nus-cs2103-ay1819s1.github.io/cs2103-dashboard/#=undefined&search=xantho09&sort=displayName&since=&until=&timeframe=day&reverse=false&repoSort=true[Reposense code]]
+
+* *Other contributions*:
+
+** Project management:
+** Enhancements to existing features:
+*** Refactored the `LoanTime` class to extend the `DataField` class and make time-related operations simpler. (Pull request https://github.com/CS2103-AY1819S1-F10-2/main/pull/73[#73])
+** Community:
+*** PRs reviewed (with non-trivial review comments):  https://github.com/CS2103-AY1819S1-F10-2/main/pull/251[#251], https://github.com/CS2103-AY1819S1-F10-2/main/pull/253[#253]
+*** Some parts of the Loan ID feature I added was adopted by other class mates (https://github.com/CS2103-AY1819S1-F10-2/main/pull/253[#253])
+
+== Contributions to the User Guide
+
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+include::../UserGuide.adoc[tag=resetloans]
+
+include::../UserGuide.adoc[tag=resetall]
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+include::../DeveloperGuide.adoc[tag=loanid]
+
+---
