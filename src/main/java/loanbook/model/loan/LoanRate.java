@@ -7,7 +7,8 @@ package loanbook.model.loan;
 public class LoanRate extends DataField<Double> {
 
     public static final String MESSAGE_LOANRATE_CONSTRAINTS =
-            "Rate should be not less than 0 and have at most 2 decimal places.";
+            "Rate should be not less than 0 and have at most 2 decimal places."
+                    + " Its first place cannot be 0, if the number is not 0 or 0 with decimal places.";
 
     /**
      * Constructs a {@code LoanRate}.

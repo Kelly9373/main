@@ -29,8 +29,8 @@ Have you ever seen your clients waiting angrily for 15 minutes before finally ge
 e.g. typing *`help`* and pressing kbd:[ENTER] will open the help window.
 .  Some example commands you can try:
 
-* *`list`* : List the status of the loanbook
-* **`add`**`p/John hp/12345678 e/john@abc.com r/3 o/Bicycle-007` : Loans Bicycle-007 to John at a rate of $3 per hour
+* *`list`* : List all the ongoing and returned loans of the loanbook
+* **`add`**`n/John ic/T0248272F p/12345678 e/john@abc.com b/Bicycle-007 lr/3.5` : Loans Bicycle-007 to John at a rate of $3 per hour
 * **`delete`**`i/1 x/a12345` : deletes the 1st loan shown in the current list
 * *`resetall`* : Reset the loanbook
 
@@ -45,7 +45,7 @@ The default password for the app is `a12345`. This is required for some commands
 ====
 *Command Format*
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `add o/OBJECT_NAME`, `OBJECT_NAME` is a parameter which can be used as `add o/Bicycle`.
+* Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `add b/BIKE_ID`, `BIKE_ID` is a parameter which can be used as `add b/Bicycle`.
 * All parameters need to be specified in order for the command to work, unless they are in square brackets. e.g. in `add n/LOANER_NAME [t/TAGS]`, `LOANER_NAME` must be specified, but `TAGS` can be left out.
 * Parameters can be specified in any order.
 * Command words are case-sensitive and should be in all lowercase. Most parameters are case-sensitive too.
