@@ -39,7 +39,7 @@ public class Email extends DataField<String> implements Censor {
      */
     public static boolean isValidGmail(String email) {
         // A valid gmail's local part should have at least 6 characters(alphabet, number, dot)
-        return email.matches("^[a-z0-9](\\.?[a-zA-Z0-9]){5,}@g(oogle)?mail\\.com$");
+        return email.matches("^[a-z0-9](\\.?[a-zA-Z0-9]){5,}@gmail\\.com$");
     }
 
     /**
